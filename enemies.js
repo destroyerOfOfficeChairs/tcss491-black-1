@@ -28,44 +28,44 @@ class Goblin {
         }
 
         // idle right
-        this.animations[0][0] = new Animator(this.spritesheet, -1, 193, this.width, this.height, 1, 10, 34, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, -1, 193, this.width, this.height, 1, 10, 34, false, true, false);
         
         // idle left
-        this.animations[0][1] = new Animator(this.spritesheet, 9, 67, this.width, this.height, 1, 10, 34, false, true);
+        this.animations[0][1] = new Animator(this.spritesheet, 9, 67, this.width, this.height, 1, 10, 34, false, true, false);
         
         // idle down
-        this.animations[0][2] = new Animator(this.spritesheet, 5, 126, this.width, this.height, 1, 10, 34, false, true);
+        this.animations[0][2] = new Animator(this.spritesheet, 5, 126, this.width, this.height, 1, 10, 34, false, true, false);
         
         // idle up
-        this.animations[0][3] = new Animator(this.spritesheet, 4, 8, this.width, this.height, 1, 10, 34, false, true);
+        this.animations[0][3] = new Animator(this.spritesheet, 4, 8, this.width, this.height, 1, 10, 34, false, true, false);
         
 
 
         // walking right
-        this.animations[1][0] = new Animator(this.spritesheet, -1, 193, this.width, this.height, 7, 0.1, 7, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, -1, 193, this.width, this.height, 7, 0.1, 7, false, true, false);
         
         // walking left
-        this.animations[1][1] = new Animator(this.spritesheet, 9, 67, this.width, this.height, 7, 0.1, 7, true, true);
+        this.animations[1][1] = new Animator(this.spritesheet, 9, 67, this.width, this.height, 7, 0.1, 7, true, true, false);
         
         // walking down
-        this.animations[1][2] = new Animator(this.spritesheet, 5, 126, this.width, this.height, 7, 0.1, 7, false, true);
+        this.animations[1][2] = new Animator(this.spritesheet, 5, 126, this.width, this.height, 7, 0.1, 7, false, true, false);
         
         // walking up
-        this.animations[1][3] = new Animator(this.spritesheet, 4, 8, this.width, this.height, 7, 0.1, 7, false, true);
+        this.animations[1][3] = new Animator(this.spritesheet, 4, 8, this.width, this.height, 7, 0.1, 7, false, true, false);
 
 
 
         // attacking right
-        this.animations[2][0] = new Animator(this.spritesheet, -1, 451, this.width + 7, this.height, 5, 0.1, 0, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, -1, 451, this.width + 7, this.height, 5, 0.1, 0, false, true, false);
         
         // attacking left
-        this.animations[2][1] = new Animator(this.spritesheet, 0, 323, this.width, this.height, 5, 0.1, 7, true, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 323, this.width, this.height, 5, 0.1, 7, true, true, false);
         
         // attacking down
-        this.animations[2][2] = new Animator(this.spritesheet, 5, 383, this.width, this.height + 7, 5, 0.1, 7, false, true);
+        this.animations[2][2] = new Animator(this.spritesheet, 5, 383, this.width, this.height + 7, 5, 0.1, 7, false, true, false);
         
         // attacking up
-        this.animations[2][3] = new Animator(this.spritesheet, 4, 255, this.width, this.height + 7, 5, 0.1, 7, false, true);
+        this.animations[2][3] = new Animator(this.spritesheet, 4, 255, this.width, this.height + 7, 5, 0.1, 7, false, true, false);
 
     }
 
