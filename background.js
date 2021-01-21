@@ -3,12 +3,13 @@ class Grass {
         Object.assign(this, { game, x, y });
 
         // you can comment/uncomment to test other grass tiles
-        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/grass4.png");
+        // this.spritesheet = ASSET_MANAGER.getAsset("./sprites/grass4.png");
         //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/grass2.png");
         //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/grass.png");
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/RPGW_Grassland_v1.3/MainLevBuild.png");
 
-        this.width = 1134;
-        this.height = 1134;
+        // this.width = 1134;
+        // this.height = 1134;
     };
 
     update() {
@@ -19,6 +20,6 @@ class Grass {
     // }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, this.x, this.y, this.width / 5, this.height / 5/*, this.x - this.game.camera.x, this.y, PARAMS.BITWIDTH * 5, PARAMS.BITKWIDTH * 2.5*/);
+        ctx.drawImage(this.spritesheet, 128, 1280, 32, 32, this.x, this.y, 32, 32);
     };
 }
