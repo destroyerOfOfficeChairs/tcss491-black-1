@@ -10,6 +10,7 @@ class Animator {
         this.elapsedTime += tick;
 
         if (this.isDone()) {
+            this.cycled = true;
             if (this.loop) {
                 this.elapsedTime -= this.totalTime;
                 if (this.oscillate) {
@@ -19,6 +20,8 @@ class Animator {
             } else {
                 return;
             }
+        } else {
+            this.cycled = false;
         }
 
         let frame = this.currentFrame();

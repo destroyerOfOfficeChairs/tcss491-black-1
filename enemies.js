@@ -71,8 +71,8 @@ class Goblin {
 
     update() {
         const TICK = this.game.clockTick;
-        const MIN_WALK = 2;
-        const MAX_WALK = 5;
+        const MIN_WALK = 1 * PARAMS.SCALE;
+        const MAX_WALK = 2 * PARAMS.SCALE;
 
         if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
@@ -104,30 +104,30 @@ class Goblin {
         this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking || this.game.click) { // attacks when B is pressed or mouse is clicked
+        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
             this.state = 2;
-            this.game.click = null;
         }
 
         // update position
         this.x += this.velocity.x //* TICK * PARAMS.SCALE;
         this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
-        if (this.x <= 0) {
+        // doesn't let sprites go off the canvas
+        if (this.x <= 0) { // restricts west border
             this.velocity.x = 0;
             this.x = 0;
         }
-        if (this.y <= 0) {
+        if (this.y <= 0) { // restricts north border
             this.velocity.y = 0;
             this.y = 0;
         }
-        if (this.x >= 1024 - (this.width * PARAMS.SCALE)) {
+        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
             this.velocity.x = 0;
-            this.x = 1024 - (this.width * PARAMS.SCALE);
+            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
         }
-        if (this.y >= 768 - (this.height * PARAMS.SCALE)) {
+        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
-            this.y = 768 - (this.height * PARAMS.SCALE);
+            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         }
     }
 
@@ -196,8 +196,8 @@ class Bat {
 
     update() {
         const TICK = this.game.clockTick;
-        const MIN_WALK = 2;
-        const MAX_WALK = 5;
+        const MIN_WALK = 1 * PARAMS.SCALE;
+        const MAX_WALK = 2 * PARAMS.SCALE;
 
         if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
@@ -231,28 +231,29 @@ class Bat {
         // update position
         this.x += this.velocity.x //* TICK * PARAMS.SCALE;
         this.y += this.velocity.y //* TICK * PARAMS.SCALE;
-
-        if (this.x <= 0) {
+        
+        // doesn't let sprites go off the canvas
+        if (this.x <= 0) { // restricts west border
             this.velocity.x = 0;
             this.x = 0;
         }
-        if (this.y <= 0) {
+        if (this.y <= 0) { // restricts north border
             this.velocity.y = 0;
             this.y = 0;
         }
-        if (this.x >= 1024 - (this.width * PARAMS.SCALE)) {
+        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
             this.velocity.x = 0;
-            this.x = 1024 - (this.width * PARAMS.SCALE);
+            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
         }
-        if (this.y >= 768 - (this.height * PARAMS.SCALE)) {
+        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
-            this.y = 768 - (this.height * PARAMS.SCALE);
+            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         }
     }
 
     draw(ctx) {
         this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
-        //for testing boundaries of skeleton
+        //for testing boundaries
         // ctx.fillStyle = "Black";
         // ctx.strokeStyle = "Black";
         // ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
@@ -319,8 +320,8 @@ class Skeleton {
 
     update() {
         const TICK = this.game.clockTick;
-        const MIN_WALK = 2;
-        const MAX_WALK = 5;
+        const MIN_WALK = 1 * PARAMS.SCALE;
+        const MAX_WALK = 2 * PARAMS.SCALE;
 
         if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
@@ -355,21 +356,22 @@ class Skeleton {
         this.x += this.velocity.x //* TICK * PARAMS.SCALE;
         this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
-        if (this.x <= 0) {
+        // doesn't let sprites go off the canvas
+        if (this.x <= 0) { // restricts west border
             this.velocity.x = 0;
             this.x = 0;
         }
-        if (this.y <= 0) {
+        if (this.y <= 0) { // restricts north border
             this.velocity.y = 0;
             this.y = 0;
         }
-        if (this.x >= 1024 - (this.width * PARAMS.SCALE)) {
+        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
             this.velocity.x = 0;
-            this.x = 1024 - (this.width * PARAMS.SCALE);
+            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
         }
-        if (this.y >= 768 - (this.height * PARAMS.SCALE)) {
+        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
-            this.y = 768 - (this.height * PARAMS.SCALE);
+            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         }
     }
 
