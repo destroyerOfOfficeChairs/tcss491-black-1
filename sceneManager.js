@@ -21,7 +21,12 @@ class SceneManager {
 
     loadLevelOne() {
         // add decorations, etc. go here
-        this.game.addEntity(new Grass(this.game, 0, 0));
+        var i, j;
+        for (i = 0; i < 8; i++) {
+            for (j = 0; j < 7; j++) {
+                this.game.addEntity(new Grass(this.game, i * 32, j * 32));
+            }
+        }
         
         // add secondary characters here
         
