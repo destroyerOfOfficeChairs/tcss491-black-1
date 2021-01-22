@@ -14,6 +14,7 @@ ASSET_MANAGER.queueDownload("./sprites/lockeddoors.png");
 ASSET_MANAGER.queueDownload("./sprites/lock.png");
 ASSET_MANAGER.queueDownload("./sprites/key.png");
 
+ASSET_MANAGER.queueDownload("./sprites/Hero.png");
 ASSET_MANAGER.queueDownload("./sprites/goblin.png");
 ASSET_MANAGER.queueDownload("./sprites/bat.png");
 ASSET_MANAGER.queueDownload("./sprites/skeleton.png");
