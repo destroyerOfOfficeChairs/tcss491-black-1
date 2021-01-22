@@ -4,6 +4,7 @@ ASSET_MANAGER.queueDownload("./sprites/DungeonBackground.png");
 ASSET_MANAGER.queueDownload("./sprites/grass4.png");
 ASSET_MANAGER.queueDownload("./sprites/grass2.png");
 ASSET_MANAGER.queueDownload("./sprites/grass.png");
+ASSET_MANAGER.queueDownload("./sprites/Hero.png");
 ASSET_MANAGER.queueDownload("./sprites/goblin.png");
 ASSET_MANAGER.queueDownload("./sprites/bat.png");
 ASSET_MANAGER.queueDownload("./sprites/skeleton.png");

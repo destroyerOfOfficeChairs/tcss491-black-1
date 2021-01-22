@@ -38,6 +38,7 @@ class SceneManager {
         this.game.addEntity(new Skeleton(this.game, 32, 32));
 
         // add main characters here
+		this.game.addEntity(new Hero(this.game, 155, 32));
     }
 
 }
