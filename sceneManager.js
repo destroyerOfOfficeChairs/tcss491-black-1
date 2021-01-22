@@ -29,6 +29,7 @@ class SceneManager {
         }
         
         // add secondary characters here
+		this.game.addEntity(new Cleric(this.game, 70, 90));
         
         // add enemy characters here
         this.game.addEntity(new Goblin(this.game, 96, 32));
@@ -38,7 +39,7 @@ class SceneManager {
         this.game.addEntity(new Skeleton(this.game, 32, 32));
 
         // add main characters here
-		this.game.addEntity(new Hero(this.game, 155, 32));
+		this.game.addEntity(new Hero(this.game, 32, 90));
     }
 
 }
