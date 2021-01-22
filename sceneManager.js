@@ -20,22 +20,29 @@ class SceneManager {
     };
 
     loadLevelOne() {
-        // add decorations, etc. go here
+        // add decorations, etc. here
         var i, j;
         for (i = 0; i < 8; i++) {
             for (j = 0; j < 7; j++) {
                 this.game.addEntity(new Grass(this.game, i * 32, j * 32));
             }
         }
+        this.game.addEntity(new Box(this.game, 100, 150));
+
+        //add coins, gems, other resources here
+        this.game.addEntity(new Lock(this.game, 200, 0));
+        this.game.addEntity(new Coin(this.game, 40, 140))
+        this.game.addEntity(new Crystal(this.game, 60, 160));
+        this.game.addEntity(new Key(this.game, 200, 200));
         
         // add secondary characters here
         
         // add enemy characters here
         this.game.addEntity(new Goblin(this.game, 96, 32));
-
         this.game.addEntity(new Bat(this.game, 64, 32));
-
         this.game.addEntity(new Skeleton(this.game, 32, 32));
+
+        // add main/boss villain here
 
         // add main characters here
     }

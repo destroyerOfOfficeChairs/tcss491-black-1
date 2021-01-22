@@ -1,9 +1,19 @@
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./sprites/DungeonBackground.png");
+
 ASSET_MANAGER.queueDownload("./sprites/grass4.png");
 ASSET_MANAGER.queueDownload("./sprites/grass2.png");
 ASSET_MANAGER.queueDownload("./sprites/grass.png");
+
+ASSET_MANAGER.queueDownload("./sprites/boxes.png");
+ASSET_MANAGER.queueDownload("./sprites/coin.png");
+ASSET_MANAGER.queueDownload("./sprites/crystal.png");
+ASSET_MANAGER.queueDownload("./sprites/gem.png");
+ASSET_MANAGER.queueDownload("./sprites/lockeddoors.png");
+ASSET_MANAGER.queueDownload("./sprites/lock.png");
+ASSET_MANAGER.queueDownload("./sprites/key.png");
+
 ASSET_MANAGER.queueDownload("./sprites/goblin.png");
 ASSET_MANAGER.queueDownload("./sprites/bat.png");
 ASSET_MANAGER.queueDownload("./sprites/skeleton.png");
