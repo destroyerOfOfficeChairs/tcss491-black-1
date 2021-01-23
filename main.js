@@ -25,6 +25,9 @@ ASSET_MANAGER.downloadAll(function () {
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
+	
+	//keeps scaled sprites from blurring, courtesy of Espen Storfjell
+	ctx.imageSmoothingEnabled = false;
 
 	gameEngine.init(ctx);
 	new SceneManager(gameEngine);

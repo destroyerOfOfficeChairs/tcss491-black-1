@@ -147,7 +147,7 @@ class Hero {
             }
         }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE/2);
 
         /*for testing boundaries
         ctx.fillStyle = "Black";
@@ -308,7 +308,7 @@ class Cleric {
             }
         }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE/2);
 
         /*for testing boundaries
         ctx.fillStyle = "Black";
