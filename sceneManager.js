@@ -2,16 +2,23 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.game.camera = this;
+        this.x = 0;
+        this.y = 0;
+        this.hero = new Hero(this.game, 32, 90);
+        this.xMidpoint = PARAMS.CANVASWIDTH/2 - PARAMS.BLOCKWIDTH / 2;
+        this.yMidpoint = PARAMS.CANVASHEIGHT/2 - PARAMS.BLOCKWIDTH / 2;
 
+        // this.loadDebugRoom();
         this.loadLevelOne();
     }
 
     update() {
         PARAMS.DEBUG = document.getElementById("debug").checked;
 
-        let midpoint = PARAMS.CANVAS_WIDTH/2 - PARAMS.BLOCKWIDTH / 2;
 
-        //if (this.x < this.mario.x - midpoint) this.x = this.mario.x - midpoint;
+        // if (this.x < this.hero.x - midpoint) this.x = this.hero.x - midpoint;
+        this.x = this.hero.x - this.xMidpoint;
+        this.y = this.hero.y - this.yMidpoint;
     
         // if (this.mario.dead && this.mario.y > PARAMS.BLOCKWIDTH * 16) {
         //     this.mario.dead = false;
@@ -19,11 +26,12 @@ class SceneManager {
         // };
     };
 
-    loadLevelOne() {
+    //* THIS IS WHERE NEW STUFF SHOULD BE TRIED */
+    loadDebugRoom() {
         // add decorations, etc. here
         var i, j;
-        for (i = 0; i < 8; i++) {
-            for (j = 0; j < 7; j++) {
+        for (i = 0; i < 100; i++) {
+            for (j = 0; j < 100; j++) {
                 this.game.addEntity(new Grass(this.game, i * 32, j * 32));
             }
         }
@@ -47,6 +55,16 @@ class SceneManager {
 
         // add main characters here
 		this.game.addEntity(new Hero(this.game, 32, 90));
+    }
+
+    loadLevelOne() {
+        var i, j;
+        for (i = 0; i < 100; i++) {
+            for (j = 0; j < 100; j++) {
+                this.game.addEntity(new Grass(this.game, i * 32, j * 32));
+            }
+        }
+        this.game.addEntity(this.hero);
     }
 
 }

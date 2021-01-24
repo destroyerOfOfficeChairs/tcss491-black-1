@@ -1,10 +1,12 @@
 class Hero {
 	constructor(game, x, y){
-		Object.assign(this, { game, x, y });
+        Object.assign(this, { game, x, y });
+        
+        this.game.hero = this;
 		
-		//this.game = game;
-		this.x = x;
-		this.y = y;
+		// this.game = game;
+		// this.x = x;
+		// this.y = y;
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
 		
@@ -122,14 +124,14 @@ class Hero {
             this.velocity.y = 0;
             this.y = 0;
         }
-        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-            this.velocity.x = 0;
-            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        }
-        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-            this.velocity.y = 0;
-            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }
+        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
+        //     this.velocity.x = 0;
+        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
+        // }
+        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
+        //     this.velocity.y = 0;
+        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        // }
     };
 
     draw(ctx) {
@@ -147,7 +149,7 @@ class Hero {
             }
         }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE/2);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE/2);
 
         /*for testing boundaries
         ctx.fillStyle = "Black";

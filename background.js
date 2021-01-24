@@ -20,6 +20,6 @@ class Grass {
     // }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 128, 1280, 32, 32, this.x, this.y, 32, 32);
+        ctx.drawImage(this.spritesheet, 128, 1280, 32, 32, this.x - this.game.camera.x, this.y - this.game.camera.y, 32, 32);
     };
 }
