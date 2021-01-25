@@ -2,14 +2,17 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.game.camera = this;
-        this.x = 0;
-        this.y = 0;
+        // this.x = 0;
+        // this.y = 0;
         this.hero = new Hero(this.game, 32, 90);
+        this.game.camera.x = this.hero.x;
+        this.game.camera.y = this.hero.y;
         this.xMidpoint = PARAMS.CANVASWIDTH/2 - PARAMS.BLOCKWIDTH / 2;
         this.yMidpoint = PARAMS.CANVASHEIGHT/2 - PARAMS.BLOCKWIDTH / 2;
 
         // this.loadDebugRoom();
         this.loadLevelOne();
+        // this.loadTitleScreen();
     }
 
     update() {
@@ -55,6 +58,11 @@ class SceneManager {
 
         // add main characters here
 		this.game.addEntity(new Hero(this.game, 32, 90));
+    }
+
+    loadTitleScreen() {
+        this.game.addEntity(new TitleScreen(this.game, 0, 0));
+        console.log("ding");
     }
 
     loadLevelOne() {
