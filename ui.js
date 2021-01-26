@@ -1,11 +1,11 @@
 class TitleScreen {
-    constructor(game, x, y, hero, level, heroX, heroY) {
-        Object.assign(this, {game, x, y, hero, level, heroX, heroY});
+    constructor(game, x, y) {
+        Object.assign(this, {game, x, y});
         this.image = ASSET_MANAGER.getAsset("./sprites/title_screen.png");
     }
 
     update() {
-        if (this.game.attack1) this.level(this.heroX, this.heroY);
+        // if (this.game.attack1) // I have no idea
     }
 
     draw(ctx) {

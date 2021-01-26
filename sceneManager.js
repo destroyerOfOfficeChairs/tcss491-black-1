@@ -4,63 +4,20 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
+        this.midpoint = PARAMS.CANVASWIDTH/2;
 		this.heroX = 130;
 		this.heroY = 130;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
-		this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
-
-        this.loadTitleScreen(this.hero, this.loadLevelOne, this.heroX, this.heroY);
+        this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
+        
+        this.currentScene = "";
+        this.loadTitleScreen(this.game, 0, 0);
         // this.loadLevelOne(this.heroX, this.heroY);
-		//this.loadBattle();
     }
 
     draw(ctx) {
-        //if (PARAMS.DEBUG) {
-            // let xV = "xV=" + Math.floor(this.hero.velocity.x);
-            // let yV = "yV=" + Math.floor(this.hero.velocity.y);
-            // ctx.fillText(xV, 1.5 * PARAMS.BLOCKWIDTH, 2.5 * PARAMS.BLOCKWIDTH);
-            // ctx.fillText(yV, 1.5 * PARAMS.BLOCKWIDTH, 3 * PARAMS.BLOCKWIDTH);
 
-            // ctx.translate(0, -10); // hack to move elements up by 10 pixels instead of adding -10 to all y coordinates below
-            // ctx.strokeStyle = "White";
-            // ctx.lineWidth = 2;
-            // ctx.strokeStyle = this.game.left ? "White" : "Grey";
-            // ctx.fillStyle = ctx.strokeStyle;
-            // ctx.strokeRect(6 * PARAMS.BLOCKWIDTH - 2, 2.5 * PARAMS.BLOCKWIDTH - 2, 0.5 * PARAMS.BLOCKWIDTH + 2, 0.5 * PARAMS.BLOCKWIDTH + 2);
-            // ctx.fillText("L", 6 * PARAMS.BLOCKWIDTH, 3 * PARAMS.BLOCKWIDTH);
-            // ctx.strokeStyle = this.game.down ? "White" : "Grey";
-            // ctx.fillStyle = ctx.strokeStyle;
-            // ctx.strokeRect(6.5 * PARAMS.BLOCKWIDTH, 3 * PARAMS.BLOCKWIDTH, 0.5 * PARAMS.BLOCKWIDTH + 2, 0.5 * PARAMS.BLOCKWIDTH + 2);
-            // ctx.fillText("D", 6.5 * PARAMS.BLOCKWIDTH + 2, 3.5 * PARAMS.BLOCKWIDTH + 2);
-            // ctx.strokeStyle = this.game.up ? "White" : "Grey";
-            // ctx.fillStyle = ctx.strokeStyle;
-            // ctx.strokeRect(6.5 * PARAMS.BLOCKWIDTH, 2 * PARAMS.BLOCKWIDTH - 4, 0.5 * PARAMS.BLOCKWIDTH + 2, 0.5 * PARAMS.BLOCKWIDTH + 2);
-            // ctx.fillText("U", 6.5 * PARAMS.BLOCKWIDTH + 2, 2.5 * PARAMS.BLOCKWIDTH - 2);
-            // ctx.strokeStyle = this.game.right ? "White" : "Grey";
-            // ctx.fillStyle = ctx.strokeStyle;
-            // ctx.strokeRect(7 * PARAMS.BLOCKWIDTH + 2, 2.5 * PARAMS.BLOCKWIDTH - 2, 0.5 * PARAMS.BLOCKWIDTH + 2, 0.5 * PARAMS.BLOCKWIDTH + 2);
-            // ctx.fillText("R", 7 * PARAMS.BLOCKWIDTH + 4, 3 * PARAMS.BLOCKWIDTH);
-
-            // ctx.strokeStyle = this.game.A ? "White" : "Grey";
-            // ctx.fillStyle = ctx.strokeStyle;
-            // ctx.beginPath();
-            // ctx.arc(8.25 * PARAMS.BLOCKWIDTH + 2, 2.75 * PARAMS.BLOCKWIDTH, 0.25 * PARAMS.BLOCKWIDTH + 4, 0, 2 * Math.PI);
-            // ctx.stroke();
-            // ctx.fillText("A", 8 * PARAMS.BLOCKWIDTH + 4, 3 * PARAMS.BLOCKWIDTH);
-            // ctx.strokeStyle = this.game.B ? "White" : "Grey";
-            // ctx.fillStyle = ctx.strokeStyle;
-            // ctx.beginPath();
-            // ctx.arc(9 * PARAMS.BLOCKWIDTH + 2, 2.75 * PARAMS.BLOCKWIDTH, 0.25 * PARAMS.BLOCKWIDTH + 4, 0, 2 * Math.PI);
-            // ctx.stroke();
-            // ctx.fillText("B", 8.75 * PARAMS.BLOCKWIDTH + 4, 3 * PARAMS.BLOCKWIDTH);
-
-            // ctx.translate(0, 10);
-            // ctx.strokeStyle = "White";
-            // ctx.fillStyle = ctx.strokeStyle;
-
-            //this.minimap.draw(ctx);
-        //}
     }
 	
 	sleep(milliseconds) {
@@ -72,52 +29,53 @@ class SceneManager {
 	};
 
     update() {
-        //PARAMS.DEBUG = document.getElementById("debug").checked;
+        switch (this.currentScene) {
+            case "TitleScreen":
+                if (this.game.attack1) this.loadLevelOne(this.heroX, this.heroY);
+                break;
+            case "LevelOne":
+                // center camera on hero during level exploration
+                if(this.hero.battle == false){
+                    // if (this.x < this.h.x - midpoint) 
+                    this.x = this.hero.x - this.midpoint;
+                    //if (this.y < this.h.y - midpoint) 
+                    this.y = this.hero.y - this.midpoint;
+                }
+                // center camera in middle of battle
+                else {
+                    this.x = 0;
+                    this.y = 0;
+                }
 
-        let midpoint = PARAMS.CANVASWIDTH/2; // - PARAMS.BLOCKWIDTH / 2;
-
-        // if (this.x >= 0) {
-        //     this.x = this.hero.x - midpoint;
-        // }
-        // if (this.y >= 0) {
-        //     this.y = this.hero.y - midpoint;
-        // }
-		
-		// center camera on hero during level exploration
-		if(this.hero.battle == false){
-			// if (this.x < this.h.x - midpoint) 
-			this.x = this.hero.x - midpoint;
-			//if (this.y < this.h.y - midpoint) 
-			this.y = this.hero.y - midpoint;
-		}
-		// center camera in middle of battle
-		else {
-			this.x = 0;
-			this.y = 0;
-		}
-
-		if(this.game.n){
-			this.heroX = this.hero.x;
-			this.heroY = this.hero.y;
-			console.log("saved position: " + this.hero.x + ", " + this.hero.y);
-			this.sleep(200);
-			this.loadBattle();
-		}
-		if(this.game.m){
-			this.sleep(200);
-			this.loadLevelOne(this.heroX, this.heroY);
-		}
-        // if (this.mario.dead && this.mario.y > PARAMS.BLOCKWIDTH * 16) {
-        //     this.mario.dead = false;
-        //     this.loadLevelOne(2.5 * PARAMS.BLOCKWIDTH, 0 * PARAMS.BLOCKWIDTH);
-        // };
+                if(this.game.n){
+                    this.heroX = this.hero.x;
+                    this.heroY = this.hero.y;
+                    console.log("saved position: " + this.hero.x + ", " + this.hero.y);
+                    this.sleep(200);
+                    this.loadBattle();
+                }
+                if(this.game.m){
+                    this.sleep(200);
+                    this.loadLevelOne(this.heroX, this.heroY);
+                }
+        }
     };
     
-    loadTitleScreen(hero, level, heroX, heroY) {
-        this.game.addEntity(new TitleScreen(this.game, 0, 0, hero, level, heroX, heroY));
+    loadTitleScreen(game, x, y) {
+        this.currentScene = "TitleScreen";
+        this.game.entities = [];
+        this.game.addEntity(new TitleScreen(game, x, y));
+        var that = this;
+        if (that.stillOnTItleScreen) {
+            if (that.game.attack1) {
+                that.stillOnTitleScreen = false;
+                that.loadLevelOne(that.heroX, that.heroY);
+            }
+        }
     }
 
     loadLevelOne(x,y) {
+        this.currentScene = "LevelOne";
         //this.x = 0;
 		this.game.entities = [];
         // add decorations, etc. here
@@ -174,7 +132,7 @@ class SceneManager {
 		this.hero.x = x;
 		this.hero.y = y;
 		this.hero.battle = false;
-		console.log("Level: " + this.hero.x + ", " + this.hero.y);
+        console.log("Level: " + this.hero.x + ", " + this.hero.y);
     }
 	
 	loadBattle() {
