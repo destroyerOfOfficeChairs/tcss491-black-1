@@ -10,7 +10,8 @@ class SceneManager {
         this.hero = new Hero(this.game, this.heroX, this.heroY);
 		this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
 
-        this.loadLevelOne(this.heroX, this.heroY);
+        this.loadTitleScreen(this.hero, this.loadLevelOne, this.heroX, this.heroY);
+        // this.loadLevelOne(this.heroX, this.heroY);
 		//this.loadBattle();
     }
 
@@ -111,7 +112,10 @@ class SceneManager {
         //     this.loadLevelOne(2.5 * PARAMS.BLOCKWIDTH, 0 * PARAMS.BLOCKWIDTH);
         // };
     };
-	
+    
+    loadTitleScreen(hero, level, heroX, heroY) {
+        this.game.addEntity(new TitleScreen(this.game, 0, 0, hero, level, heroX, heroY));
+    }
 
     loadLevelOne(x,y) {
         //this.x = 0;
