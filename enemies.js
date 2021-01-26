@@ -70,7 +70,7 @@ class Goblin {
     }
 
     update() {
-        const TICK = this.game.clockTick;
+        /*const TICK = this.game.clockTick;
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
@@ -128,6 +128,13 @@ class Goblin {
         if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
             this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        }*/
+		
+		this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
+
+        this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+            this.state = 2;
         }
     }
 
@@ -146,7 +153,7 @@ class Goblin {
             }
         }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition-this.game.camera.x, yPosition-this.game.camera.y, PARAMS.SCALE);
 
         //for testing boundaries
         // ctx.fillStyle = "Black";
@@ -199,7 +206,7 @@ class Bat {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
+        /*if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
             this.velocity.y += MIN_WALK;
         } else if (!this.game.down && this.game.up) { // keyboard input of up
@@ -248,11 +255,11 @@ class Bat {
         if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
             this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }
+        }*/
     }
 
     draw(ctx) {
-        this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
+        this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x-this.game.camera.x, this.y-this.game.camera.y, PARAMS.SCALE);
         //for testing boundaries
         // ctx.fillStyle = "Black";
         // ctx.strokeStyle = "Black";
@@ -323,7 +330,7 @@ class Skeleton {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
+        /*if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
             this.velocity.y += MIN_WALK;
         } else if (!this.game.down && this.game.up) { // keyboard input of up
@@ -372,14 +379,14 @@ class Skeleton {
         if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
             this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }
+        }*/
     }
 
     draw(ctx) {
         //ctx.drawImage(this.background, 0, 0, 288 * 3.6, 160 * 3.6);
 
 
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x-this.game.camera.x, this.y-this.game.camera.y, PARAMS.SCALE);
         //for testing boundaries of skeleton
         // ctx.fillStyle = "Black";
         // ctx.strokeStyle = "Black";

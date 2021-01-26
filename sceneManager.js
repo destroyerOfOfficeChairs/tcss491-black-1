@@ -4,10 +4,14 @@ class SceneManager {
         this.game.camera = this;
         this.x = 0;
         this.y = 0;
+		this.heroX = 130;
+		this.heroY = 130;
 
-        this.hero = new Hero(this.game, 130, 130);
+        this.hero = new Hero(this.game, this.heroX, this.heroY);
+		this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
 
-        this.loadLevelOne();
+        this.loadLevelOne(this.heroX, this.heroY);
+		//this.loadBattle();
     }
 
     draw(ctx) {
@@ -57,6 +61,14 @@ class SceneManager {
             //this.minimap.draw(ctx);
         //}
     }
+	
+	sleep(milliseconds) {
+		const date = Date.now();
+		let currentDate = null;
+		do {
+			currentDate = Date.now();
+		} while (currentDate - date < milliseconds);
+	};
 
     update() {
         //PARAMS.DEBUG = document.getElementById("debug").checked;
@@ -69,21 +81,41 @@ class SceneManager {
         // if (this.y >= 0) {
         //     this.y = this.hero.y - midpoint;
         // }
+		
+		// center camera on hero during level exploration
+		if(this.hero.battle == false){
+			// if (this.x < this.h.x - midpoint) 
+			this.x = this.hero.x - midpoint;
+			//if (this.y < this.h.y - midpoint) 
+			this.y = this.hero.y - midpoint;
+		}
+		// center camera in middle of battle
+		else {
+			this.x = 0;
+			this.y = 0;
+		}
 
-        // if (this.x < this.h.x - midpoint) 
-        this.x = this.hero.x - midpoint;
-        //if (this.y < this.h.y - midpoint) 
-        this.y = this.hero.y - midpoint;
-
-    
+		if(this.game.n){
+			this.heroX = this.hero.x;
+			this.heroY = this.hero.y;
+			console.log("saved position: " + this.hero.x + ", " + this.hero.y);
+			this.sleep(200);
+			this.loadBattle();
+		}
+		if(this.game.m){
+			this.sleep(200);
+			this.loadLevelOne(this.heroX, this.heroY);
+		}
         // if (this.mario.dead && this.mario.y > PARAMS.BLOCKWIDTH * 16) {
         //     this.mario.dead = false;
         //     this.loadLevelOne(2.5 * PARAMS.BLOCKWIDTH, 0 * PARAMS.BLOCKWIDTH);
         // };
     };
+	
 
-    loadLevelOne() {
-        this.x = 0;
+    loadLevelOne(x,y) {
+        //this.x = 0;
+		this.game.entities = [];
         // add decorations, etc. here
         var i, j;
         for (i = 0; i < 15; i++) {
@@ -120,7 +152,8 @@ class SceneManager {
         this.game.addEntity(new Key(this.game, 200, 200));
         
         // add secondary characters here
-		this.game.addEntity(new Cleric(this.game, 70, 90));
+		//Cleric = new Cleric(this.game, 70, 130);
+		//this.game.addEntity(new Cleric(this.game, 70, 130));
         
         // add enemy characters here
         this.game.addEntity(new Goblin(this.game, 96, 32));
@@ -134,6 +167,40 @@ class SceneManager {
         //this.game.addEntity(new Hero(this.game, 32, 90));
 
         this.game.addEntity(this.hero);
+		this.hero.x = x;
+		this.hero.y = y;
+		this.hero.battle = false;
+		console.log("Level: " + this.hero.x + ", " + this.hero.y);
     }
-
+	
+	loadBattle() {
+		this.x = 0;
+		this.game.entities = [];
+		
+        // add decorations, etc. here
+        var k, l;
+        for (k = 0; k < 15; k++) {
+            for (l = 0; l < 15; l++) {
+                this.game.addEntity(new Grass(this.game, k * 32, l * 32));
+            }
+        }
+		
+		// add player characters
+		this.game.addEntity(this.hero);
+		this.hero.x = 200;
+		this.hero.y = 80;
+		this.hero.battle = true;
+		//console.log("Battle hero: " + this.hero.x + ", " + this.hero.y);
+		this.game.addEntity(this.cleric);
+		this.cleric.x = this.hero.x;
+		this.cleric.y = this.hero.y + 50;
+		//console.log("Battle cleric: " + this.cleric.x + ", " + this.cleric.y);
+		
+		// add enemies
+		this.game.addEntity(new Goblin(this.game, 10, 40));
+        this.game.addEntity(new Bat(this.game, 20, 110));
+        this.game.addEntity(new Skeleton(this.game, 20, 150));
+		
+		
+	}
 }

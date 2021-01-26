@@ -14,6 +14,9 @@ class Hero {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
+		this.battle = false;
+		this.stats = [100, 10, 0];
+		// stats = [hp, att, def]
 		
 		this.animations = [];
 		this.loadAnimations();
@@ -58,10 +61,10 @@ class Hero {
 
 
         // attacking right
-        this.animations[2][0] = new Animator(this.spritesheet, 193, 15, this.width + 7, this.height, 5, 0.5, 0, false, true, false);
+        this.animations[2][0] = new Animator(this.spritesheet, 65, 15, this.width, this.height, 2, 0.09, 96, false, true, false);
         
         // attacking left
-        this.animations[2][1] = new Animator(this.spritesheet, 225, 15, this.width, this.height, 5, 0.5, 7, true, true, false);
+        this.animations[2][1] = new Animator(this.spritesheet, 96, 15, this.width, this.height, 2, 0.09, 96, true, true, false);
         
         // attacking down
         this.animations[2][2] = new Animator(this.spritesheet, 0, 15, this.width, this.height + 7, 5, 0.5, 7, false, true, false);
@@ -76,43 +79,53 @@ class Hero {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
-            this.facing = 2;
-            this.velocity.y += MIN_WALK;
-        } else if (!this.game.down && this.game.up) { // keyboard input of up
-            this.facing = 3;
-            this.velocity.y -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.y = 0;
-        }
+		if (this.battle == false) {
+			if (this.game.down && !this.game.up) { // keyboard input of down
+				this.facing = 2;
+				this.velocity.y += MIN_WALK;
+			} else if (!this.game.down && this.game.up) { // keyboard input of up
+				this.facing = 3;
+				this.velocity.y -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.y = 0;
+			}
 
-        if (this.game.right && !this.game.left) { //keyboard input of right
-            this.facing = 0;
-            this.velocity.x += MIN_WALK;
-        } else if (!this.game.right && this.game.left) { // keyboard input of left
-            this.facing = 1;
-            this.velocity.x -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.x = 0;
-        }
+			if (this.game.right && !this.game.left) { //keyboard input of right
+				this.facing = 0;
+				this.velocity.x += MIN_WALK;
+			} else if (!this.game.right && this.game.left) { // keyboard input of left
+				this.facing = 1;
+				this.velocity.x -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.x = 0;
+			}
 
-        if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-        if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-        if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
-        if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
+			if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+			if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+			if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
+			if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
 
-        this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
+			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
-        this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-            this.state = 2;
-        }
+			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+				this.state = 2;
+			}
+		}
+		else {
+			this.facing = 1;
+			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
+			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+				this.state = 2;
+			}
+		}
         // update position
-        this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        this.y += this.velocity.y //* TICK * PARAMS.SCALE;
+        this.x += this.velocity.x; //* TICK * PARAMS.SCALE;
+        this.y += this.velocity.y; //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
         // if (this.x <= 0) { // restricts west border
@@ -175,6 +188,9 @@ class Cleric {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
+		this.battle = true;
+		this.stats = [100, 10, 0];
+		// stats = [hp, att, def]
 		
 		this.animations = [];
 		this.loadAnimations();
@@ -208,7 +224,7 @@ class Cleric {
         this.animations[1][0] = new Animator(this.spritesheet, 130, 143, this.width, this.height, 2, 0.15, 96, false, true, false);
         
         // walking left
-        this.animations[1][1] = new Animator(this.spritesheet, 160, 143, this.width, this.height, 2, 0.15, 96, true, true, false);
+        this.animations[1][1] = new Animator(this.spritesheet, 160, 143, this.width, this.height, 2, 0.15, 96, false, true, false);
         
         // walking down
         this.animations[1][2] = new Animator(this.spritesheet, 64, 143, this.width, this.height, 2, 0.15, 96, false, true, false);
@@ -219,10 +235,10 @@ class Cleric {
 
 
         // attacking right
-        this.animations[2][0] = new Animator(this.spritesheet, 193, 143, this.width + 7, this.height, 5, 0.5, 0, false, true, false);
+        this.animations[2][0] = new Animator(this.spritesheet, 160, 143, this.width, this.height, 2, 0.09, 96, false, true, false);
         
         // attacking left
-        this.animations[2][1] = new Animator(this.spritesheet, 225, 143, this.width, this.height, 5, 0.5, 7, true, true, false);
+        this.animations[2][1] = new Animator(this.spritesheet, 160, 143, this.width, this.height, 2, 0.09, 96, false, true, false);
         
         // attacking down
         this.animations[2][2] = new Animator(this.spritesheet, 0, 143, this.width, this.height + 7, 5, 0.5, 7, false, true, false);
@@ -237,39 +253,50 @@ class Cleric {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
-            this.facing = 2;
-            this.velocity.y += MIN_WALK;
-        } else if (!this.game.down && this.game.up) { // keyboard input of up
-            this.facing = 3;
-            this.velocity.y -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.y = 0;
-        }
+		if (this.battle == false) {
+			if (this.game.down && !this.game.up) { // keyboard input of down
+				this.facing = 2;
+				this.velocity.y += MIN_WALK;
+			} else if (!this.game.down && this.game.up) { // keyboard input of up
+				this.facing = 3;
+				this.velocity.y -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.y = 0;
+			}
 
-        if (this.game.right && !this.game.left) { //keyboard input of right
-            this.facing = 0;
-            this.velocity.x += MIN_WALK;
-        } else if (!this.game.right && this.game.left) { // keyboard input of left
-            this.facing = 1;
-            this.velocity.x -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.x = 0;
-        }
+			if (this.game.right && !this.game.left) { //keyboard input of right
+				this.facing = 0;
+				this.velocity.x += MIN_WALK;
+			} else if (!this.game.right && this.game.left) { // keyboard input of left
+				this.facing = 1;
+				this.velocity.x -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.x = 0;
+			}
 
-        if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-        if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-        if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
-        if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
+			if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+			if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+			if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
+			if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
 
-        this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
+			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
-        this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-            this.state = 2;
-        }
+			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+				this.state = 2;
+			}
+		}
+		else {
+			this.facing = 1;
+			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
+
+			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+				this.state = 2;
+			}
+		}
 
         // update position
         //this.x += this.velocity.x //* TICK * PARAMS.SCALE;

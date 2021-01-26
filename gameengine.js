@@ -38,6 +38,17 @@ class GameEngine {
     startInput() {
         var that = this;
 
+		this.ctx.canvas.addEventListener("keypress", function (e) {
+			switch (e.code) {
+				case "KeyN":
+					that.n = true;
+					break;
+				case "KeyM":
+					that.m = true;
+					break;
+			}
+		}, false);
+
         this.ctx.canvas.addEventListener("keydown", function (e) {
             switch (e.code) {
                 case "ArrowLeft":
@@ -83,6 +94,12 @@ class GameEngine {
                 case "KeyB":
                     that.attack1 = false;
                     break;
+				case "KeyN":
+					that.n = false;
+					break;
+				case "KeyM":
+					that.m = false;
+					break;
             }
         }, false);
 
