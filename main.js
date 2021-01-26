@@ -1,6 +1,8 @@
 var ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.queueDownload("./sprites/DungeonBackground.png");
+ASSET_MANAGER.queueDownload("./sprites/title_screen.png");
+ASSET_MANAGER.queueDownload("./sprites/pressB.png");
 
 ASSET_MANAGER.queueDownload("./sprites/grass4.png");
 ASSET_MANAGER.queueDownload("./sprites/grass2.png");
