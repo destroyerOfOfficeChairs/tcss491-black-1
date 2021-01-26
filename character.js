@@ -2,7 +2,8 @@ class Hero {
 	constructor(game, x, y){
 		Object.assign(this, { game, x, y });
 		
-		//this.game = game;
+        //this.game = game;
+        this.game.hero = this;
 		this.x = x;
 		this.y = y;
 		
@@ -114,22 +115,22 @@ class Hero {
         this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
-        if (this.x <= 0) { // restricts west border
-            this.velocity.x = 0;
-            this.x = 0;
-        }
-        if (this.y <= 0) { // restricts north border
-            this.velocity.y = 0;
-            this.y = 0;
-        }
-        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-            this.velocity.x = 0;
-            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        }
-        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-            this.velocity.y = 0;
-            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }
+        // if (this.x <= 0) { // restricts west border
+        //     this.velocity.x = 0;
+        //     this.x = 0;
+        // }
+        // if (this.y <= 0) { // restricts north border
+        //     this.velocity.y = 0;
+        //     this.y = 0;
+        // }
+        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
+        //     this.velocity.x = 0;
+        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
+        // }
+        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
+        //     this.velocity.y = 0;
+        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        // }
     };
 
     draw(ctx) {
@@ -137,17 +138,17 @@ class Hero {
         let yPosition = this.y;
 
         //adjusting the positions of the drawings to make it fit because the png sucks
-        if (this.state == 2) { // if attacking
-            if (this.facing == 1) { // if facing left
-                xPosition -= (7 * PARAMS.SCALE);
-            } else if (this.facing == 2) { // if facing down
-                yPosition -= (1 * PARAMS.SCALE);
-            } else if (this.facing == 3) { // if facing up
-                yPosition -= 8 * PARAMS.SCALE;
-            }
-        }
+        // if (this.state == 2) { // if attacking
+        //     if (this.facing == 1) { // if facing left
+        //         xPosition -= (7 * PARAMS.SCALE);
+        //     } else if (this.facing == 2) { // if facing down
+        //         yPosition -= (1 * PARAMS.SCALE);
+        //     } else if (this.facing == 3) { // if facing up
+        //         yPosition -= 8 * PARAMS.SCALE;
+        //     }
+        // }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE/2);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE/2);
 
         /*for testing boundaries
         ctx.fillStyle = "Black";
@@ -271,8 +272,8 @@ class Cleric {
         }
 
         // update position
-        this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        this.y += this.velocity.y //* TICK * PARAMS.SCALE;
+        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
+        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
         if (this.x <= 0) { // restricts west border

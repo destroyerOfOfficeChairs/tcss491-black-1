@@ -25,7 +25,7 @@ class Crystal {
 
     draw(ctx) {
         // for crystal.png with animation
-        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE / 1.5);
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE / 1.5);
 
         //for crystal.png without animation
         //ctx.drawImage(this.spritesheet, 55, 40, this.width, this.height, this.x, this.y, this.width * PARAMS.SCALE / 2, this.height * PARAMS.SCALE / 2);
@@ -57,7 +57,7 @@ class Coin {
     }
 
     draw(ctx) {
-        this.animation.drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE / 10);
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE / 10);
 
         //for testing boundaries
         // ctx.fillStyle = "Black";
@@ -83,7 +83,7 @@ class Key {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 55, 85, this.width, this.height, this.x, this.y, this.width * PARAMS.SCALE / 10, this.height * PARAMS.SCALE / 10);
+        ctx.drawImage(this.spritesheet, 55, 85, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE / 10, this.height * PARAMS.SCALE / 10);
         //55, 85 or 76, 126
 
         //for testing boundaries
@@ -109,7 +109,7 @@ class Lock {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 297, 355, this.width, this.height, this.x, this.y, this.width * PARAMS.SCALE / 5, this.height * PARAMS.SCALE / 5);
+        ctx.drawImage(this.spritesheet, 297, 355, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE / 5, this.height * PARAMS.SCALE / 5);
         //55, 85 or 76, 126
 
         //for testing boundaries
@@ -134,7 +134,7 @@ class Box {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.spritesheet, 55, 45, this.width, this.height, this.x, this.y, this.width * PARAMS.SCALE / 8, this.height * PARAMS.SCALE / 8);
+        ctx.drawImage(this.spritesheet, 55, 45, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE / 8, this.height * PARAMS.SCALE / 8);
         //55, 85 or 76, 126
 
         //for testing boundaries

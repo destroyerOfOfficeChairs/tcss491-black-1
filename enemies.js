@@ -109,8 +109,8 @@ class Goblin {
         }
 
         // update position
-        this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        this.y += this.velocity.y //* TICK * PARAMS.SCALE;
+        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
+        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
         if (this.x <= 0) { // restricts west border
@@ -229,8 +229,8 @@ class Bat {
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
 
         // update position
-        this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        this.y += this.velocity.y //* TICK * PARAMS.SCALE;
+        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
+        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
         
         // doesn't let sprites go off the canvas
         if (this.x <= 0) { // restricts west border
@@ -353,8 +353,8 @@ class Skeleton {
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
 
         // update position
-        this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        this.y += this.velocity.y //* TICK * PARAMS.SCALE;
+        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
+        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
         if (this.x <= 0) { // restricts west border
