@@ -4,6 +4,7 @@ class Goblin {
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblin.png");
 
+        this.scale = 1;
         this.width = 57;
         this.height = 57;
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
@@ -155,7 +156,7 @@ class Goblin {
             }
         }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition-this.game.camera.x, yPosition-this.game.camera.y, PARAMS.SCALE);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition-this.game.camera.x, yPosition-this.game.camera.y, PARAMS.SCALE * this.scale);
 
         //for testing boundaries
         // ctx.fillStyle = "Black";
@@ -172,6 +173,7 @@ class Bat {
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bat.png");
 
+        this.scale = 1;
         this.width = 33;
         this.height = 33;
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
@@ -264,7 +266,7 @@ class Bat {
     }
 
     draw(ctx) {
-        this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x-this.game.camera.x, this.y-this.game.camera.y, PARAMS.SCALE);
+        this.animations[this.facing].drawFrame(this.game.clockTick, ctx, this.x-this.game.camera.x, this.y-this.game.camera.y, PARAMS.SCALE * this.scale);
         //for testing boundaries
         // ctx.fillStyle = "Black";
         // ctx.strokeStyle = "Black";
@@ -281,6 +283,7 @@ class Skeleton {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/skeleton.png");
         this.background = ASSET_MANAGER.getAsset("./sprites/DungeonBackground.png");
 
+        this.scale = 1;
         this.width = 30;
         this.height = 50;
         this.state = 0; // 0 if idle, 1 if moving
@@ -403,7 +406,7 @@ class Skeleton {
         //ctx.drawImage(this.background, 0, 0, 288 * 3.6, 160 * 3.6);
 
 
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x-this.game.camera.x, this.y-this.game.camera.y, PARAMS.SCALE);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x-this.game.camera.x, this.y-this.game.camera.y, PARAMS.SCALE * this.scale);
         //for testing boundaries of skeleton
         // ctx.fillStyle = "Black";
         // ctx.strokeStyle = "Black";

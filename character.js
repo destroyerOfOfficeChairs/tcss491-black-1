@@ -8,7 +8,8 @@ class Hero {
 		this.y = y;
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
-		
+        
+        this.scale = 1/2;
 		this.width = 32;
         this.height = 50;
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
@@ -16,13 +17,20 @@ class Hero {
         this.velocity = { x: 0, y: 0 };
 		this.battle = false;
 		this.stats = [100, 10, 5];
-		// stats = [hp, att, def]
-		
+        // stats = [hp, att, def]
+        this.canPass = false;
+        
+        this.updateBB();
 		this.animations = [];
 		this.loadAnimations();
 		//this.animations.push(new Animator(this.spritesheet, 0, 15, 32, 50, 2, .5, 96, false, true, false));
 		//                                                x, y, width, height, frames, speed, spacing, flip, loop, oscillate
-	};
+    };
+
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
+    };
 	
 	loadAnimations() {
         for (var i = 0; i < 3; i++) { // 3 states (idle, walking, attacking)
@@ -126,6 +134,7 @@ class Hero {
         // update position
         this.x += this.velocity.x; //* TICK * PARAMS.SCALE;
         this.y += this.velocity.y; //* TICK * PARAMS.SCALE;
+        this.updateBB();
 
         // doesn't let sprites go off the canvas
         // if (this.x <= 0) { // restricts west border
@@ -144,6 +153,146 @@ class Hero {
         //     this.velocity.y = 0;
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
+
+        //collisions
+        var that = this;
+        this.game.entities.forEach(function (entity) {
+            if (entity.BB && that.BB.collide(entity.BB)) {
+                if (entity instanceof Crystal) {
+                    entity.removeFromWorld = true;
+
+                }
+
+                if (entity instanceof Coin) {
+                    entity.removeFromWorld = true;
+                }
+
+                if (entity instanceof Key) {
+                    entity.removeFromWorld = true;
+                    that.canPass = true;
+                }
+
+                if (entity instanceof Lock) {
+                    if (that.BB.collide(entity.topBB)) {
+                        that.velocity.y = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.bottomBB)) {
+                        that.velocity.y = MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.leftBB)) {
+                        that.velocity.x = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.rightBB)) {
+                        that.velocity.x = MAX_WALK;
+                    }
+                }
+
+                if (entity instanceof Box) {
+                    if (that.BB.collide(entity.topBB)) {
+                        that.velocity.y = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.bottomBB)) {
+                        that.velocity.y = MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.leftBB)) {
+                        that.velocity.x = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.rightBB)) {
+                        that.velocity.x = MAX_WALK;
+                    }
+                }
+
+                if (entity instanceof Rock) {
+                    if (that.BB.collide(entity.topBB)) {
+                        that.velocity.y = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.bottomBB)) {
+                        that.velocity.y = MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.leftBB)) {
+                        that.velocity.x = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.rightBB)) {
+                        that.velocity.x = MAX_WALK;
+                    }
+                }
+
+                if (entity instanceof Bush) {
+                    
+                }
+
+                if (entity instanceof Tree) {
+                    if (that.BB.collide(entity.topBB)) {
+                        that.velocity.y = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.bottomBB)) {
+                        that.velocity.y = MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.leftBB)) {
+                        that.velocity.x = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.rightBB)) {
+                        that.velocity.x = MAX_WALK;
+                    }
+                }
+
+                if (entity instanceof Water) {
+                    // if (that.BB.right > entity.BB.left) { // collided with an object to the east
+                        
+                    // }
+                    // if (that.BB.left < entity.BB.right) { // collided with an object to the west
+
+                    // }
+                    // if (that.BB.top < entity.BB.bottom) { // collided with an object to the north
+
+                    // }
+                    // if (that.BB.bottom > entity.BB.top) { // collided with an object to the south
+
+                    // }
+
+                    if (that.BB.collide(entity.topBB)) {
+                        //that.velocity.y = 0;
+                        //that.y = entity.BB.top - (that.height * PARAMS.SCALE * that.scale);
+                        
+                        that.velocity.y = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.bottomBB)) {
+                        // that.velocity.y = 0;
+                        // that.y = entity.BB.bottom;
+                        
+                        that.velocity.y = MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.leftBB)) {
+                        // that.velocity.x = 0;
+                        // that.x = entity.BB.left - (that.width * PARAMS.SCALE * that.scale);
+                        
+                        that.velocity.x = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.rightBB)) {
+                        // that.velocity.x = 0;
+                        // that.x = entity.BB.right;
+                        
+                        that.velocity.x = MAX_WALK;
+                    }
+                    //console.log("hero collided with water");
+                }
+
+                if (entity instanceof Wall) {
+                    if (that.BB.collide(entity.topBB)) {
+                        that.velocity.y = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.bottomBB)) {
+                        that.velocity.y = MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.leftBB)) {
+                        that.velocity.x = -MAX_WALK;
+                    }
+                    if (that.BB.collide(entity.rightBB)) {
+                        that.velocity.x = MAX_WALK;
+                    }
+                }
+            }
+        });
     };
 
     draw(ctx) {
@@ -161,17 +310,24 @@ class Hero {
         //     }
         // }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE/2);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE * this.scale);
 
-        /*for testing boundaries
-        ctx.fillStyle = "Black";
-        ctx.strokeStyle = "Black";
-        ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
-		
+        //for testing boundaries
+        // ctx.fillStyle = "Black";
+        // ctx.strokeStyle = "Black";
+        // ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
+		/*
 		this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE)
-		*/
+        */
+        
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
     };
 };
+
+
 
 class Cleric {
 	constructor(game, x, y){
@@ -182,7 +338,8 @@ class Cleric {
 		this.y = y;
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
-		
+        
+        this.scale = 1/2;
 		this.width = 32;
         this.height = 50;
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
@@ -336,10 +493,10 @@ class Cleric {
             }
         }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE/2);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE * this.scale);
 
-        /*for testing boundaries
-        ctx.fillStyle = "Black";
+        //for testing boundaries
+        /*ctx.fillStyle = "Black";
         ctx.strokeStyle = "Black";
         ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
 		
