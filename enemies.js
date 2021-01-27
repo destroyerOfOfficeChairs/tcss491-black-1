@@ -282,6 +282,8 @@ class Skeleton {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         //this.steps = 0; // number of steps skeleton has taken
         this.velocity = { x: 0, y: 0 };
+		this.stillAttacking = false;
+		
         this.animations = [];
         this.loadAnimations();
         //this.animation = new Animator(this.spritesheet, 80, 205, 30, 50, 8, 0.15, 34, false, true);
@@ -380,6 +382,14 @@ class Skeleton {
             this.velocity.y = 0;
             this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         }*/
+		
+		this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
+
+        this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+            this.state = 1;
+        }
+		
     }
 
     draw(ctx) {

@@ -50,7 +50,7 @@ class SceneManager {
                 if(this.game.n){
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
-                    console.log("saved position: " + this.hero.x + ", " + this.hero.y);
+                    //console.log("saved position: " + this.hero.x + ", " + this.hero.y);
                     this.sleep(200);
                     this.loadBattle();
                 }
