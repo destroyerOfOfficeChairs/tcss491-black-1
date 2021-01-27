@@ -15,7 +15,7 @@ class Hero {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
 		this.battle = false;
-		this.stats = [100, 10, 0];
+		this.stats = [100, 10, 5];
 		// stats = [hp, att, def]
 		
 		this.animations = [];
@@ -189,7 +189,7 @@ class Cleric {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
 		this.battle = true;
-		this.stats = [100, 10, 0];
+		this.stats = [100, 8, 3];
 		// stats = [hp, att, def]
 		
 		this.animations = [];

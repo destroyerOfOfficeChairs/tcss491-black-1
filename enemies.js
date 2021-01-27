@@ -9,6 +9,8 @@ class Goblin {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
+		this.stats = [50, 5, 1];
+		// stats = [hp, att, def]
 
         this.stillAttacking = false;
 
@@ -175,6 +177,9 @@ class Bat {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         //this.steps = 0; // number of steps has taken
         this.velocity = { x: 0, y: 0 };
+		this.stats = [25, 3, 0];
+		// stats = [hp, att, def]
+		
         this.animations = [];
         this.loadAnimations();
         //this.animation = new Animator(this.spritesheet, 80, 205, 30, 50, 8, 0.15, 34, false, true);
@@ -283,6 +288,8 @@ class Skeleton {
         //this.steps = 0; // number of steps skeleton has taken
         this.velocity = { x: 0, y: 0 };
 		this.stillAttacking = false;
+		this.stats = [75, 8, 3];
+		// stats = [hp, att, def]
 		
         this.animations = [];
         this.loadAnimations();
