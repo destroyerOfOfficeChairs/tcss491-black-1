@@ -6,6 +6,7 @@ class Hero {
         this.game.hero = this;
         this.attack = 100;
         this.defense = 100;
+        this.health = 100;
 		this.x = x;
 		this.y = y;
 		

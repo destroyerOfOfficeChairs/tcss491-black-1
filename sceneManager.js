@@ -9,6 +9,9 @@ class SceneManager {
         this.heroY = 130;
         this.coins = 0;
         this.crystals = 0;
+        this.textboxWidth = 90;
+        this.textboxHeight = 25;
+        this.padding = 5;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -19,30 +22,44 @@ class SceneManager {
     }
 
     draw(ctx) {
-        if (this.currentScene == "LevelOne") {
-            let textboxWidth = 90;
-            let textboxHeight = 25;
-            let padding = 5;
+        if (this.currentScene == "LevelOne" && !this.hero.battle) {
 
             ctx.fillStyle = "Tan";
-            ctx.fillRect(padding, 10, textboxWidth, textboxHeight);
+            ctx.fillRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
             ctx.strokeStyle = "Brown";
-            ctx.strokeRect(padding, 10, textboxWidth, textboxHeight);
+            ctx.strokeRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
 
             ctx.font = ctx.font = "8px Georgia";
-            ctx.fillStyle = "Blue";
+            ctx.fillStyle = "Yellow";
             ctx.fillText("C O I N S : " + this.coins, 10, 20);
+            ctx.fillStyle = "Purple";
             ctx.fillText("C R Y S T A L S : " + this.crystals , 10, 30);
 
             ctx.fillStyle = "Tan";
-            ctx.fillRect(PARAMS.CANVASWIDTH - padding - textboxWidth, 10, textboxWidth, textboxHeight);
+            ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
             ctx.strokeStyle = "Brown";
-            ctx.strokeRect(PARAMS.CANVASWIDTH - padding - textboxWidth, 10, textboxWidth, textboxHeight);
+            ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
 
             ctx.font = ctx.font = "8px Georgia";
+            ctx.fillStyle = "Blue";
+            ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - this.textboxWidth, 20);
             ctx.fillStyle = "Green";
-            ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - textboxWidth, 20);
-            ctx.fillText("D E F E N S E : " + this.hero.defense , PARAMS.CANVASWIDTH - textboxWidth, 30);
+            ctx.fillText("D E F E N S E : " + this.hero.defense , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
+            ctx.fillStyle = "Red";
+            ctx.fillText("H E A L T H : " + this.hero.health , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
+        } else if (this.hero.battle) {
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+
+            ctx.font = ctx.font = "8px Georgia";
+            ctx.fillStyle = "Blue";
+            ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - this.textboxWidth, 20);
+            ctx.fillStyle = "Green";
+            ctx.fillText("D E F E N S E : " + this.hero.defense , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
+            ctx.fillStyle = "Red";
+            ctx.fillText("H E A L T H : " + this.hero.health , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
         }
 
     }
