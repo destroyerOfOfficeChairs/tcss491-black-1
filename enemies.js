@@ -4,7 +4,7 @@ class Goblin {
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblin.png");
 
-        this.scale = 1;
+        this.scale = 3/4;
         this.width = 57;
         this.height = 57;
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
@@ -283,7 +283,7 @@ class Skeleton {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/skeleton.png");
         this.background = ASSET_MANAGER.getAsset("./sprites/DungeonBackground.png");
 
-        this.scale = 1;
+        this.scale = 3/4;
         this.width = 30;
         this.height = 50;
         this.state = 0; // 0 if idle, 1 if moving

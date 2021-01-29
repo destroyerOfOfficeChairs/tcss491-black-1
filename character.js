@@ -4,6 +4,8 @@ class Hero {
 		
         //this.game = game;
         this.game.hero = this;
+        this.attack = 100;
+        this.defense = 100;
 		this.x = x;
 		this.y = y;
 		
@@ -160,11 +162,12 @@ class Hero {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Crystal) {
                     entity.removeFromWorld = true;
-
+                    that.game.camera.crystals++;
                 }
 
                 if (entity instanceof Coin) {
                     entity.removeFromWorld = true;
+                    that.game.camera.coins++;
                 }
 
                 if (entity instanceof Key) {
@@ -173,6 +176,10 @@ class Hero {
                 }
 
                 if (entity instanceof Lock) {
+                    if (that.canPass) {
+                        entity.removeFromWorld = true;
+                        that.canPass = false;
+                    }
                     if (that.BB.collide(entity.topBB)) {
                         that.velocity.y = -MAX_WALK;
                     }
@@ -293,6 +300,24 @@ class Hero {
                 }
             }
         });
+
+        //prevents hero from going off the northwest corner of the world
+
+        // if (this.game.camera.x <= 0) {
+        //     this.velocity.x = MAX_WALK;
+        //     this.x = this.game.camera.heroX;
+        // }
+        // if (this.game.camera.y <= 0) {
+        //     this.velocity.y = MAX_WALK;
+        //     this.y = this.game.camera.heroY;
+        // }
+
+        if (this.x <= 0) {
+            this.velocity.x = MAX_WALK;
+        }
+        if (this.y <= 0) {
+            this.velocity.y = MAX_WALK;
+        }
     };
 
     draw(ctx) {
