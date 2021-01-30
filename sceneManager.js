@@ -6,7 +6,12 @@ class SceneManager {
         this.y = 0;
         this.midpoint = PARAMS.CANVASWIDTH/2;
 		this.heroX = 130;
-		this.heroY = 130;
+        this.heroY = 130;
+        this.coins = 0;
+        this.crystals = 0;
+        this.textboxWidth = 90;
+        this.textboxHeight = 25;
+        this.padding = 5;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -17,6 +22,45 @@ class SceneManager {
     }
 
     draw(ctx) {
+        if (this.currentScene == "LevelOne" && !this.hero.battle) {
+
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
+
+            ctx.font = ctx.font = "8px Georgia";
+            ctx.fillStyle = "Yellow";
+            ctx.fillText("C O I N S : " + this.coins, 10, 20);
+            ctx.fillStyle = "Purple";
+            ctx.fillText("C R Y S T A L S : " + this.crystals , 10, 30);
+
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+
+            ctx.font = ctx.font = "8px Georgia";
+            ctx.fillStyle = "Blue";
+            ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - this.textboxWidth, 20);
+            ctx.fillStyle = "Green";
+            ctx.fillText("D E F E N S E : " + this.hero.defense , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
+            ctx.fillStyle = "Red";
+            ctx.fillText("H E A L T H : " + this.hero.health , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
+        } else if (this.hero.battle) {
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+
+            ctx.font = ctx.font = "8px Georgia";
+            ctx.fillStyle = "Blue";
+            ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - this.textboxWidth, 20);
+            ctx.fillStyle = "Green";
+            ctx.fillText("D E F E N S E : " + this.hero.defense , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
+            ctx.fillStyle = "Red";
+            ctx.fillText("H E A L T H : " + this.hero.health , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
+        }
 
     }
 	
@@ -29,6 +73,7 @@ class SceneManager {
 	};
 
     update() {
+        PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.currentScene) {
             case "TitleScreen":
                 if (this.game.attack1) this.loadLevelOne(this.heroX, this.heroY);
@@ -36,10 +81,12 @@ class SceneManager {
             case "LevelOne":
                 // center camera on hero during level exploration
                 if(this.hero.battle == false){
-                    // if (this.x < this.h.x - midpoint) 
-                    this.x = this.hero.x - this.midpoint;
-                    //if (this.y < this.h.y - midpoint) 
-                    this.y = this.hero.y - this.midpoint;
+                    //if (this.x < this.hero.x - this.midpoint) {
+                        this.x = this.hero.x - this.midpoint;
+                    //}
+                    //if (this.y < this.hero.y - this.midpoint) {
+                        this.y = this.hero.y - this.midpoint;
+                    //}
                 }
                 // center camera in middle of battle
                 else {
@@ -94,7 +141,7 @@ class SceneManager {
         this.game.addEntity(new Bush(this.game, 250, 250));
         this.game.addEntity(new Rock(this.game, 20, 20));
         this.game.addEntity(new Rock(this.game, 300, 300));
-        this.game.addEntity(new Box(this.game, 100, 150));
+        this.game.addEntity(new Box(this.game, 100, 180));
         this.game.addEntity(new Tree(this.game, 170, 230));
 
         for (i = 0; i < 2; i++) {
@@ -109,8 +156,18 @@ class SceneManager {
 
         //add coins, gems, other resources here
         this.game.addEntity(new Lock(this.game, 200, 0));
-        this.game.addEntity(new Coin(this.game, 40, 140))
+        this.game.addEntity(new Coin(this.game, 240, 140));
+        this.game.addEntity(new Coin(this.game, 180, 140));
+        this.game.addEntity(new Coin(this.game, 320, 140));
+        this.game.addEntity(new Coin(this.game, 240, 190));
+        this.game.addEntity(new Coin(this.game, 180, 360));
+        this.game.addEntity(new Coin(this.game, 240, 240));
+        this.game.addEntity(new Coin(this.game, 280, 340));
+        this.game.addEntity(new Coin(this.game, 220, 240));
+        this.game.addEntity(new Coin(this.game, 140, 290));
+        this.game.addEntity(new Coin(this.game, 140, 360));
         this.game.addEntity(new Crystal(this.game, 60, 160));
+        this.game.addEntity(new Crystal(this.game, 160, 160));
         this.game.addEntity(new Key(this.game, 200, 200));
         
         // add secondary characters here
