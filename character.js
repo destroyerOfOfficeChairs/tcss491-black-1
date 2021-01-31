@@ -4,9 +4,6 @@ class Hero {
 		
         //this.game = game;
         this.game.hero = this;
-        this.attack = 100;
-        this.defense = 100;
-        this.health = 100;
 		this.x = x;
 		this.y = y;
 		
@@ -19,8 +16,7 @@ class Hero {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
 		this.battle = false;
-		this.stats = [100, 10, 5];
-        // stats = [hp, att, def]
+		this.stats = [100, 10, 2]; // [hp, att, def]
         this.canPass = false;
         
         this.updateBB();
@@ -245,19 +241,6 @@ class Hero {
                 }
 
                 if (entity instanceof Water) {
-                    // if (that.BB.right > entity.BB.left) { // collided with an object to the east
-                        
-                    // }
-                    // if (that.BB.left < entity.BB.right) { // collided with an object to the west
-
-                    // }
-                    // if (that.BB.top < entity.BB.bottom) { // collided with an object to the north
-
-                    // }
-                    // if (that.BB.bottom > entity.BB.top) { // collided with an object to the south
-
-                    // }
-
                     if (that.BB.collide(entity.topBB)) {
                         //that.velocity.y = 0;
                         //that.y = entity.BB.top - (that.height * PARAMS.SCALE * that.scale);
@@ -282,7 +265,6 @@ class Hero {
                         
                         that.velocity.x = MAX_WALK;
                     }
-                    //console.log("hero collided with water");
                 }
 
                 if (entity instanceof Wall) {
@@ -297,6 +279,57 @@ class Hero {
                     }
                     if (that.BB.collide(entity.rightBB)) {
                         that.velocity.x = MAX_WALK;
+                    }
+                }
+
+                if (entity instanceof Goblin) {
+                    if (entity.state == 2 && entity.stats[1] > that.stats[2] && entity.animations[2][entity.facing].cycled) {
+                        if (that.BB.collide(entity.rightBB) && entity.facing == 0) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        }
+                        else if (that.BB.collide(entity.leftBB) && entity.facing == 1) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        }
+                        else if (that.BB.collide(entity.bottomBB) && entity.facing == 2) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        }
+                        else if (that.BB.collide(entity.topBB) && entity.facing == 3) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        }
+                    }
+                }
+
+                if (entity instanceof Bat) {
+                    if (entity.stats[1] > that.stats[2] && entity.animations[entity.facing].cycled) {
+                        if (that.BB.collide(entity.rightBB) && entity.facing == 0) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        }
+                        else if (that.BB.collide(entity.leftBB) && entity.facing == 1) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                        else if (that.BB.collide(entity.bottomBB) && entity.facing == 2) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                        else if (that.BB.collide(entity.topBB) && entity.facing == 3) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                    }
+                }
+
+                if (entity instanceof Skeleton) {
+                    if (entity.stats[1] > that.stats[2] && entity.state == 1 && entity.animations[1][entity.facing].cycled) {
+                        if (that.BB.collide(entity.rightBB) && entity.facing == 0) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        }
+                        else if (that.BB.collide(entity.leftBB) && entity.facing == 1) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                        else if (that.BB.collide(entity.bottomBB) && entity.facing == 2) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                        else if (that.BB.collide(entity.topBB) && entity.facing == 3) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
                     }
                 }
             }

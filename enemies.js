@@ -21,10 +21,10 @@ class Goblin {
         //this.animation = new Animator(this.spritesheet, 80, 205, 30, 50, 8, 0.15, 34, false, true);
         //this.loadAnimations(spritesheet);
         this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-        this.leftBB = new BoundingBox(this.x, this.y, 1, this.height * PARAMS.SCALE * this.scale);
-        this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale, this.y, 1, this.height * PARAMS.SCALE * this.scale);
-        this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, 1);
-        this.bottomBB = new BoundingBox(this.x, this.y + this.height * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, 1);
+        this.leftBB = new BoundingBox(this.x - 1/8 * this.width * PARAMS.SCALE * this.scale, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 7/8, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        this.topBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 1/2, this.y - this.height * 1/8 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        this.bottomBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 1/4, this.y + this.height * 7/8 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
     
     }
 
@@ -79,16 +79,16 @@ class Goblin {
     }
 
     update() {
-        /*const TICK = this.game.clockTick;
+        const TICK = this.game.clockTick;
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
         if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
-            this.velocity.y += MIN_WALK;
+            //this.velocity.y += MIN_WALK;
         } else if (!this.game.down && this.game.up) { // keyboard input of up
             this.facing = 3;
-            this.velocity.y -= MIN_WALK;
+            //this.velocity.y -= MIN_WALK;
         } else {
             // do nothing
             this.velocity.y = 0;
@@ -96,19 +96,19 @@ class Goblin {
 
         if (this.game.right && !this.game.left) { //keyboard input of right
             this.facing = 0;
-            this.velocity.x += MIN_WALK;
+            //this.velocity.x += MIN_WALK;
         } else if (!this.game.right && this.game.left) { // keyboard input of left
             this.facing = 1;
-            this.velocity.x -= MIN_WALK;
+            //this.velocity.x -= MIN_WALK;
         } else {
             // do nothing
             this.velocity.x = 0;
         }
 
-        if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-        if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-        if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
-        if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
+        // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+        // if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+        // if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
+        // if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
 
         this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
@@ -137,7 +137,7 @@ class Goblin {
         if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
             this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }*/
+        }
 		
 		this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
@@ -175,7 +175,7 @@ class Goblin {
         //for testing boundaries
         // ctx.fillStyle = "Black";
         // ctx.strokeStyle = "Black";
-        // ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
+        // ctx.strokeRect(this.x -  this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     }
 }
 
@@ -233,12 +233,12 @@ class Bat {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        /*if (this.game.down && !this.game.up) { // keyboard input of down
+        if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
-            this.velocity.y += MIN_WALK;
+            //this.velocity.y += MIN_WALK;
         } else if (!this.game.down && this.game.up) { // keyboard input of up
             this.facing = 3;
-            this.velocity.y -= MIN_WALK;
+            //this.velocity.y -= MIN_WALK;
         } else {
             // do nothing
             this.velocity.y = 0;
@@ -246,19 +246,19 @@ class Bat {
 
         if (this.game.right && !this.game.left) { //keyboard input of right
             this.facing = 0;
-            this.velocity.x += MIN_WALK;
+            //this.velocity.x += MIN_WALK;
         } else if (!this.game.right && this.game.left) { // keyboard input of left
             this.facing = 1;
-            this.velocity.x -= MIN_WALK;
+            //this.velocity.x -= MIN_WALK;
         } else {
             // do nothing
             this.velocity.x = 0;
         }
 
-        if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-        if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-        if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
-        if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
+        // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+        // if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+        // if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
+        // if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
 
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
 
@@ -282,7 +282,7 @@ class Bat {
         if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
             this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }*/
+        }
     }
 
     draw(ctx) {
@@ -377,12 +377,12 @@ class Skeleton {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        /*if (this.game.down && !this.game.up) { // keyboard input of down
+        if (this.game.down && !this.game.up) { // keyboard input of down
             this.facing = 2;
-            this.velocity.y += MIN_WALK;
+            //this.velocity.y += MIN_WALK;
         } else if (!this.game.down && this.game.up) { // keyboard input of up
             this.facing = 3;
-            this.velocity.y -= MIN_WALK;
+            //this.velocity.y -= MIN_WALK;
         } else {
             // do nothing
             this.velocity.y = 0;
@@ -390,19 +390,19 @@ class Skeleton {
 
         if (this.game.right && !this.game.left) { //keyboard input of right
             this.facing = 0;
-            this.velocity.x += MIN_WALK;
+            //this.velocity.x += MIN_WALK;
         } else if (!this.game.right && this.game.left) { // keyboard input of left
             this.facing = 1;
-            this.velocity.x -= MIN_WALK;
+            //this.velocity.x -= MIN_WALK;
         } else {
             // do nothing
             this.velocity.x = 0;
         }
 
-        if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
-        if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
-        if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
-        if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
+        // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+        // if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+        // if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
+        // if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
 
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
 
@@ -426,7 +426,7 @@ class Skeleton {
         if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
             this.velocity.y = 0;
             this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }*/
+        }
 		
 		this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
 

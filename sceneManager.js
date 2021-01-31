@@ -29,7 +29,8 @@ class SceneManager {
             ctx.strokeStyle = "Brown";
             ctx.strokeRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
 
-            ctx.font = ctx.font = "8px Georgia";
+            ctx.font = "8px Georgia";
+
             ctx.fillStyle = "Yellow";
             ctx.fillText("C O I N S : " + this.coins, 10, 20);
             ctx.fillStyle = "Purple";
@@ -40,20 +41,32 @@ class SceneManager {
             ctx.strokeStyle = "Brown";
             ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
 
-            ctx.font = ctx.font = "8px Georgia";
             ctx.fillStyle = "Blue";
-            ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - this.textboxWidth, 20);
+            ctx.fillText("A T T A C K : " + this.hero.stats[1], PARAMS.CANVASWIDTH - this.textboxWidth, 20);
             ctx.fillStyle = "Green";
-            ctx.fillText("D E F E N S E : " + this.hero.defense , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
+            ctx.fillText("D E F E N S E : " + this.hero.stats[2] , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
             ctx.fillStyle = "Red";
-            ctx.fillText("H E A L T H : " + this.hero.health , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
+            ctx.fillText("H E A L T H : " + this.hero.stats[0] , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
+
+            if (PARAMS.DEBUG) {
+                ctx.fillStyle = "Tan";
+                ctx.fillRect(PARAMS.CANVASWIDTH/2 - this.textboxWidth/2, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) - this.padding, this.textboxWidth, 1.5 * this.textboxHeight);
+                ctx.strokeStyle = "Brown";
+                ctx.strokeRect(PARAMS.CANVASWIDTH/2 - this.textboxWidth/2, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) - this.padding, this.textboxWidth, 1.5 * this.textboxHeight);    
+                
+                ctx.fillStyle = "Black";
+                ctx.fillText("x position : " + this.hero.x, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + this.padding);
+                ctx.fillText("y position : " + this.hero.y, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + 2.5 * this.padding);
+                ctx.fillText("x velocity : " + this.hero.velocity.x, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + 4 * this.padding);
+                ctx.fillText("y velocity : " + this.hero.velocity.y, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + 5.5 * this.padding);
+            }
+
         } else if (this.hero.battle) {
             ctx.fillStyle = "Tan";
             ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
             ctx.strokeStyle = "Brown";
             ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
 
-            ctx.font = ctx.font = "8px Georgia";
             ctx.fillStyle = "Blue";
             ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - this.textboxWidth, 20);
             ctx.fillStyle = "Green";
@@ -122,6 +135,7 @@ class SceneManager {
     }
 
     loadLevelOne(x,y) {
+        this.hero.canPass = false;
         this.currentScene = "LevelOne";
         //this.x = 0;
 		this.game.entities = [];
