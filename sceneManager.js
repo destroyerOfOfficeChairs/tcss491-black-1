@@ -68,11 +68,11 @@ class SceneManager {
             ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
 
             ctx.fillStyle = "Blue";
-            ctx.fillText("A T T A C K : " + this.hero.attack, PARAMS.CANVASWIDTH - this.textboxWidth, 20);
+            ctx.fillText("A T T A C K : " + this.hero.stats[1], PARAMS.CANVASWIDTH - this.textboxWidth, 20);
             ctx.fillStyle = "Green";
-            ctx.fillText("D E F E N S E : " + this.hero.defense , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
+            ctx.fillText("D E F E N S E : " + this.hero.stats[2] , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
             ctx.fillStyle = "Red";
-            ctx.fillText("H E A L T H : " + this.hero.health , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
+            ctx.fillText("H E A L T H : " + this.hero.stats[0], PARAMS.CANVASWIDTH - this.textboxWidth, 40);
         }
 
     }
