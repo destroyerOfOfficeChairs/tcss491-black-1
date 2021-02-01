@@ -9,7 +9,7 @@ class Hero {
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
         
-        this.scale = 1/2;
+        this.scale = 9/16;
 		this.width = 32;
         this.height = 50;
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
@@ -563,4 +563,292 @@ class Cleric {
 		*/
     };
 };
+
+class Archer {
+    constructor(game, x, y) {
+        Object.assign(this, {game, x, y});
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/archer.png");
+        this.animations = [];
+        this.facing = 0; // 0 = left, 1 = right, 2 = up, 3 = down
+        this.state = 0;   // 0 = standing still, 1 = shooting
+        this.scale = 5/8;
+		this.width = 55;
+        this.height = 55;
+        this.velocity = { x: 0, y: 0 };
+		this.battle = false;
+        this.stats = [100, 8, 3];
+        this.stillAttacking = false;
+
+        this.animations=[];
+        this.loadAnimations();
+
+        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        //this.leftBB = new BoundingBox(this.x - 1/8 * this.width * PARAMS.SCALE * this.scale, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        //this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 7/8, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        //this.topBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 1/2, this.y - this.height * 1/8 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        //this.bottomBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 1/4, this.y + this.height * 7/8 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+    
+        
+    };
+
+    loadAnimations() {
+        for (var i = 0; i < 2; i++) { // 2 states
+            this.animations.push([]);
+            for (var j = 0; j < 4; j++) { // 4 directions
+                this.animations[i].push([]);
+            }
+        }
+        // this.animations.push(new Animator(this.spritesheet, 1, 150, 50, 15, 13, 0.1, 25, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 0, 150, 50, 15, 13, 0.1, 25, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 0, 150, 50, 45, 13, 0.1, 10, false, true));
+
+        // idle right
+        this.animations[0][0] = new Animator(this.spritesheet, 12, 200, this.width, this.height, 1, 10, 9, false, true);
+
+        // idle left
+        this.animations[0][1] = new Animator(this.spritesheet, -2, 72, this.width, this.height, 1, 10, 9, false, true);
+
+        // idle up
+        this.animations[0][2] = new Animator(this.spritesheet, 5, 10, this.width, this.height + 5, 1, 10, 14, false, true);
+
+        // idle down
+        this.animations[0][3] = new Animator(this.spritesheet, 6, 142, this.width, this.height, 1, 10, 14, false, true);
+
+        // shooting right
+        this.animations[1][0] = new Animator(this.spritesheet, 12, 200, this.width, this.height, 13, 0.1, 9, false, true);
+        
+        // shooting left
+        this.animations[1][1] = new Animator(this.spritesheet, -2, 72, this.width, this.height, 13, 0.1, 9, false, true);
+        
+        // shooting up
+        this.animations[1][2] = new Animator(this.spritesheet, 5, 10, this.width, this.height + 5, 13, 0.1, 9, false, true);
+        
+        // shooting down
+        this.animations[1][3] = new Animator(this.spritesheet, 6, 142, this.width, this.height, 13, 0.1, 9, false, true);
+    }
+
+    update() {
+        const TICK = this.game.clockTick;
+        const MIN_WALK = 1 * PARAMS.SCALE;
+        const MAX_WALK = 2 * PARAMS.SCALE;
+
+		if (this.battle == false) {
+			if (this.game.down && !this.game.up) { // keyboard input of down
+				this.facing = 3;
+				this.velocity.y += MIN_WALK;
+			} else if (!this.game.down && this.game.up) { // keyboard input of up
+				this.facing = 2;
+				this.velocity.y -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.y = 0;
+			}
+
+			if (this.game.right && !this.game.left) { //keyboard input of right
+				this.facing = 0;
+				this.velocity.x += MIN_WALK;
+			} else if (!this.game.right && this.game.left) { // keyboard input of left
+				this.facing = 1;
+				this.velocity.x -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.x = 0;
+			}
+
+			if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+			if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+			if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
+			if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
+
+			this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
+
+			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : [state # for walking];
+			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+				this.state = 1;
+			} else {
+                this.state = 0;
+            }
+		}
+		else {
+			//this.facing = 1;
+			this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
+
+			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+				this.state = 1;
+			} else {
+                this.state = 0;
+            }
+		}
+
+        // update position
+        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
+        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
+
+        // doesn't let sprites go off the canvas
+        if (this.x <= 0) { // restricts west border
+            this.velocity.x = 0;
+            this.x = 0;
+        }
+        if (this.y <= 0) { // restricts north border
+            this.velocity.y = 0;
+            this.y = 0;
+        }
+        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
+            this.velocity.x = 0;
+            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
+        }
+        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
+            this.velocity.y = 0;
+            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        }
+    };
+
+    draw(ctx) {
+        let xPosition = this.x;
+        let yPosition = this.y;
+
+        //adjusting the positions of the drawings to make it fit because the png sucks
+        if (this.facing == 1) { // if facing left or up
+            xPosition -= (7 * PARAMS.SCALE * this.scale);
+        } 
+        else if (this.facing == 3 || this.facing == 2) { // if facing up
+             yPosition += (5 * PARAMS.SCALE * this.scale);
+        } 
+
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition -  this.game.camera.x, yPosition- this.game.camera.y, PARAMS.SCALE * this.scale);
+        
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+            // ctx.strokeRect(this.leftBB.x - this.game.camera.x, this.leftBB.y - this.game.camera.y, this.leftBB.width, this.leftBB.height);
+            // ctx.strokeRect(this.rightBB.x - this.game.camera.x, this.rightBB.y - this.game.camera.y, this.rightBB.width, this.rightBB.height);
+            // ctx.strokeRect(this.topBB.x - this.game.camera.x, this.topBB.y - this.game.camera.y, this.topBB.width, this.topBB.height);
+            // ctx.strokeRect(this.bottomBB.x - this.game.camera.x, this.bottomBB.y - this.game.camera.y, this.bottomBB.width, this.bottomBB.height);
+        }
+
+        //for testing boundaries
+        // ctx.fillStyle = "Black";
+        // ctx.strokeStyle = "Black";
+        // ctx.strokeRect(xPosition -  this.game.camera.x, yPosition - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+    };
+    
+}
+
+class Mage {
+    constructor(game, x, y) {
+        Object.assign(this, {game, x, y});
+
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/mage.png");
+        this.animations = [];
+        this.facing = 0;        // 0 = right, 1 = left
+        this.animations=[];
+        this.scale = 1/4;
+        this.width = 102;
+        this.height = 120;
+        this.velocity = { x: 0, y: 0 };
+		this.battle = false;
+        this.stats = [100, 8, 3];
+        this.stillAttacking = false;
+        
+        // this.animations.push(new Animator(this.spritesheet, 1, 150, 50, 15, 13, 0.1, 25, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 0, 150, 50, 15, 13, 0.1, 25, false, true));
+        // this.animations.push(new Animator(this.spritesheet, 0, 150, 50, 45, 13, 0.1, 10, false, true));
+        this.animations.push(new Animator(this.spritesheet, 24, 24, this.width, this.height, 2, 0.5, 102, false, true));
+        this.animations.push(new Animator(this.spritesheet, 31, 228, this.width, this.height, 2, 0.5, 95, false, true));
+        
+        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+    };
+
+    update() {
+        const TICK = this.game.clockTick;
+        const MIN_WALK = 1 * PARAMS.SCALE;
+        const MAX_WALK = 2 * PARAMS.SCALE;
+
+		if (this.battle == false) {
+			if (this.game.down && !this.game.up) { // keyboard input of down
+				//this.facing = 3;
+				this.velocity.y += MIN_WALK;
+			} else if (!this.game.down && this.game.up) { // keyboard input of up
+				//this.facing = 2;
+				this.velocity.y -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.y = 0;
+			}
+
+			if (this.game.right && !this.game.left) { //keyboard input of right
+				this.facing = 0;
+				this.velocity.x += MIN_WALK;
+			} else if (!this.game.right && this.game.left) { // keyboard input of left
+				this.facing = 1;
+				this.velocity.x -= MIN_WALK;
+			} else {
+				// do nothing
+				this.velocity.x = 0;
+			}
+
+			if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
+			if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
+			if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
+			if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
+
+			// this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
+
+			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : [state # for walking];
+			// if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+			// 	this.state = 1;
+			// } else {
+            //     this.state = 0;
+            // }
+		}
+		else {
+			//this.facing = 1;
+			// this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
+
+			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			// if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+			// 	this.state = 1;
+			// } else {
+            //     this.state = 0;
+            // }
+		}
+
+        // update position
+        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
+        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
+
+        // doesn't let sprites go off the canvas
+        if (this.x <= 0) { // restricts west border
+            this.velocity.x = 0;
+            this.x = 0;
+        }
+        if (this.y <= 0) { // restricts north border
+            this.velocity.y = 0;
+            this.y = 0;
+        }
+        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
+            this.velocity.x = 0;
+            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
+        }
+        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
+            this.velocity.y = 0;
+            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        }
+    };
+
+    draw(ctx) {
+        if(this.facing == 0) {
+            this.animations[0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
+        } else if (this.facing == 1) {
+            this.animations[1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
+        }
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
+    };
+    
+}
 

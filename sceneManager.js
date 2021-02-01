@@ -198,6 +198,8 @@ class SceneManager {
         // add main characters here
         //this.game.addEntity(this.hero);
         //this.game.addEntity(new Hero(this.game, 32, 90));
+        this.game.addEntity(new Archer(this.game, 30, 80));
+        this.game.addEntity(new Mage(this.game, 100, 100));
 
         this.game.addEntity(this.hero);
 		this.hero.x = x;
