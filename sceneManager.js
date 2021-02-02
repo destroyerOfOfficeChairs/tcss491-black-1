@@ -95,10 +95,10 @@ class SceneManager {
                 // center camera on hero during level exploration
                 if(this.hero.battle == false){
                     //if (this.x < this.hero.x - this.midpoint) {
-                        this.x = this.hero.x - this.midpoint;
+                        this.x = this.hero.x - this.midpoint + this.hero.width/2 * PARAMS.SCALE * this.hero.scale;
                     //}
                     //if (this.y < this.hero.y - this.midpoint) {
-                        this.y = this.hero.y - this.midpoint;
+                        this.y = this.hero.y - PARAMS.CANVASHEIGHT/2 + this.hero.height/2 * PARAMS.SCALE * this.hero.scale;
                     //}
                 }
                 // center camera in middle of battle
@@ -190,10 +190,11 @@ class SceneManager {
         
         // add enemy characters here
         this.game.addEntity(new Goblin(this.game, 96, 32));
-        this.game.addEntity(new Bat(this.game, 64, 32));
-        this.game.addEntity(new Skeleton(this.game, 32, 32));
+        this.game.addEntity(new Bat(this.game, 64 * 4, 32 * 4));
+        this.game.addEntity(new Skeleton(this.game, 32 * 5, 32));
 
         // add main/boss villain here
+        this.game.addEntity(new Dragon(this.game, 350, 200));
 
         // add main characters here
         //this.game.addEntity(this.hero);

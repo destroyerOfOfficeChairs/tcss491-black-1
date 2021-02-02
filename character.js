@@ -74,10 +74,10 @@ class Hero {
         this.animations[2][1] = new Animator(this.spritesheet, 96, 15, this.width, this.height, 2, 0.09, 96, true, true, false);
         
         // attacking down
-        this.animations[2][2] = new Animator(this.spritesheet, 0, 15, this.width, this.height + 7, 5, 0.5, 7, false, true, false);
+        this.animations[2][2] = new Animator(this.spritesheet, 0, 15, this.width, this.height + 7, 2, 0.09, 96, false, true, false);
         
         // attacking up
-        this.animations[2][3] = new Animator(this.spritesheet, 32, 15, this.width, this.height + 7, 5, 0.5, 7, false, true, false);
+        this.animations[2][3] = new Animator(this.spritesheet, 32, 15, this.width, this.height + 7, 2, 0.09, 96, false, true, false);
 
     };
 	
@@ -332,6 +332,23 @@ class Hero {
                         } 
                     }
                 }
+
+                if (entity instanceof Dragon) {
+                    if (entity.stats[1] > that.stats[2] && entity.state == 2 && entity.animations[1][entity.facing].cycled) {
+                        if (that.BB.collide(entity.rightBB) && entity.facing == 0) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        }
+                        else if (that.BB.collide(entity.leftBB) && entity.facing == 1) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                        else if (that.BB.collide(entity.bottomBB) && entity.facing == 2) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                        else if (that.BB.collide(entity.topBB) && entity.facing == 3) {
+                            that.stats[0] -= (entity.stats[1] - that.stats[2]);
+                        } 
+                    }
+                }
             }
         });
 
@@ -519,22 +536,22 @@ class Cleric {
         //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
-        if (this.x <= 0) { // restricts west border
-            this.velocity.x = 0;
-            this.x = 0;
-        }
-        if (this.y <= 0) { // restricts north border
-            this.velocity.y = 0;
-            this.y = 0;
-        }
-        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-            this.velocity.x = 0;
-            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        }
-        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-            this.velocity.y = 0;
-            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }
+        // if (this.x <= 0) { // restricts west border
+        //     this.velocity.x = 0;
+        //     this.x = 0;
+        // }
+        // if (this.y <= 0) { // restricts north border
+        //     this.velocity.y = 0;
+        //     this.y = 0;
+        // }
+        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
+        //     this.velocity.x = 0;
+        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
+        // }
+        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
+        //     this.velocity.y = 0;
+        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        // }
     };
 
     draw(ctx) {
@@ -687,22 +704,22 @@ class Archer {
         //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
-        if (this.x <= 0) { // restricts west border
-            this.velocity.x = 0;
-            this.x = 0;
-        }
-        if (this.y <= 0) { // restricts north border
-            this.velocity.y = 0;
-            this.y = 0;
-        }
-        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-            this.velocity.x = 0;
-            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        }
-        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-            this.velocity.y = 0;
-            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }
+        // if (this.x <= 0) { // restricts west border
+        //     this.velocity.x = 0;
+        //     this.x = 0;
+        // }
+        // if (this.y <= 0) { // restricts north border
+        //     this.velocity.y = 0;
+        //     this.y = 0;
+        // }
+        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
+        //     this.velocity.x = 0;
+        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
+        // }
+        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
+        //     this.velocity.y = 0;
+        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        // }
     };
 
     draw(ctx) {
@@ -820,22 +837,22 @@ class Mage {
         //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
 
         // doesn't let sprites go off the canvas
-        if (this.x <= 0) { // restricts west border
-            this.velocity.x = 0;
-            this.x = 0;
-        }
-        if (this.y <= 0) { // restricts north border
-            this.velocity.y = 0;
-            this.y = 0;
-        }
-        if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-            this.velocity.x = 0;
-            this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        }
-        if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-            this.velocity.y = 0;
-            this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        }
+        // if (this.x <= 0) { // restricts west border
+        //     this.velocity.x = 0;
+        //     this.x = 0;
+        // }
+        // if (this.y <= 0) { // restricts north border
+        //     this.velocity.y = 0;
+        //     this.y = 0;
+        // }
+        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
+        //     this.velocity.x = 0;
+        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
+        // }
+        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
+        //     this.velocity.y = 0;
+        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
+        // }
     };
 
     draw(ctx) {
