@@ -26,6 +26,12 @@ class Hero {
 		//                                                x, y, width, height, frames, speed, spacing, flip, loop, oscillate
     };
 
+    reset() {
+        this.battle = false;
+		this.stats = [100, 10, 2]; // [hp, att, def]
+        this.canPass = false;
+    }
+
     updateBB() {
         this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);

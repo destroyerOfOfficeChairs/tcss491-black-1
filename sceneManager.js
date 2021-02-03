@@ -9,8 +9,6 @@ class SceneManager {
         this.heroY = 130;
         this.coins = 0;
         this.crystals = 0;
-        this.textboxWidth = 90;
-        this.textboxHeight = 25;
         this.padding = 5;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
@@ -22,58 +20,17 @@ class SceneManager {
     }
 
     draw(ctx) {
-        if (this.currentScene == "LevelOne" && !this.hero.battle) {
 
-            ctx.fillStyle = "Tan";
-            ctx.fillRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
-            ctx.strokeStyle = "Brown";
-            ctx.strokeRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
-
-            ctx.font = "8px Georgia";
-
-            ctx.fillStyle = "Yellow";
-            ctx.fillText("C O I N S : " + this.coins, 10, 20);
-            ctx.fillStyle = "Purple";
-            ctx.fillText("C R Y S T A L S : " + this.crystals , 10, 30);
-
-            ctx.fillStyle = "Tan";
-            ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
-            ctx.strokeStyle = "Brown";
-            ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
-
-            ctx.fillStyle = "Blue";
-            ctx.fillText("A T T A C K : " + this.hero.stats[1], PARAMS.CANVASWIDTH - this.textboxWidth, 20);
-            ctx.fillStyle = "Green";
-            ctx.fillText("D E F E N S E : " + this.hero.stats[2] , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
-            ctx.fillStyle = "Red";
-            ctx.fillText("H E A L T H : " + this.hero.stats[0] , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
-
-            if (PARAMS.DEBUG) {
-                ctx.fillStyle = "Tan";
-                ctx.fillRect(PARAMS.CANVASWIDTH/2 - this.textboxWidth/2, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) - this.padding, this.textboxWidth, 1.5 * this.textboxHeight);
-                ctx.strokeStyle = "Brown";
-                ctx.strokeRect(PARAMS.CANVASWIDTH/2 - this.textboxWidth/2, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) - this.padding, this.textboxWidth, 1.5 * this.textboxHeight);    
-                
-                ctx.fillStyle = "Black";
-                ctx.fillText("x position : " + this.hero.x, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + this.padding);
-                ctx.fillText("y position : " + this.hero.y, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + 2.5 * this.padding);
-                ctx.fillText("x velocity : " + this.hero.velocity.x, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + 4 * this.padding);
-                ctx.fillText("y velocity : " + this.hero.velocity.y, PARAMS.CANVASWIDTH/2 - this.textboxWidth/2 + this.padding, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) + 5.5 * this.padding);
-            }
-
-        } else if (this.hero.battle) {
-            ctx.fillStyle = "Tan";
-            ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
-            ctx.strokeStyle = "Brown";
-            ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
-
-            ctx.fillStyle = "Blue";
-            ctx.fillText("A T T A C K : " + this.hero.stats[1], PARAMS.CANVASWIDTH - this.textboxWidth, 20);
-            ctx.fillStyle = "Green";
-            ctx.fillText("D E F E N S E : " + this.hero.stats[2] , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
-            ctx.fillStyle = "Red";
-            ctx.fillText("H E A L T H : " + this.hero.stats[0], PARAMS.CANVASWIDTH - this.textboxWidth, 40);
-        }
+        // should be separate from scenes
+        // if (this.game.menu) {
+        //     ctx.fillStyle = "Tan";
+        //     ctx.fillRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+        //     ctx.strokeStyle = "Brown";
+        //     ctx.strokeRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+            
+        //     ctx.fillStyle = "Black";
+        //     ctx.fillText("MENU ", PARAMS.CANVASWIDTH / 2 - 10, 6 * this.padding);
+        // }
 
     }
 	
@@ -83,9 +40,21 @@ class SceneManager {
 		do {
 			currentDate = Date.now();
 		} while (currentDate - date < milliseconds);
-	};
+    };
+    
+    reset() {
+        this.coins = 0;
+        this.crystals = 0;
+    }
 
     update() {
+        if (this.hero.stats[0] <= 0) { // hero dies
+            this.hero.reset();
+            this.reset();
+            this.currentScene = "TitleScreen";
+            //this.loadTitleScreen(this.game, 0, 0);
+            //this.loadLevelOne(this.heroX, this.heroY);
+        }
         PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.currentScene) {
             case "TitleScreen":
@@ -126,8 +95,8 @@ class SceneManager {
         this.game.entities = [];
         this.game.addEntity(new TitleScreen(game, x, y));
         var that = this;
-        if (that.stillOnTItleScreen) {
-            if (that.game.attack1) {
+        if (that.stillOnTitleScreen) {
+            if (that.game.attack1 && this.game.up) {
                 that.stillOnTitleScreen = false;
                 that.loadLevelOne(that.heroX, that.heroY);
             }
@@ -135,7 +104,6 @@ class SceneManager {
     }
 
     loadLevelOne(x,y) {
-        this.hero.canPass = false;
         this.currentScene = "LevelOne";
         //this.x = 0;
 		this.game.entities = [];
@@ -207,6 +175,9 @@ class SceneManager {
 		this.hero.y = y;
 		this.hero.battle = false;
         console.log("Level: " + this.hero.x + ", " + this.hero.y);
+
+        this.game.addEntity(new HeadsUpDisplay(this.game));
+        this.game.addEntity(new MainMenu(this.game));
     }
 	
 	loadBattle() {
@@ -236,7 +207,8 @@ class SceneManager {
 		this.game.addEntity(new Goblin(this.game, 10, 40));
         this.game.addEntity(new Bat(this.game, 20, 110));
         this.game.addEntity(new Skeleton(this.game, 20, 150));
-		
-		
+        
+        this.game.addEntity(new HeadsUpDisplay(this.game));
+        this.game.addEntity(new MainMenu(this.game));
 	}
 }

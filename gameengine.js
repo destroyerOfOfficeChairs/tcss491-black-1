@@ -16,6 +16,7 @@ class GameEngine {
         this.up = false;
         this.down = false;
 
+        this.menu = false;
         this.attack1 = false;
     };
 
@@ -69,6 +70,9 @@ class GameEngine {
                     break;
                 case "KeyB":
                     that.attack1 = true;
+                    break;
+                case "KeyL":
+                    that.menu = !that.menu;
                     break;
             }
         }, false);
@@ -148,20 +152,22 @@ class GameEngine {
     };
 
     update() {
-        var entitiesCount = this.entities.length;
+        if (!this.menu) { // menu would pause the game
+            var entitiesCount = this.entities.length;
 
-        for (var i = 0; i < entitiesCount; i++) {
-            var entity = this.entities[i];
+            for (var i = 0; i < entitiesCount; i++) {
+                var entity = this.entities[i];
 
-            if (!entity.removeFromWorld) {
-                entity.update();
+                if (!entity.removeFromWorld) {
+                    entity.update();
+                }
             }
-        }
-        this.camera.update();
+            this.camera.update();
 
-        for (var i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
-                this.entities.splice(i, 1);
+            for (var i = this.entities.length - 1; i >= 0; --i) {
+                if (this.entities[i].removeFromWorld) {
+                    this.entities.splice(i, 1);
+                }
             }
         }
     };
