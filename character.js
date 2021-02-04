@@ -6,6 +6,7 @@ class Hero {
         this.game.hero = this;
 		this.x = x;
 		this.y = y;
+		this.name = "Hero";
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
         
@@ -419,6 +420,7 @@ class Cleric {
 		//this.game = game;
 		this.x = x;
 		this.y = y;
+		this.name = "Cleric";
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
         
@@ -537,28 +539,6 @@ class Cleric {
 				this.state = 2;
 			}
 		}
-
-        // update position
-        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
-
-        // doesn't let sprites go off the canvas
-        // if (this.x <= 0) { // restricts west border
-        //     this.velocity.x = 0;
-        //     this.x = 0;
-        // }
-        // if (this.y <= 0) { // restricts north border
-        //     this.velocity.y = 0;
-        //     this.y = 0;
-        // }
-        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-        //     this.velocity.x = 0;
-        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        // }
-        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-        //     this.velocity.y = 0;
-        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        // }
     };
 
     draw(ctx) {
@@ -591,7 +571,8 @@ class Cleric {
 class Archer {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
-
+		
+		this.name = "Archer";
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/archer.png");
         this.animations = [];
         this.facing = 0; // 0 = left, 1 = right, 2 = up, 3 = down
@@ -695,38 +676,18 @@ class Archer {
             }
 		}
 		else {
-			//this.facing = 1;
-			this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
+			this.facing = 1;
+			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
-			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
 			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
 				this.state = 1;
 			} else {
-                this.state = 0;
-            }
+				this.state = 0;
+			}
 		}
 
-        // update position
-        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
-
-        // doesn't let sprites go off the canvas
-        // if (this.x <= 0) { // restricts west border
-        //     this.velocity.x = 0;
-        //     this.x = 0;
-        // }
-        // if (this.y <= 0) { // restricts north border
-        //     this.velocity.y = 0;
-        //     this.y = 0;
-        // }
-        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-        //     this.velocity.x = 0;
-        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        // }
-        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-        //     this.velocity.y = 0;
-        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        // }
+        
     };
 
     draw(ctx) {
@@ -764,6 +725,7 @@ class Mage {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
 
+		this.name = "Mage";
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/mage.png");
         this.animations = [];
         this.facing = 0;        // 0 = right, 1 = left
@@ -818,48 +780,18 @@ class Mage {
 			if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
 			if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
 
-			// this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
-
-			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : [state # for walking];
-			// if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-			// 	this.state = 1;
-			// } else {
-            //     this.state = 0;
-            // }
 		}
 		else {
-			//this.facing = 1;
-			// this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
+			this.facing = 1;
+			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
-			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-			// if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-			// 	this.state = 1;
-			// } else {
-            //     this.state = 0;
-            // }
+			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+				this.state = 1;
+			} else {
+				this.state = 0;
+			}
 		}
-
-        // update position
-        //this.x += this.velocity.x //* TICK * PARAMS.SCALE;
-        //this.y += this.velocity.y //* TICK * PARAMS.SCALE;
-
-        // doesn't let sprites go off the canvas
-        // if (this.x <= 0) { // restricts west border
-        //     this.velocity.x = 0;
-        //     this.x = 0;
-        // }
-        // if (this.y <= 0) { // restricts north border
-        //     this.velocity.y = 0;
-        //     this.y = 0;
-        // }
-        // if (this.x >= PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE)) { // restricts east border
-        //     this.velocity.x = 0;
-        //     this.x = PARAMS.CANVASWIDTH - (this.width * PARAMS.SCALE);
-        // }
-        // if (this.y >= PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE)) { // restricts south border
-        //     this.velocity.y = 0;
-        //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
-        // }
     };
 
     draw(ctx) {
