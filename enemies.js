@@ -3,7 +3,7 @@ class Dragon {
         Object.assign(this, { game, x, y });
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/dragon.png");
-
+		this.name = "Dragon";
         this.scale = 1;
         this.width = 94;
         this.height = 94;
@@ -180,7 +180,7 @@ class Goblin {
         Object.assign(this, { game, x, y });
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/goblin.png");
-
+		this.name = "Goblin";
         this.scale = 3/4;
         this.width = 57;
         this.height = 57;
@@ -363,7 +363,7 @@ class Bat {
         Object.assign(this, { game, x, y });
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/bat.png");
-
+		this.name = "Bat";
         this.scale = 1;
         this.width = 33;
         this.height = 33;
@@ -488,7 +488,7 @@ class Skeleton {
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/skeleton.png");
         this.background = ASSET_MANAGER.getAsset("./sprites/DungeonBackground.png");
-
+		this.name = "Skeleton";
         this.scale = 3/4;
         this.width = 30;
         this.height = 50;
