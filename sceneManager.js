@@ -5,11 +5,19 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
         this.midpoint = PARAMS.CANVASWIDTH/2;
+        this.padding = 5;
+
 		this.heroX = 130;
         this.heroY = 130;
+
         this.coins = 0;
         this.crystals = 0;
-        this.padding = 5;
+        this.attackUpgradeCost = 1;
+        this.defenseUpgradeCost = 2;
+        this.healthUpgradeCost = 3;
+        this.attackUpgrade = 2;
+        this.defenseUpgrade = 1;
+        this.healthUpgrade = 10;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -178,6 +186,9 @@ class SceneManager {
 
         this.game.addEntity(new HeadsUpDisplay(this.game));
         this.game.addEntity(new MainMenu(this.game));
+        this.game.addEntity(new Shop(this.game));
+        this.game.addEntity(new Instructions(this.game));
+
     }
 	
 	loadBattle() {
@@ -210,5 +221,8 @@ class SceneManager {
         
         this.game.addEntity(new HeadsUpDisplay(this.game));
         this.game.addEntity(new MainMenu(this.game));
+        this.game.addEntity(new Shop(this.game));
+        this.game.addEntity(new Instructions(this.game));
+
 	}
 }

@@ -15,8 +15,9 @@ class Hero {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.battle = false;
-		this.stats = [100, 10, 2]; // [hp, att, def]
+        this.battle = false;
+        this.maxHealth = 100;
+		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
         this.canPass = false;
         
         this.updateBB();
@@ -28,7 +29,7 @@ class Hero {
 
     reset() {
         this.battle = false;
-		this.stats = [100, 10, 2]; // [hp, att, def]
+		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
         this.canPass = false;
     }
 

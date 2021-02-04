@@ -10,6 +10,8 @@ class GameEngine {
         this.wheel = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
+        this.mousePaddingX = 187;
+        this.mousePaddingY = 137;
 
         this.left = false;
         this.right = false;
@@ -17,6 +19,9 @@ class GameEngine {
         this.down = false;
 
         this.menu = false;
+        this.shop = false;
+        this.instructions = false;
+
         this.attack1 = false;
     };
 
@@ -152,22 +157,22 @@ class GameEngine {
     };
 
     update() {
-        if (!this.menu) { // menu would pause the game
-            var entitiesCount = this.entities.length;
+        var entitiesCount = this.entities.length;
 
-            for (var i = 0; i < entitiesCount; i++) {
-                var entity = this.entities[i];
+        for (var i = 0; i < entitiesCount; i++) {
+            var entity = this.entities[i];
 
-                if (!entity.removeFromWorld) {
+            if (!entity.removeFromWorld) {
+                if (!this.menu || entity instanceof MainMenu || entity instanceof Instructions || entity instanceof Shop) {
                     entity.update();
                 }
             }
-            this.camera.update();
+        }
+        this.camera.update();
 
-            for (var i = this.entities.length - 1; i >= 0; --i) {
-                if (this.entities[i].removeFromWorld) {
-                    this.entities.splice(i, 1);
-                }
+        for (var i = this.entities.length - 1; i >= 0; --i) {
+            if (this.entities[i].removeFromWorld) {
+                this.entities.splice(i, 1);
             }
         }
     };
