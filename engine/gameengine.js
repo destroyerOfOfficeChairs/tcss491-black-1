@@ -21,6 +21,7 @@ class GameEngine {
         this.menu = false;
         this.shop = false;
         this.instructions = false;
+		this.battleui = false;
 
         this.attack1 = false;
         

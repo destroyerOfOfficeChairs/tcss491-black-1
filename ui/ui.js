@@ -20,6 +20,13 @@ class MainMenu {
     constructor(game) {
         Object.assign(this, {game});
         this.padding = 5;
+		
+		this.backWidth = 50;
+        this.backHeight = 20;
+        this.backX = 5 * this.padding;
+        this.backY = 8 * this.padding;
+        this.backBB = new BoundingBox(this.backX, this.backY - this.backHeight/2, this.backWidth, this.backHeight);
+        this.hoverBack = false;
 
         this.instructionsWidth = 60;
         this.instructionsHeight = 20;
@@ -39,7 +46,10 @@ class MainMenu {
 
     update() {
         if (this.game.menu && !this.game.instructions && !this.game.shop) {
-            if (this.hoverInstructions && this.game.click) {
+			if (this.hoverBack && this.game.click) {
+                this.game.menu = false;
+                this.game.click = null;
+            } else if (this.hoverInstructions && this.game.click) {
                 this.game.instructions = true;
                 this.game.click = null;
             } else if (this.hoverShop && this.game.click) {
@@ -68,6 +78,17 @@ class MainMenu {
             ctx.fillText("MENU", PARAMS.CANVASWIDTH / 2 - 20, 6 * this.padding);
 
             ctx.font = "10px Georgia";
+			
+			//back button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.backBB.left && this.game.mouse.x <= 3 * this.backBB.right && 
+                this.game.mouse.y >= 3 * this.backBB.top && this.game.mouse.y <= 3 * this.backBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverBack = true;
+            } else {
+                this.hoverBack = false;
+            }
+            ctx.fillText("Back", this.backX, this.backY);
 
             // how to play button
             ctx.fillStyle = "Black";
@@ -96,6 +117,7 @@ class MainMenu {
                 ctx.strokeStyle = 'Red';
                 ctx.strokeRect(this.instructionsBB.x, this.instructionsBB.y, this.instructionsBB.width, this.instructionsBB.height);
                 ctx.strokeRect(this.shopBB.x, this.shopBB.y, this.shopBB.width, this.shopBB.height);
+				ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
             }
         }
     }
@@ -128,20 +150,19 @@ class HeadsUpDisplay {
                 ctx.fillStyle = "Purple";
                 ctx.fillText("C R Y S T A L S : " + this.game.camera.crystals , 10, 30);
 
-            }
+				ctx.fillStyle = "Tan";
+				ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+				ctx.strokeStyle = "Brown";
+				ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
 
-            ctx.fillStyle = "Tan";
-            ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
-            ctx.strokeStyle = "Brown";
-            ctx.strokeRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
-
-            ctx.fillStyle = "Blue";
-            ctx.fillText("A T T A C K : " + this.game.camera.hero.stats[1], PARAMS.CANVASWIDTH - this.textboxWidth, 20);
-            ctx.fillStyle = "Green";
-            ctx.fillText("D E F E N S E : " + this.game.camera.hero.stats[2] , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
-            ctx.fillStyle = "Red";
-            ctx.fillText("H E A L T H : " + this.game.camera.hero.stats[0] , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
-
+				ctx.fillStyle = "Blue";
+				ctx.fillText("A T T A C K : " + this.game.camera.hero.stats[1], PARAMS.CANVASWIDTH - this.textboxWidth, 20);
+				ctx.fillStyle = "Green";
+				ctx.fillText("D E F E N S E : " + this.game.camera.hero.stats[2] , PARAMS.CANVASWIDTH - this.textboxWidth, 30);
+				ctx.fillStyle = "Red";
+				ctx.fillText("H E A L T H : " + this.game.camera.hero.stats[0] , PARAMS.CANVASWIDTH - this.textboxWidth, 40);
+			}
+			
             if (PARAMS.DEBUG) {
                 ctx.fillStyle = "Tan";
                 ctx.fillRect(PARAMS.CANVASWIDTH/2 - this.textboxWidth/2, PARAMS.CANVASHEIGHT - (1.5 * this.textboxHeight) - this.padding, this.textboxWidth, 1.5 * this.textboxHeight);
@@ -507,4 +528,148 @@ class Instructions {
             }
         }
     }
+}
+
+// UI for battle mode
+class BattleUI {
+	constructor(game, e, p) {
+		Object.assign(this, {game});
+		//loading in enemies and party
+		this.enemies = [];
+		var i;
+		for (i = 0; i < e.length; i++){
+			this.enemies[i] = [e[i], e[i].stats[0]];
+		}
+		this.party = [];
+		for (i = 0; i < p.length; i++){
+			this.party[i] = [p[i], p[i].stats[0]];
+		}
+		
+		//setting up dimensions and buttons
+        this.x = 5;
+		this.y = 150;
+		this.textboxWidth = 245;
+        this.textboxHeight = 70;
+		
+		this.attX = 95 + this.x;
+        this.attY = 15 + this.y;
+        this.attWidth = 50;
+        this.attHeight = 10;
+        this.attBB = new BoundingBox(this.attX, this.attY, this.attWidth, this.attHeight);
+        this.hoverAtt = false;
+		
+		this.specBB = new BoundingBox(this.attX, this.attY + 15, this.attWidth, this.attHeight);
+        this.hoverSpec = false;
+		
+		this.itemBB = new BoundingBox(this.attX, this.attY + 30, this.attWidth, this.attHeight);
+        this.hoverItem = false;
+		
+		this.defBB = new BoundingBox(this.attX, this.attY + 45, this.attWidth, this.attHeight);
+        this.hoverDef = false;
+	}
+	
+	update() {
+		if (this.game.camera.hero.battle) {
+			if (this.hoverAtt && this.game.click) {
+                console.log("Attack!");
+                this.game.click = null;
+            } else if (this.hoverSpec && this.game.click) {
+                console.log("Special!");
+                this.game.click = null;
+            } else if (this.hoverItem && this.game.click) {
+                console.log("Item!");
+                this.game.click = null;
+            } else if (this.hoverDef && this.game.click) {
+                console.log("Defend!");
+				this.game.click = null;
+			}
+        }
+	}
+	
+	draw(ctx) {
+		ctx.font = "8px Georgia";
+		
+		//if (this.game.camera.hero.battle){
+			// main battle ui
+			ctx.fillStyle = "Tan";
+            ctx.fillRect(this.x, this.y, this.textboxWidth, this.textboxHeight);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.x, this.y, this.textboxWidth, this.textboxHeight);
+			
+			//enemies list
+			ctx.fillStyle = "Tan";
+            ctx.fillRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 4);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 4);
+			ctx.fillStyle = "Black";
+			var i;
+			for (i = 0; i < this.enemies.length; i++) {
+				ctx.fillText(this.enemies[i][0].name, this.x+10, this.y + 20 + (15 * i));
+			}
+			
+			//party list
+			ctx.fillStyle = "Tan";
+            ctx.fillRect(this.x + 145, this.y + 2, 98, this.textboxHeight - 4);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.x + 145, this.y + 2, 98, this.textboxHeight - 4);
+			ctx.fillStyle = "Black";
+			for (i = 0; i < this.party.length; i++) {
+				ctx.fillText(this.party[i][0].name, this.x + 150, this.y + 15 + (15 * i));
+				ctx.fillText(this.party[i][1] + " / " + this.party[i][0].stats[0], this.x + 200, this.y + 15 + (15 * i));
+			}
+			
+			//atack button
+            ctx.fillStyle = "Black";
+			if (this.game.mouse && this.game.mouse.x >= 3 * this.attBB.left && this.game.mouse.x <= 3 * this.attBB.right && 
+                this.game.mouse.y >= 3 * this.attBB.top && this.game.mouse.y <= 3 * this.attBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverAtt = true;
+            }else {
+                this.hoverAtt = false;
+            }
+            ctx.fillText("A T T A C K", this.attX, this.attY);
+			
+			//special attack button
+			ctx.fillStyle = "Black";
+			if (this.game.mouse && this.game.mouse.x >= 3 * this.specBB.left && this.game.mouse.x <= 3 * this.specBB.right && 
+                this.game.mouse.y >= 3 * this.specBB.top && this.game.mouse.y <= 3 * this.specBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverSpec = true;
+            }else {
+                this.hoverSpec = false;
+            }
+            ctx.fillText("S P E C I A L", this.attX, this.attY + 15);
+			
+			//items button
+			ctx.fillStyle = "Black";
+			if (this.game.mouse && this.game.mouse.x >= 3 * this.itemBB.left && this.game.mouse.x <= 3 * this.itemBB.right && 
+                this.game.mouse.y >= 3 * this.itemBB.top && this.game.mouse.y <= 3 * this.itemBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverItem = true;
+            }else {
+                this.hoverItem = false;
+            }
+			ctx.fillText("I T E M", this.attX, this.attY + 30);
+			
+			//defend button
+			ctx.fillStyle = "Black";
+			if (this.game.mouse && this.game.mouse.x >= 3 * this.defBB.left && this.game.mouse.x <= 3 * this.defBB.right && 
+                this.game.mouse.y >= 3 * this.defBB.top && this.game.mouse.y <= 3 * this.defBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverDef = true;
+            }else {
+                this.hoverDef = false;
+            }
+			ctx.fillText("D E F E N D", this.attX, this.attY + 45);
+		//}
+		
+		// bounding boxes
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.attBB.x, this.attBB.y-8, this.attBB.width, this.attBB.height);
+				ctx.strokeRect(this.attBB.x, this.attBB.y + 7, this.attBB.width, this.attBB.height);
+				ctx.strokeRect(this.attBB.x, this.attBB.y + 22, this.attBB.width, this.attBB.height);
+				ctx.strokeRect(this.attBB.x, this.attBB.y + 37, this.attBB.width, this.attBB.height);
+            }
+	}
 }

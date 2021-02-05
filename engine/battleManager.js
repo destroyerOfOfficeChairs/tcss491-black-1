@@ -2,6 +2,7 @@
 // and list of party characters entering the battle
 class BattleManager {
 	constructor(game, enemies, party) {
+		this.game = game;
 		this.enemies = this.loadParty(enemies);
 		this.party = this.loadParty(party);
 		
@@ -32,9 +33,7 @@ class BattleManager {
 	printParty(list) {
 		var a;
 		for (a = 0; a < list.length; a++){
-				//for (b = 0; b < 2; b++) {
 			console.log("[" + list[a][0].name + ", " + list[a][1] + "]");
-				//}
 		}
 	};
 	

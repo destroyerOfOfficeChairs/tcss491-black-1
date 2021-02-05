@@ -6,7 +6,7 @@ class Hero {
         this.game.hero = this;
 		this.x = x;
 		this.y = y;
-		this.name = "Hero";
+		this.name = "H e r o";
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
         
@@ -422,7 +422,7 @@ class Cleric {
 		//this.game = game;
 		this.x = x;
 		this.y = y;
-		this.name = "Cleric";
+		this.name = "C l e r i c";
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
         
@@ -574,7 +574,7 @@ class Archer {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
 		
-		this.name = "Archer";
+		this.name = "A r c h e r";
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/archer.png");
         this.animations = [];
         this.facing = 0; // 0 = left, 1 = right, 2 = up, 3 = down
@@ -727,7 +727,7 @@ class Mage {
     constructor(game, x, y) {
         Object.assign(this, {game, x, y});
 
-		this.name = "Mage";
+		this.name = "M a g e";
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/mage.png");
         this.animations = [];
         this.facing = 0;        // 0 = right, 1 = left
