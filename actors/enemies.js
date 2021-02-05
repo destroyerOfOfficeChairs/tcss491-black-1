@@ -10,7 +10,7 @@ class Dragon {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [500, 50, 50]; // stats = [hp, att, def]
+		this.stats = [500, 150, 150]; // stats = [hp, att, def]
 
         this.stillAttacking = false;
 

@@ -164,7 +164,10 @@ class Shop {
         Object.assign(this, {game});
         this.padding = 5;
         this.displayError = false;
-        this.timeElapsed = 0;
+        this.displayCrystalError = false;
+        this.displaySuccess = 0; // 0=none, 1=attack, 2=defense, 3=health, 4=destroy crystal
+        this.timeElapsedError = 0;
+        this.timeElapsedSuccess = 0;
 
         this.backWidth = 50;
         this.backHeight = 20;
@@ -194,6 +197,13 @@ class Shop {
         this.upgradeHealthBB = new BoundingBox(this.upgradeHealthX, this.upgradeHealthY - this.upgradeHealthHeight/2, this.upgradeHealthWidth, this.upgradeHealthHeight);
         this.hoverHealth = false;
 
+        this.destroyCrystalWidth = 40;
+        this.destroyCrystalHeight = 20;
+        this.destroyCrystalX = 35 * this.padding;
+        this.destroyCrystalY = 35 * this.padding;
+        this.destroyCrystalBB = new BoundingBox(this.destroyCrystalX, this.destroyCrystalY - this.destroyCrystalHeight/2, this.destroyCrystalWidth, this.destroyCrystalHeight);
+        this.hoverDestroyCrystal = false;
+
     }
 
     update() {
@@ -205,16 +215,26 @@ class Shop {
                 if (this.game.camera.coins >= this.game.camera.attackUpgradeCost) {
                     this.game.camera.coins -= this.game.camera.attackUpgradeCost;
                     this.game.hero.stats[1] += this.game.camera.attackUpgrade;
+                    this.displayError = false;
+                    this.displayCrystalError = false;
+                    this.displaySuccess = 1;
+                    this.timeElapsedSuccess = 0;
                 } else {
                     this.displayError = true;
+                    this.timeElapsedError = 0;
                 }
                 this.game.click = null;
             } else if (this.hoverUpgradeDefense && this.game.click) {
                 if (this.game.camera.coins >= this.game.camera.defenseUpgradeCost) {
                     this.game.camera.coins -= this.game.camera.defenseUpgradeCost;
                     this.game.hero.stats[2] += this.game.camera.defenseUpgrade;
+                    this.displayError = false;
+                    this.displayCrystalError = false;
+                    this.displaySuccess = 2;
+                    this.timeElapsedSuccess = 0;
                 } else {
                     this.displayError = true;
+                    this.timeElapsedError = 0;
                 }
                 this.game.click = null;
             } else if (this.hoverHealth && this.game.click) {
@@ -222,23 +242,63 @@ class Shop {
                     this.game.camera.coins -= this.game.camera.healthUpgradeCost;
                     if (this.game.hero.stats[0] == this.game.hero.maxHealth) { // if we're already at max, health, upgrade
                         this.game.hero.stats[0] += this.game.camera.healthUpgrade;
+                        this.displayError = false;
+                        this.displayCrystalError = false;
+                        this.displaySuccess = 3;
+                        this.timeElapsedSuccess = 0;
                     }
                     this.game.hero.maxHealth += this.game.camera.healthUpgrade;
                 } else {
                     this.displayError = true;
+                    this.timeElapsedError = 0;
                 }
                 this.game.click = null;
-            } else if (!this.hoverBack && !this.hoverUpgradeAttack && !this.hoverUpgradeDefense && !this.hoverUpgradeHealth) {
+            } else if (this.hoverDestroyCrystal && this.game.click) {
+                this.displayError = false;
+                if (this.game.camera.crystals > 0) {
+                    this.game.camera.crystals--;
+                    // reduce hero stats
+                    this.game.camera.hero.stats[1] -= this.game.camera.crystalAttackPower;
+                    this.game.camera.hero.stats[2] -= this.game.camera.crystalDefensePower;
+                    // reduce boss stats
+                    this.game.camera.boss.stats[1] -= this.game.camera.crystalAttackPower;
+                    this.game.camera.boss.stats[2] -= this.game.camera.crystalDefensePower;
+
+                    this.displaySuccess = 4;
+                    this.displayCrystalError = false;
+                } else {
+                    this.displayCrystalError = true;
+                    this.timeElapsedError = 0;
+                }
+                this.game.click = null;
+            } else if (!this.hoverBack && !this.hoverUpgradeAttack && !this.hoverUpgradeDefense && !this.hoverUpgradeHealth && !this.hoverDestroyCrystal) {
                 this.game.click = null;
             }
     
-            if (this.displayError) {
-                this.timeElapsed += this.game.clockTick;
-                if (this.timeElapsed > 5) {
+            if (this.displayError || this.displayCrystalError) {
+                this.displaySuccess = 0;
+                this.timeElapsedError += this.game.clockTick;
+                if (this.timeElapsedError > 3) {
                     this.displayError = false;
-                    this.timeElapsed = 0;
+                    this.displayCrystalError = false;
+                    this.timeElapsedError = 0;
                 }
+            } else {
+                this.timeElapsedError = 0;
             }
+            if (this.displaySuccess != 0) {
+                this.timeElapsedSuccess += this.game.clockTick;
+                if (this.timeElapsedSuccess > 3) {
+                    this.displaySuccess = 0;
+                    this.timeElapsedSuccess = 0;
+                }
+            } else {
+                this.timeElapsedSuccess = 0;
+            }
+        } else {
+            this.displayError = false;
+            this.displayCrystalError = false;
+            this.displaySuccess = false;
         }
     }
 
@@ -272,8 +332,8 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Attack (+" + this.game.camera.attackUpgrade + ")", this.upgradeAttackX - 150, this.upgradeAttackY);
 
-            if (this.game.mouse && this.game.mouse.x >= 3 * this.upgradeAttackBB.left && this.game.mouse.x <= 3 * this.upgradeAttackBB.right && 
-                this.game.mouse.y >= 3 * this.upgradeAttackBB.top && this.game.mouse.y <= 3 * this.upgradeAttackBB.bottom) {
+            if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeAttackBB.left && this.game.mouse.x <= 3 * this.upgradeAttackBB.right && 
+                this.game.mouse.y >= 3.1 * this.upgradeAttackBB.top && this.game.mouse.y <= 3 * this.upgradeAttackBB.bottom) {
                 ctx.fillStyle = "Purple";
                 this.hoverUpgradeAttack = true;
             }else {
@@ -285,8 +345,8 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Defense (+" + this.game.camera.defenseUpgrade + ")", this.upgradeDefenseX - 150, this.upgradeDefenseY);
 
-            if (this.game.mouse && this.game.mouse.x >= 3 * this.upgradeDefenseBB.left && this.game.mouse.x <= 3 * this.upgradeDefenseBB.right && 
-                this.game.mouse.y >= 3 * this.upgradeDefenseBB.top && this.game.mouse.y <= 3 * this.upgradeDefenseBB.bottom) {
+            if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeDefenseBB.left && this.game.mouse.x <= 3 * this.upgradeDefenseBB.right && 
+                this.game.mouse.y >= 3.1 * this.upgradeDefenseBB.top && this.game.mouse.y <= 3 * this.upgradeDefenseBB.bottom) {
                 ctx.fillStyle = "Purple";
                 this.hoverUpgradeDefense = true;
             } else {
@@ -298,8 +358,8 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Max Health (+" + this.game.camera.healthUpgrade + ")", this.upgradeHealthX - 150, this.upgradeHealthY);
 
-            if (this.game.mouse && this.game.mouse.x >= 3 * this.upgradeHealthBB.left && this.game.mouse.x <= 3 * this.upgradeHealthBB.right && 
-                this.game.mouse.y >= 3 * this.upgradeHealthBB.top && this.game.mouse.y <= 3 * this.upgradeHealthBB.bottom) {
+            if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeHealthBB.left && this.game.mouse.x <= 3 * this.upgradeHealthBB.right && 
+                this.game.mouse.y >= 3.1 * this.upgradeHealthBB.top && this.game.mouse.y <= 3 * this.upgradeHealthBB.bottom) {
                 ctx.fillStyle = "Purple";
                 this.hoverHealth = true;
             } else {
@@ -307,24 +367,63 @@ class Shop {
             }
             ctx.fillText("" + this.game.camera.healthUpgradeCost + " coins", this.upgradeHealthX, this.upgradeHealthY);
 
+            // destroy crystal button
+            ctx.fillStyle = "Red";
+            ctx.fillText("Destroy Crystal", this.destroyCrystalX - 150, this.destroyCrystalY);
+
+            if (this.game.mouse && this.game.mouse.x >= 3.1 * this.destroyCrystalBB.left && this.game.mouse.x <= 3 * this.destroyCrystalBB.right && 
+                this.game.mouse.y >= 3.1 * this.destroyCrystalBB.top && this.game.mouse.y <= 3 * this.destroyCrystalBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverDestroyCrystal = true;
+            } else {
+                this.hoverDestroyCrystal = false;
+            }
+            ctx.fillText("Destroy", this.destroyCrystalX, this.destroyCrystalY);
+
+            ctx.font = "8px Georgia";
             // coin stats
             ctx.fillStyle = "Yellow";
             ctx.fillText("C O I N S : " + this.game.camera.coins, this.backX + 115, this.backY);
+            // crystal stats
+            ctx.fillStyle = "Purple";
+            ctx.fillText("C R Y S T A L S : " + this.game.camera.crystals, this.backX + 115, this.backY + 2 * this.padding);
 
             // attack, defense and health stats
             ctx.fillStyle = "Blue";
-            ctx.fillText("A T T A C K : " + this.game.camera.hero.stats[1], this.backX + 115, this.backY + 2 * this.padding);
+            ctx.fillText("A T T A C K : " + this.game.camera.hero.stats[1], this.backX + 115, this.backY + 4 * this.padding);
             ctx.fillStyle = "Green";
-            ctx.fillText("D E F E N S E : " + this.game.camera.hero.stats[2] , this.backX + 115, this.backY + 4 * this.padding);
+            ctx.fillText("D E F E N S E : " + this.game.camera.hero.stats[2] , this.backX + 115, this.backY + 6 * this.padding);
             ctx.fillStyle = "Red";
-            ctx.fillText("MAX HEALTH : " + this.game.camera.hero.maxHealth , this.backX + 115, this.backY + 6 * this.padding);
-
-    
+            ctx.fillText("MAX HEALTH : " + this.game.camera.hero.maxHealth , this.backX + 115, this.backY + 8 * this.padding);
 
             // "not enough coins"
             if (this.displayError) {
                 ctx.fillStyle = "Red";
                 ctx.fillText("Not enough coins to purchase!", 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
+            } else if (this.displayCrystalError) { // "not enough crystals"
+                ctx.fillStyle = "Red";
+                ctx.fillText("No crystals to destroy!", 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
+            }
+
+            // successfully purchased
+            if (this.displaySuccess != 0) {
+                let str = "";
+                switch (this.displaySuccess) {
+                    case 1:
+                        str += "Successfully upgraded Attack!";
+                        break;
+                    case 2:
+                        str += "Successfully upgraded Defense!";
+                        break;
+                    case 3:
+                        str += "Successfully upgraded Health!";
+                        break;
+                    case 4:
+                        str += "Successfully destroyed a crystal!";
+                        break;
+                }
+                ctx.fillStyle = "Green";
+                ctx.fillText(str, 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
             }
 
             // bounding boxes
@@ -333,6 +432,7 @@ class Shop {
                 ctx.strokeRect(this.upgradeAttackBB.x, this.upgradeAttackBB.y, this.upgradeAttackBB.width, this.upgradeAttackBB.height);
                 ctx.strokeRect(this.upgradeDefenseBB.x, this.upgradeDefenseBB.y, this.upgradeDefenseBB.width, this.upgradeDefenseBB.height);
                 ctx.strokeRect(this.upgradeHealthBB.x, this.upgradeHealthBB.y, this.upgradeHealthBB.width, this.upgradeHealthBB.height);
+                ctx.strokeRect(this.destroyCrystalBB.x, this.destroyCrystalBB.y, this.destroyCrystalBB.width, this.destroyCrystalBB.height);
                 ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
             }
         }
@@ -390,6 +490,16 @@ class Instructions {
             }
             ctx.fillText("Back", this.backX, this.backY);
 
+            ctx.font = "8px Georgia";
+            ctx.fillStyle = "Black";
+            ctx.fillText("- WASD or Arrow keys to move", this.backX, this.backY + 4 * this.padding);
+            ctx.fillText("- L to toggle menu", this.backX, this.backY + 6 * this.padding);
+            ctx.fillText("- N for battle mode, M for explore mode", this.backX, this.backY + 8 * this.padding);
+            ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
+            ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 12 * this.padding);
+            ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 14 * this.padding);
+            ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 16 * this.padding);
+            ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 18 * this.padding);
             // bounding boxes
             if (PARAMS.DEBUG) {
                 ctx.strokeStyle = 'Red';

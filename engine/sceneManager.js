@@ -12,6 +12,8 @@ class SceneManager {
 
         this.coins = 0;
         this.crystals = 0;
+        this.crystalAttackPower = 50;
+        this.crystalDefensePower = 50;
         this.attackUpgradeCost = 1;
         this.defenseUpgradeCost = 2;
         this.healthUpgradeCost = 3;
@@ -23,6 +25,8 @@ class SceneManager {
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
 		this.archer = new Archer(this.game, this.heroX, this.heroY+60);
         this.mage = new Mage(this.game, this.heroX, this.heroY+90);
+        
+        this.boss = new Dragon(this.game, 350, 200);
 
         buildMapData();
         
@@ -185,12 +189,14 @@ class SceneManager {
                 this.game.addEntity(new Skeleton(this.game, ent.x, ent.y));
             }
         }
-        if (map.Dragon) {
-            for (var i = 0; i < map.Dragon.length; i++) {
-                let ent = map.Dragon[i];
-                this.game.addEntity(new Dragon(this.game, ent.x, ent.y));
-            }
-        }
+        // if (map.Dragon) {
+        //     for (var i = 0; i < map.Dragon.length; i++) {
+        //         let ent = map.Dragon[i];
+        //         this.game.addEntity(new Dragon(this.game, ent.x, ent.y));
+        //     }
+        // }
+        this.game.addEntity(this.boss);
+
         if (map.Archer) {
             for (var i = 0; i < map.Archer.length; i++) {
                 let ent = map.Archer[i];
