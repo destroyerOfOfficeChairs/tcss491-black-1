@@ -126,7 +126,7 @@ class SceneManager {
         if (map.Box) {
             for (var i = 0; i < map.Box.length; i++) {
                 let ent = map.Box[i];
-                this.game.addEntity(new Box(this.game, ent.x, ent.y));
+                this.game.addEntity(new Box(this.game, ent.x, ent.y, ent.item));
             }
         }
         if (map.Tree) {
@@ -196,6 +196,8 @@ class SceneManager {
         //     }
         // }
         this.game.addEntity(this.boss);
+        this.game.addEntity(new FireBreath(this.game, this.boss.x, this.boss.y));
+        //this.game.addEntity(new ShadowBall(this.game, this.boss.x, this.boss.y, this.boss.facing));
 
         if (map.Archer) {
             for (var i = 0; i < map.Archer.length; i++) {
@@ -206,7 +208,9 @@ class SceneManager {
         if (map.Mage) {
             for (var i = 0; i < map.Mage.length; i++) {
                 let ent = map.Mage[i];
-                this.game.addEntity(new Mage(this.game, ent.x, ent.y));
+                let mage = new Mage(this.game, ent.x, ent.y);
+                this.game.addEntity(mage);
+                this.game.addEntity(new Lightning(this.game, ent.x, ent.y, mage));
             }
         }
 
@@ -219,6 +223,7 @@ class SceneManager {
         this.game.addEntity(new MainMenu(this.game));
         this.game.addEntity(new Shop(this.game));
         this.game.addEntity(new Instructions(this.game));
+
     }
     
     loadBattle() {
@@ -252,6 +257,7 @@ class SceneManager {
 		this.mage.x = this.hero.x;
 		this.mage.y = this.archer.y + 40;
 		this.mage.battle = true;
+        this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
 		
 		// add enemies
 		this.goblin = new Goblin(this.game, 10, 10)

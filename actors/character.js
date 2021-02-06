@@ -20,6 +20,8 @@ class Hero {
         this.maxHealth = 100;
 		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
         this.canPass = false;
+
+        this.destroyBoxTimeElapsed = 0;
         
         this.updateBB();
 		this.animations = [];
@@ -202,6 +204,19 @@ class Hero {
                 }
 
                 if (entity instanceof Box) {
+                    if (that.game.attack1) {
+                        that.destroyBoxTimeElapsed += that.game.clockTick;
+                        if (that.destroyBoxTimeElapsed >= 0.0) {
+                            entity.removeFromWorld = true;
+                            if (entity.item != null) {
+                                if (entity.item == "coin") {
+                                    that.game.addEntity(new Coin(that.game, entity.x + 5, entity.y + 5));
+                                } else if (entity.item == "crystal") {
+                                    that.game.addEntity(new Crystal(that.game, entity.x + 5, entity.y + 5));
+                                }
+                            }
+                        }
+                    }
                     if (that.BB.collide(entity.topBB)) {
                         that.velocity.y = -MAX_WALK;
                     }
@@ -586,6 +601,8 @@ class Archer {
 		this.battle = false;
         this.stats = [100, 8, 3];
         this.stillAttacking = false;
+        this.timeElapsed = 0;
+        this.canShoot = false;
 
         this.animations=[];
         this.loadAnimations();
@@ -679,7 +696,7 @@ class Archer {
 		}
 		else {
 			this.facing = 1;
-			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
+			this.stillAttacking = this.state == 2 && !this.animations[1][this.facing].cycled;
 
 			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
 			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
@@ -688,6 +705,23 @@ class Archer {
 				this.state = 0;
 			}
 		}
+
+        if (this.game.attack1 || this.stillAttacking) {
+            if (this.timeElapsed >= 0.8 && this.timeElapsed <= 0.85 && this.canShoot) {
+                this.game.addEntity(new Arrow(this.game, this.x, this.y, this.facing, this));
+                this.canShoot = false;
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1.25) {
+                this.timeElapsed = 0;
+                this.canShoot = true;
+            }
+            //console.log(this.timeElapsed)
+        } else if (!this.game.attack1 && !this.stillAttacking) {
+            this.timeElapsed = 0;
+            this.canShoot = true;
+            //console.log(this.timeElapsed);
+        }
 
         
     };
@@ -739,6 +773,7 @@ class Mage {
 		this.battle = false;
         this.stats = [100, 8, 3];
         this.stillAttacking = false;
+        this.timeElapsed = 0;
         
         // this.animations.push(new Animator(this.spritesheet, 1, 150, 50, 15, 13, 0.1, 25, false, true));
         // this.animations.push(new Animator(this.spritesheet, 0, 150, 50, 15, 13, 0.1, 25, false, true));
@@ -794,6 +829,19 @@ class Mage {
 				this.state = 0;
 			}
 		}
+
+        if (this.game.attack2) {
+            if (this.timeElapsed == 0) {
+                this.game.addEntity(new FireBall(this.game, this.x, this.y, this.facing, this));
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1) {
+                this.timeElapsed = 0;
+                //this.game.attack2 = false;
+            }
+        } else {
+            this.timeElapsed = 0;
+        }
     };
 
     draw(ctx) {

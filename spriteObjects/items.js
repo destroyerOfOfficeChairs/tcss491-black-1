@@ -160,8 +160,8 @@ class Lock {
 }
 
 class Box {
-    constructor(game, x, y) {
-        Object.assign(this, { game, x, y });
+    constructor(game, x, y, item) {
+        Object.assign(this, { game, x, y, item });
 
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/boxes.png");
 

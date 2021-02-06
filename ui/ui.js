@@ -517,10 +517,11 @@ class Instructions {
             ctx.fillText("- L to toggle menu", this.backX, this.backY + 6 * this.padding);
             ctx.fillText("- N for battle mode, M for explore mode", this.backX, this.backY + 8 * this.padding);
             ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
-            ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 12 * this.padding);
-            ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 14 * this.padding);
-            ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 16 * this.padding);
-            ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 18 * this.padding);
+            ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
+            ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 14 * this.padding);
+            ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 16 * this.padding);
+            ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 18 * this.padding);
+            ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 20 * this.padding);
             // bounding boxes
             if (PARAMS.DEBUG) {
                 ctx.strokeStyle = 'Red';

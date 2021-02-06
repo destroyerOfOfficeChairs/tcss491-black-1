@@ -4,7 +4,7 @@ var debugMap = {
     DirtPath: [{x:150,y:75},{x:200,y:75},{x:250,y:75}],
     Bush: [{x:250,y:250}],
     Rock: [{x:20,y:20},{x:300,y:300}],
-    Box: [{x:100,y:180}],
+    Box: [{x:100,y:180,item:null},{x:100,y:340,item:"coin"},{x:250,y:200,item:"crystal"},{x:160,y:340,item:"coin"}],
     Tree: [{x:170,y:230}],
     Wall: [{x:20,y:200},{x:20,y:238}],
     Water: [{x:300,y:300},{x:363,y:300},{x:300,y:363},{x:363,y:363}],

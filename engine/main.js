@@ -19,6 +19,12 @@ ASSET_MANAGER.queueDownload("./sprites/lockeddoors.png");
 ASSET_MANAGER.queueDownload("./sprites/lock.png");
 ASSET_MANAGER.queueDownload("./sprites/key.png");
 
+ASSET_MANAGER.queueDownload("./sprites/firebreath.png");
+ASSET_MANAGER.queueDownload("./sprites/shadowball.png");
+ASSET_MANAGER.queueDownload("./sprites/arrow.png");
+ASSET_MANAGER.queueDownload("./sprites/lightning.png");
+ASSET_MANAGER.queueDownload("./sprites/fireball.png");
+
 ASSET_MANAGER.queueDownload("./sprites/archer.png");
 ASSET_MANAGER.queueDownload("./sprites/mage.png");
 ASSET_MANAGER.queueDownload("./sprites/Hero.png");

@@ -12,7 +12,9 @@ class Dragon {
         this.velocity = { x: 0, y: 0 };
 		this.stats = [500, 150, 150]; // stats = [hp, att, def]
 
+        this.timeElapsed = 0;
         this.stillAttacking = false;
+        this.hasShadowBall = true;
 
         this.animations = [];
         this.loadAnimations();
@@ -142,11 +144,19 @@ class Dragon {
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
 		
-		this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
-        this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-            this.state = 2;
+        if (this.game.attack2) {
+            if (this.timeElapsed == 0) {
+                this.game.addEntity(new ShadowBall(this.game, this.x, this.y, this.facing));
+                this.hasShadowBall = true;
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 2) {
+                this.timeElapsed = 0;
+                //this.game.attack2 = false;
+            }
+        } else {
+            this.timeElapsed = 0;
         }
     }
 
@@ -316,12 +326,6 @@ class Goblin {
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
 		
-		this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
-
-        this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-            this.state = 2;
-        }
     }
 
     draw(ctx) {

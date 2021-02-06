@@ -24,6 +24,7 @@ class GameEngine {
 		this.battleui = false;
 
         this.attack1 = false;
+        this.attack2 = false;
         
         this.gameStates = ["titleScreen", "dungeonMap", "battleScene", "worldMap"];
         this.currentState = this.gameStates[0];
@@ -60,7 +61,7 @@ class GameEngine {
 					that.m = true;
 					break;
 			}
-		}, false);
+		}, false);   
 
         this.ctx.canvas.addEventListener("keydown", function (e) {
             switch (e.code) {
@@ -82,6 +83,9 @@ class GameEngine {
                     break;
                 case "KeyB":
                     that.attack1 = true;
+                    break;
+                case "KeyV":
+                    that.attack2 = true;
                     break;
                 case "KeyL":
                     that.menu = !that.menu;
@@ -109,6 +113,9 @@ class GameEngine {
                     break;
                 case "KeyB":
                     that.attack1 = false;
+                    break;
+                case "KeyV":
+                    that.attack2 = false;
                     break;
 				case "KeyN":
 					that.n = false;
