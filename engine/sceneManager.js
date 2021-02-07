@@ -53,7 +53,7 @@ class SceneManager {
         PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.game.currentState) {
             case this.game.gameStates[0]:
-                if (this.game.attack1) this.loadMap(this.game.currentMap, this.heroX, this.heroY);
+                if (this.game.attack1) this.loadMap(this.game.currentMap, 130, 130);
                 break;
             case this.game.gameStates[1]:
                 // center camera on hero during level exploration
