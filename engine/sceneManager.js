@@ -218,6 +218,7 @@ class SceneManager {
         this.hero.y = y;
         this.hero.battle = false;
         this.game.addEntity(this.hero);
+        this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
         
         this.game.addEntity(new HeadsUpDisplay(this.game));
         this.game.addEntity(new MainMenu(this.game));
@@ -244,6 +245,7 @@ class SceneManager {
 		this.hero.x = 200;
 		this.hero.y = 5;
 		this.hero.battle = true;
+        this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
 		//console.log("Battle hero: " + this.hero.x + ", " + this.hero.y);
 		this.game.addEntity(this.cleric);
 		this.cleric.x = this.hero.x;

@@ -226,3 +226,47 @@ class FireBall {
 
     }
 }
+
+class Slash {
+    constructor(game, x, y, entity) {
+        Object.assign(this, { game, x, y , entity });
+        this.width = 103;
+        this.height = 103;
+        this.scale = 1/4;
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/slash.png");
+        this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+
+    }
+
+    update() {
+        //this.x = this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale);
+        //this.y = this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale)
+
+        //if (this.facing == 0) {
+            this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        //} else if (this.facing == 1) {
+            this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        //}
+    }
+
+    draw(ctx) {
+        if (this.game.attack1) {
+            if (this.entity.facing == 0) {//facing right
+                ctx.drawImage(this.spritesheet, 74, 20, this.width, this.height, this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.entity.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+            } else if (this.entity.facing == 1) {//facing left
+                ctx.save();
+                ctx.scale(-1, 1);
+                ctx.drawImage(this.spritesheet, 74, 20, this.width, this.height, -(this.entity.x - this.game.camera.x), this.entity.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+                ctx.restore();
+            }
+        }
+
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.rightBB.x - this.game.camera.x, this.rightBB.y - this.game.camera.y, this.rightBB.width, this.rightBB.height);
+            ctx.strokeRect(this.leftBB.x - this.game.camera.x, this.leftBB.y - this.game.camera.y, this.leftBB.width, this.leftBB.height);
+        }
+
+    }
+}
