@@ -53,7 +53,7 @@ class SceneManager {
         PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.game.currentState) {
             case this.game.gameStates[0]:
-                if (this.game.attack1) this.loadMap(this.game.currentMap, 130, 130);
+                if (this.game.attack1) this.loadMap(this.game.currentMap, this.heroX, this.heroY);
                 break;
             case this.game.gameStates[1]:
                 // center camera on hero during level exploration
@@ -116,6 +116,12 @@ class SceneManager {
             for (var i = 0; i < map.CastleWall1RightCorner.length; i++) {
                 let ent = map.CastleWall1RightCorner[i];
                 this.game.addEntity(new CastleWall1RightCorner(this.game, ent.x, ent.y));
+            }
+        }
+        if (map.CastleWall1RightEdge) {
+            for (var i = 0; i < map.CastleWall1RightEdge.length; i++) {
+                let ent = map.CastleWall1RightEdge[i];
+                this.game.addEntity(new CastleWall1RightEdge(this.game, ent.x, ent.y));
             }
         }
         if (map.Grass1) {
