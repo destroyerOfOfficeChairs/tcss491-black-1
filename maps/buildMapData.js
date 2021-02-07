@@ -29,4 +29,12 @@ function buildStartMap() {
             index = index + 1;
         }
     }
+    var walls = startMap.CastleWall1Mid.length;
+    for (var i = walls; i < walls+16; i++) {
+        startMap.CastleWall1Mid[i] = {x:1079+i*32,y:1700};
+    }
+    walls = startMap.CastleWall1RightEdge.length;
+    for (var i = walls; i < walls+16; i++) {
+        startMap.CastleWall1RightEdge[i] = {x:1607,y:1684-i*16};
+    }
 }
