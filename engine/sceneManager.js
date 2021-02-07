@@ -7,8 +7,8 @@ class SceneManager {
         this.midpoint = PARAMS.CANVASWIDTH/2;
         this.padding = 5;
 
-		this.heroX = 130;
-        this.heroY = 130;
+		this.heroX = 1024;
+        this.heroY = 1900;
 
         this.coins = 0;
         this.crystals = 0;
@@ -50,7 +50,7 @@ class SceneManager {
         PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.game.currentState) {
             case this.game.gameStates[0]:
-                if (this.game.attack1) this.loadMap(this.game.currentMap, 130, 130);
+                if (this.game.attack1) this.loadMap(this.game.currentMap, this.heroX, this.heroY);
                 break;
             case this.game.gameStates[1]:
                 // center camera on hero during level exploration
@@ -94,7 +94,25 @@ class SceneManager {
         if (map.CastleFloor1) {
             for (var i = 0; i < map.CastleFloor1.length; i++) {
                 let ent = map.CastleFloor1[i];
-                this.game.addEntity(new CastleFloor1(this.game, ent.x, ent.y))
+                this.game.addEntity(new CastleFloor1(this.game, ent.x, ent.y));
+            }
+        }
+        if (map.CastleWall1Mid) {
+            for (var i = 0; i < map.CastleWall1Mid.length; i++) {
+                let ent = map.CastleWall1Mid[i];
+                this.game.addEntity(new CastleWall1Mid(this.game, ent.x, ent.y));
+            }
+        }
+        if (map.CastleWall1LeftCorner) {
+            for (var i = 0; i < map.CastleWall1LeftCorner.length; i++) {
+                let ent = map.CastleWall1LeftCorner[i];
+                this.game.addEntity(new CastleWall1LeftCorner(this.game, ent.x, ent.y));
+            }
+        }
+        if (map.CastleWall1RightCorner) {
+            for (var i = 0; i < map.CastleWall1RightCorner.length; i++) {
+                let ent = map.CastleWall1RightCorner[i];
+                this.game.addEntity(new CastleWall1RightCorner(this.game, ent.x, ent.y));
             }
         }
         if (map.Grass1) {
