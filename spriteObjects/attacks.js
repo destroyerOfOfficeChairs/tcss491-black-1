@@ -38,8 +38,8 @@ class FireBreath {
 
 
 class ShadowBall {
-    constructor(game, x, y, facing) {
-        Object.assign(this, { game, x, y , facing});
+    constructor(game, x, y, facing, entity) {
+        Object.assign(this, { game, x, y , facing, entity });
         this.width = 676;
         this.height = 676;
         this.scale = 1/20;
@@ -48,9 +48,9 @@ class ShadowBall {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/shadowball.png");
         this.BB = null;
         if (this.facing == 0) {
-            this.BB = new BoundingBox(this.x + (this.theDragon.width * PARAMS.SCALE * this.theDragon.scale), this.y + (1/4 * this.theDragon.height * PARAMS.SCALE * this.theDragon.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+            this.BB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         } else if (this.facing == 1) {
-            this.BB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y + (1/4 * this.theDragon.height * PARAMS.SCALE * this.theDragon.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+            this.BB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         }
     }
 
@@ -60,22 +60,22 @@ class ShadowBall {
             if (this.x - this.startingX > 100) {
                 this.removeFromWorld = true;
             }
-            this.BB = new BoundingBox(this.x + (this.theDragon.width * PARAMS.SCALE * this.theDragon.scale), this.y + (1/4 * this.theDragon.height * PARAMS.SCALE * this.theDragon.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+            this.BB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         } else if (this.facing == 1) {
             this.x -= 2;
             if (this.x - this.startingX < -100) {
                 this.removeFromWorld = true;
             }
-            this.BB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y + (1/4 * this.theDragon.height * PARAMS.SCALE * this.theDragon.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+            this.BB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         }
     }
 
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
-                ctx.drawImage(this.spritesheet, 142, 85, this.width, this.height, this.x + (this.theDragon.width * PARAMS.SCALE * this.theDragon.scale) - this.game.camera.x, this.y + (1/4 * this.theDragon.height * PARAMS.SCALE * this.theDragon.scale) - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+                ctx.drawImage(this.spritesheet, 142, 85, this.width, this.height, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale) - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             } else if (this.facing == 1) {
-                ctx.drawImage(this.spritesheet, 142, 85, this.width, this.height, this.x - (this.width * PARAMS.SCALE * this.scale) - this.game.camera.x, this.y + (1/4 * this.theDragon.height * PARAMS.SCALE * this.theDragon.scale) - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+                ctx.drawImage(this.spritesheet, 142, 85, this.width, this.height, this.x - (this.width * PARAMS.SCALE * this.scale) - this.game.camera.x, this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale) - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             }
         }
 

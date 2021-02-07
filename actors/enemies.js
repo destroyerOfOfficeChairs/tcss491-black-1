@@ -147,7 +147,7 @@ class Dragon {
 
         if (this.game.attack2) {
             if (this.timeElapsed == 0) {
-                this.game.addEntity(new ShadowBall(this.game, this.x, this.y, this.facing));
+                this.game.addEntity(new ShadowBall(this.game, this.x, this.y, this.facing, this));
                 this.hasShadowBall = true;
             }
             this.timeElapsed += TICK;
