@@ -7,8 +7,11 @@ class SceneManager {
         this.midpoint = PARAMS.CANVASWIDTH/2;
         this.padding = 5;
 
-		this.heroX = 1024;
-        this.heroY = 1900;
+        // uncomment this when starting on startMap
+		// this.heroX = 1024;
+        // this.heroY = 1900;
+        this.heroX = 130;
+        this.heroY = 130;
 
         this.coins = 0;
         this.crystals = 0;
