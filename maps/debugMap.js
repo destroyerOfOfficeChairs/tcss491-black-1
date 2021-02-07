@@ -17,6 +17,7 @@ var debugMap = {
     Goblin: [{x:96,y:32}],
     Bat: [{x:256,y:128}],
     Skeleton: [{x:160,y:32}],
+    Dragon: [{x:385,y:180}],
 
     Archer: [{x:30,y:80}],
     Mage: [{x:100,y:100}]

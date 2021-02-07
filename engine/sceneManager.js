@@ -26,7 +26,11 @@ class SceneManager {
 		this.archer = new Archer(this.game, this.heroX, this.heroY+60);
         this.mage = new Mage(this.game, this.heroX, this.heroY+90);
         
-        this.boss = new Dragon(this.game, 350, 200);
+        // commented this out because the dragon should be added as JSON
+        // otherwise he shows up in every map.  I'm pretty sure every entity
+        // will behave this way, so it's important to add them via JSON from
+        // now on.
+        // this.boss = new Dragon(this.game, 350, 200);
 
         buildMapData();
         
@@ -189,14 +193,16 @@ class SceneManager {
                 this.game.addEntity(new Skeleton(this.game, ent.x, ent.y));
             }
         }
-        // if (map.Dragon) {
-        //     for (var i = 0; i < map.Dragon.length; i++) {
-        //         let ent = map.Dragon[i];
-        //         this.game.addEntity(new Dragon(this.game, ent.x, ent.y));
-        //     }
-        // }
-        this.game.addEntity(this.boss);
-        this.game.addEntity(new FireBreath(this.game, this.boss.x, this.boss.y));
+        if (map.Dragon) {
+            for (var i = 0; i < map.Dragon.length; i++) {
+                let ent = map.Dragon[i];
+                let theDragon = new Dragon(this.game, ent.x, ent.y);
+                this.game.addEntity(theDragon);
+                this.game.addEntity(new FireBreath(this.game, ent.x, ent.y, theDragon));
+            }
+        }
+        // this.game.addEntity(this.boss);
+        // this.game.addEntity(new FireBreath(this.game, this.boss.x, this.boss.y));
         //this.game.addEntity(new ShadowBall(this.game, this.boss.x, this.boss.y, this.boss.facing));
 
         if (map.Archer) {
