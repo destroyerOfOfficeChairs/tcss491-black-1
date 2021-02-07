@@ -10,7 +10,6 @@ class SceneManager {
         // uncomment this when starting on startMap
 		// this.heroX = 1024;
         // this.heroY = 1900;
-        // Why is the hero still appearing in a field of white on the debug map?
         this.heroX = 130;
         this.heroY = 130;
 
