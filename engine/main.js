@@ -25,6 +25,15 @@ ASSET_MANAGER.queueDownload("./sprites/arrow.png");
 ASSET_MANAGER.queueDownload("./sprites/lightning.png");
 ASSET_MANAGER.queueDownload("./sprites/fireball.png");
 ASSET_MANAGER.queueDownload("./sprites/slash.png");
+ASSET_MANAGER.queueDownload("./sprites/bonedart.png");
+ASSET_MANAGER.queueDownload("./sprites/scratch.png");
+ASSET_MANAGER.queueDownload("./sprites/sonicwave.png");
+ASSET_MANAGER.queueDownload("./sprites/sparkle.png");
+ASSET_MANAGER.queueDownload("./sprites/missile.png");
+ASSET_MANAGER.queueDownload("./sprites/laser.png");
+ASSET_MANAGER.queueDownload("./sprites/superslash.png");
+ASSET_MANAGER.queueDownload("./sprites/spiritball.png");
+ASSET_MANAGER.queueDownload("./sprites/spell.png");
 
 ASSET_MANAGER.queueDownload("./sprites/archer.png");
 ASSET_MANAGER.queueDownload("./sprites/mage.png");

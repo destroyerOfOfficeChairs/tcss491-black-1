@@ -20,6 +20,7 @@ class Hero {
         this.maxHealth = 100;
 		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
         this.canPass = false;
+        this.timeElapsed = 0;
 
         this.destroyBoxTimeElapsed = 0;
         
@@ -162,6 +163,18 @@ class Hero {
         //     this.velocity.y = 0;
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
+
+        if (this.game.attack2) {
+            if (this.timeElapsed == 0) {
+                this.game.addEntity(new SuperSlash(this.game, this.x, this.y, this.facing, this));
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1) {
+                this.timeElapsed = 0;
+            }
+        } else {
+            this.timeElapsed = 0;
+        }
 
         //collisions
         var that = this;
@@ -450,6 +463,7 @@ class Cleric {
 		this.battle = true;
 		this.stats = [100, 8, 3];
 		// stats = [hp, att, def]
+        this.timeElapsed = 0;
 		
 		this.animations = [];
 		this.loadAnimations();
@@ -494,7 +508,7 @@ class Cleric {
 
 
         // attacking right
-        this.animations[2][0] = new Animator(this.spritesheet, 160, 143, this.width, this.height, 2, 0.09, 96, false, true, false);
+        this.animations[2][0] = new Animator(this.spritesheet, 130, 143, this.width, this.height, 2, 0.09, 96, false, true, false);
         
         // attacking left
         this.animations[2][1] = new Animator(this.spritesheet, 160, 143, this.width, this.height, 2, 0.09, 96, false, true, false);
@@ -512,7 +526,7 @@ class Cleric {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-		if (this.battle == false) {
+		if (!this.game.camera.battle) {
 			if (this.game.down && !this.game.up) { // keyboard input of down
 				this.facing = 2;
 				this.velocity.y += MIN_WALK;
@@ -556,6 +570,18 @@ class Cleric {
 				this.state = 2;
 			}
 		}
+
+        if (this.game.attack2) {
+            if (this.timeElapsed == 0) {
+                this.game.addEntity(new SpiritBall(this.game, this.x, this.y, this.facing, this));
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1) {
+                this.timeElapsed = 0;
+            }
+        } else {
+            this.timeElapsed = 0;
+        }
     };
 
     draw(ctx) {
@@ -563,17 +589,17 @@ class Cleric {
         let yPosition = this.y;
 
         //adjusting the positions of the drawings to make it fit because the png sucks
-        if (this.state == 2) { // if attacking
-            if (this.facing == 1) { // if facing left
-                xPosition -= (7 * PARAMS.SCALE);
-            } else if (this.facing == 2) { // if facing down
-                yPosition -= (1 * PARAMS.SCALE);
-            } else if (this.facing == 3) { // if facing up
-                yPosition -= 8 * PARAMS.SCALE;
-            }
-        }
+        // if (this.state == 2) { // if attacking
+        //     if (this.facing == 1) { // if facing left
+        //         xPosition -= (7 * PARAMS.SCALE);
+        //     } else if (this.facing == 2) { // if facing down
+        //         yPosition -= (1 * PARAMS.SCALE);
+        //     } else if (this.facing == 3) { // if facing up
+        //         yPosition -= 8 * PARAMS.SCALE;
+        //     }
+        // }
         
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition, yPosition, PARAMS.SCALE * this.scale);
+        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE * this.scale);
 
         //for testing boundaries
         /*ctx.fillStyle = "Black";
@@ -601,8 +627,11 @@ class Archer {
 		this.battle = false;
         this.stats = [100, 8, 3];
         this.stillAttacking = false;
+        this.stillAttackingSpecial = false;
         this.timeElapsed = 0;
+        this.timeElapsedSpecial = 0;
         this.canShoot = false;
+        this.projectile = 0; // 0 is arrow, 1 is missile
 
         this.animations=[];
         this.loadAnimations();
@@ -657,7 +686,7 @@ class Archer {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-		if (this.battle == false) {
+		if (!this.battle) {
 			if (this.game.down && !this.game.up) { // keyboard input of down
 				this.facing = 3;
 				this.velocity.y += MIN_WALK;
@@ -685,30 +714,27 @@ class Archer {
 			if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
 			if (this.velocity.y <= -MAX_WALK) this.velocity.y = -MAX_WALK;
 
-			this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
-
-			//this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : [state # for walking];
-			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-				this.state = 1;
-			} else {
-                this.state = 0;
-            }
-		}
-		else {
+		} else {
 			this.facing = 1;
-			this.stillAttacking = this.state == 2 && !this.animations[1][this.facing].cycled;
-
-			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-				this.state = 1;
-			} else {
-				this.state = 0;
-			}
+			
 		}
+        this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
 
-        if (this.game.attack1 || this.stillAttacking) {
+        if (this.game.attack1) {
+            this.projectile = 0;
+        } else if (this.game.attack2) {
+            this.projectile = 1;
+        }
+
+		this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
+		if (this.game.attack1 || this.game.attack2 || this.stillAttacking) { // attacks when B or V is pressed
+			this.state = 1;
             if (this.timeElapsed >= 0.8 && this.timeElapsed <= 0.85 && this.canShoot) {
-                this.game.addEntity(new Arrow(this.game, this.x, this.y, this.facing, this));
+                if (this.projectile == 0) {
+                    this.game.addEntity(new Arrow(this.game, this.x, this.y, this.facing, this));
+                } else if (this.projectile == 1) {
+                    this.game.addEntity(new Missile(this.game, this.x, this.y, this.facing, this));
+                }
                 this.canShoot = false;
             }
             this.timeElapsed += TICK;
@@ -716,14 +742,11 @@ class Archer {
                 this.timeElapsed = 0;
                 this.canShoot = true;
             }
-            //console.log(this.timeElapsed)
-        } else if (!this.game.attack1 && !this.stillAttacking) {
+		} else if ((!this.game.attack1 || this.game.attack2) && !this.stillAttacking) {
             this.timeElapsed = 0;
             this.canShoot = true;
-            //console.log(this.timeElapsed);
-        }
-
-        
+            this.state = 0;
+        }        
     };
 
     draw(ctx) {

@@ -199,6 +199,8 @@ class Goblin {
         this.velocity = { x: 0, y: 0 };
 		this.stats = [50, 5, 1];
 		// stats = [hp, att, def]
+        this.timeelapsed = 0;
+        this.canShoot = true;
 
         this.stillAttacking = false;
 
@@ -270,26 +272,28 @@ class Goblin {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
-            this.facing = 2;
-            //this.velocity.y += MIN_WALK;
-        } else if (!this.game.down && this.game.up) { // keyboard input of up
-            this.facing = 3;
-            //this.velocity.y -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.y = 0;
-        }
-
-        if (this.game.right && !this.game.left) { //keyboard input of right
-            this.facing = 0;
-            //this.velocity.x += MIN_WALK;
-        } else if (!this.game.right && this.game.left) { // keyboard input of left
-            this.facing = 1;
-            //this.velocity.x -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.x = 0;
+        if (!this.game.camera.battle) {
+            if (this.game.down && !this.game.up) { // keyboard input of down
+                this.facing = 2;
+                //this.velocity.y += MIN_WALK;
+            } else if (!this.game.down && this.game.up) { // keyboard input of up
+                this.facing = 3;
+                //this.velocity.y -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.y = 0;
+            }
+    
+            if (this.game.right && !this.game.left) { //keyboard input of right
+                this.facing = 0;
+                //this.velocity.x += MIN_WALK;
+            } else if (!this.game.right && this.game.left) { // keyboard input of left
+                this.facing = 1;
+                //this.velocity.x -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.x = 0;
+            }
         }
 
         // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
@@ -302,6 +306,23 @@ class Goblin {
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
         if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
             this.state = 2;
+        }
+
+        if (this.game.attack2) {
+            if (this.timeElapsed >= 0 && this.canShoot) {
+                this.game.addEntity(new Laser(this.game, this.x, this.y, this.facing, this));
+                this.canShoot = false;
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1) {
+                this.timeElapsed = 0;
+                this.canShoot = true;
+            }
+            //console.log(this.timeElapsed)
+        } else {
+            this.timeElapsed = 0;
+            this.canShoot = true;
+            //console.log(this.timeElapsed);
         }
 
         // update position
@@ -376,6 +397,8 @@ class Bat {
         this.velocity = { x: 0, y: 0 };
 		this.stats = [25, 3, 0];
 		// stats = [hp, att, def]
+        this.timeElapsed = 0;
+        this.canShoot = false;
 		
         this.animations = [];
         this.loadAnimations();
@@ -414,26 +437,28 @@ class Bat {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
-            this.facing = 2;
-            //this.velocity.y += MIN_WALK;
-        } else if (!this.game.down && this.game.up) { // keyboard input of up
-            this.facing = 3;
-            //this.velocity.y -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.y = 0;
-        }
-
-        if (this.game.right && !this.game.left) { //keyboard input of right
-            this.facing = 0;
-            //this.velocity.x += MIN_WALK;
-        } else if (!this.game.right && this.game.left) { // keyboard input of left
-            this.facing = 1;
-            //this.velocity.x -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.x = 0;
+        if (!this.game.camera.battle) {
+            if (this.game.down && !this.game.up) { // keyboard input of down
+                this.facing = 2;
+                //this.velocity.y += MIN_WALK;
+            } else if (!this.game.down && this.game.up) { // keyboard input of up
+                this.facing = 3;
+                //this.velocity.y -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.y = 0;
+            }
+    
+            if (this.game.right && !this.game.left) { //keyboard input of right
+                this.facing = 0;
+                //this.velocity.x += MIN_WALK;
+            } else if (!this.game.right && this.game.left) { // keyboard input of left
+                this.facing = 1;
+                //this.velocity.x -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.x = 0;
+            }
         }
 
         // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
@@ -464,6 +489,23 @@ class Bat {
         //     this.velocity.y = 0;
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
+
+        if (this.game.attack2) {
+            if (this.timeElapsed >= 0 && this.canShoot) {
+                this.game.addEntity(new SonicWave(this.game, this.x, this.y, this.facing, this));
+                this.canShoot = false;
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1) {
+                this.timeElapsed = 0;
+                this.canShoot = true;
+            }
+            //console.log(this.timeElapsed)
+        } else {
+            this.timeElapsed = 0;
+            this.canShoot = true;
+            //console.log(this.timeElapsed);
+        }
     }
 
     draw(ctx) {
@@ -501,6 +543,9 @@ class Skeleton {
         //this.steps = 0; // number of steps skeleton has taken
         this.velocity = { x: 0, y: 0 };
 		this.stillAttacking = false;
+        this.timeElapsed = 0;
+        this.canShoot = false;
+
 		this.stats = [75, 8, 3];
 		// stats = [hp, att, def]
 		
@@ -558,26 +603,28 @@ class Skeleton {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
-            this.facing = 2;
-            //this.velocity.y += MIN_WALK;
-        } else if (!this.game.down && this.game.up) { // keyboard input of up
-            this.facing = 3;
-            //this.velocity.y -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.y = 0;
-        }
-
-        if (this.game.right && !this.game.left) { //keyboard input of right
-            this.facing = 0;
-            //this.velocity.x += MIN_WALK;
-        } else if (!this.game.right && this.game.left) { // keyboard input of left
-            this.facing = 1;
-            //this.velocity.x -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.x = 0;
+        if (!this.game.camera.battle) {
+            if (this.game.down && !this.game.up) { // keyboard input of down
+                this.facing = 2;
+                //this.velocity.y += MIN_WALK;
+            } else if (!this.game.down && this.game.up) { // keyboard input of up
+                this.facing = 3;
+                //this.velocity.y -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.y = 0;
+            }
+    
+            if (this.game.right && !this.game.left) { //keyboard input of right
+                this.facing = 0;
+                //this.velocity.x += MIN_WALK;
+            } else if (!this.game.right && this.game.left) { // keyboard input of left
+                this.facing = 1;
+                //this.velocity.x -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.x = 0;
+            }
         }
 
         // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
@@ -614,6 +661,23 @@ class Skeleton {
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
         if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
             this.state = 1;
+        }
+
+        if (this.game.attack1 || this.stillAttacking) {
+            if (this.timeElapsed >= 0 && this.canShoot) {
+                this.game.addEntity(new BoneDart(this.game, this.x, this.y, this.facing, this));
+                this.canShoot = false;
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1) {
+                this.timeElapsed = 0;
+                this.canShoot = true;
+            }
+            //console.log(this.timeElapsed)
+        } else if (!this.game.attack1 && !this.stillAttacking) {
+            this.timeElapsed = 0;
+            this.canShoot = true;
+            //console.log(this.timeElapsed);
         }
 		
     }

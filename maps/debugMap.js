@@ -20,5 +20,6 @@ var debugMap = {
     Dragon: [{x:385,y:180}],
 
     Archer: [{x:30,y:80}],
-    Mage: [{x:100,y:100}]
+    Mage: [{x:100,y:100}],
+    Cleric: [{x:400,y:50}]
 }

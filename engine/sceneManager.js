@@ -23,6 +23,7 @@ class SceneManager {
         this.attackUpgrade = 2;
         this.defenseUpgrade = 1;
         this.healthUpgrade = 10;
+        this.battle = false;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -66,6 +67,7 @@ class SceneManager {
                     this.heroY = this.hero.y;
                     this.game.currentState = this.game.gameStates[2];
                     this.sleep(200);
+                    this.battle = true;
                     this.loadBattle();
                 }
                 break;
@@ -77,6 +79,7 @@ class SceneManager {
                 // press M to go back to the current dungeon map
                 if(this.game.m){
                     this.sleep(200);
+                    this.battle = false;
                     this.loadMap(this.game.currentMap, this.heroX, this.heroY);
                 }
                 break;
@@ -211,13 +214,17 @@ class SceneManager {
         if (map.Bat) {
             for (var i = 0; i < map.Bat.length; i++) {
                 let ent = map.Bat[i];
-                this.game.addEntity(new Bat(this.game, ent.x, ent.y));
+                let bat = new Bat(this.game, ent.x, ent.y)
+                this.game.addEntity(bat);
+                this.game.addEntity(new Scratch(this.game, ent.x, ent.y, bat));
             }
         }
         if (map.Skeleton) {
             for (var i = 0; i < map.Skeleton.length; i++) {
                 let ent = map.Skeleton[i];
-                this.game.addEntity(new Skeleton(this.game, ent.x, ent.y));
+                let skeleton = new Skeleton(this.game, ent.x, ent.y)
+                this.game.addEntity(skeleton);
+                this.game.addEntity(new DeathStare(this.game, ent.x, ent.y, skeleton));
             }
         }
         if (map.Dragon) {
@@ -246,6 +253,17 @@ class SceneManager {
                 this.game.addEntity(new Lightning(this.game, ent.x, ent.y, mage));
             }
         }
+        if (map.Cleric) {
+            for (var i = 0; i < map.Cleric.length; i++) {
+                let ent = map.Cleric[i];
+                let cleric = new Cleric(this.game, ent.x, ent.y);
+                this.game.addEntity(cleric);
+                this.game.addEntity(new Spell(this.game, ent.x, ent.y, cleric));
+            }
+        }
+
+        //this.game.addEntity(this.cleric);
+        //this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
 
         this.hero.x = x;
         this.hero.y = y;
@@ -283,6 +301,7 @@ class SceneManager {
 		this.game.addEntity(this.cleric);
 		this.cleric.x = this.hero.x;
 		this.cleric.y = this.hero.y + 35;
+        this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
 		//console.log("Battle cleric: " + this.cleric.x + ", " + this.cleric.y);
 		this.game.addEntity(this.archer);
 		this.archer.x = this.hero.x;
@@ -299,8 +318,11 @@ class SceneManager {
 		this.game.addEntity(this.goblin);
 		this.bat = new Bat(this.game, 20, 60)
         this.game.addEntity(this.bat);
+        this.game.addEntity(new Scratch(this.game, this.bat.x, this.bat.y, this.bat));
+        
 		this.skeleton = new Skeleton(this.game, 20, 100)
         this.game.addEntity(this.skeleton);
+        this.game.addEntity(new DeathStare(this.game, this.skeleton.x, this.skeleton.y, this.skeleton));
         
         this.game.addEntity(new HeadsUpDisplay(this.game));
         this.game.addEntity(new MainMenu(this.game));
