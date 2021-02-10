@@ -8,11 +8,11 @@ class Hero {
 		this.y = y;
 		this.name = "H e r o";
 		
-		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
+		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/knightFullSpriteSheet.png");
         
-        this.scale = 9/16;
-		this.width = 32;
-        this.height = 50;
+        this.scale = 2;
+		this.width = 16;
+        this.height = 16;
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
@@ -51,44 +51,44 @@ class Hero {
         }
 
         // idle right
-        this.animations[0][0] = new Animator(this.spritesheet, 193, 15, this.width, this.height, 1, 10, 96, false, true, false);
+        this.animations[0][0] = new Animator(this.spritesheet, 32, 0, this.width, this.height, 1, 10, 0, false, true, false);
         
         // idle left
-        this.animations[0][1] = new Animator(this.spritesheet, 225, 15, this.width, this.height, 1, 10, 96, false, true, false);
+        this.animations[0][1] = new Animator(this.spritesheet, 16, 0, this.width, this.height, 1, 10, 0, false, true, false);
         
         // idle down
-        this.animations[0][2] = new Animator(this.spritesheet, 0, 15, this.width, this.height, 1, 10, 96, false, true, false);
+        this.animations[0][2] = new Animator(this.spritesheet, 0, 0, this.width, this.height, 1, 10, 0, false, true, false);
         
         // idle up
-        this.animations[0][3] = new Animator(this.spritesheet, 32, 15, this.width, this.height, 1, 10, 96, false, true, false);
+        this.animations[0][3] = new Animator(this.spritesheet, 48, 0, this.width, this.height, 1, 10, 0, false, true, false);
         
 
 
         // walking right
-        this.animations[1][0] = new Animator(this.spritesheet, 65, 15, this.width, this.height, 2, 0.15, 96, false, true, false);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 48, this.width, this.height, 4, 0.15, 0, false, true, false);
         
         // walking left
-        this.animations[1][1] = new Animator(this.spritesheet, 96, 15, this.width, this.height, 2, 0.15, 96, true, true, false);
+        this.animations[1][1] = new Animator(this.spritesheet, 0, 32, this.width, this.height, 4, 0.15, 0, false, true, false);
         
         // walking down
-        this.animations[1][2] = new Animator(this.spritesheet, 0, 15, this.width, this.height, 2, 0.15, 96, false, true, false);
+        this.animations[1][2] = new Animator(this.spritesheet, 0, 16, this.width, this.height, 4, 0.15, 0, false, true, false);
         
         // walking up
-        this.animations[1][3] = new Animator(this.spritesheet, 33, 15, this.width, this.height, 2, 0.15, 96, false, true, false);
+        this.animations[1][3] = new Animator(this.spritesheet, 0, 64, this.width, this.height, 4, 0.15, 0, false, true, false);
 
 
 
         // attacking right
-        this.animations[2][0] = new Animator(this.spritesheet, 65, 15, this.width, this.height, 2, 0.09, 96, false, true, false);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 112, this.width, this.height, 4, 0.09, 0, false, true, false);
         
         // attacking left
-        this.animations[2][1] = new Animator(this.spritesheet, 96, 15, this.width, this.height, 2, 0.09, 96, true, true, false);
+        this.animations[2][1] = new Animator(this.spritesheet, 0, 96, this.width, this.height, 4, 0.09, 0, false, true, false);
         
         // attacking down
-        this.animations[2][2] = new Animator(this.spritesheet, 0, 15, this.width, this.height + 7, 2, 0.09, 96, false, true, false);
+        this.animations[2][2] = new Animator(this.spritesheet, 0, 80, this.width, this.height, 4, 0.09, 0, false, true, false);
         
         // attacking up
-        this.animations[2][3] = new Animator(this.spritesheet, 32, 15, this.width, this.height + 7, 2, 0.09, 96, false, true, false);
+        this.animations[2][3] = new Animator(this.spritesheet, 0, 128, this.width, this.height, 4, 0.09, 0, false, true, false);
 
     };
 	

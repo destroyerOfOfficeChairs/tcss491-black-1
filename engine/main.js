@@ -38,6 +38,7 @@ ASSET_MANAGER.queueDownload("./sprites/spell.png");
 ASSET_MANAGER.queueDownload("./sprites/archer.png");
 ASSET_MANAGER.queueDownload("./sprites/mage.png");
 ASSET_MANAGER.queueDownload("./sprites/Hero.png");
+ASSET_MANAGER.queueDownload("./sprites/knightFullSpriteSheet.png");
 ASSET_MANAGER.queueDownload("./sprites/dragon.png");
 ASSET_MANAGER.queueDownload("./sprites/goblin.png");
 ASSET_MANAGER.queueDownload("./sprites/bat.png");
