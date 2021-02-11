@@ -18,6 +18,9 @@ class Npc1 {
         this.animations.push(new Animator(this.spritesheet, 5, 13, 70, 100, 13, 0.1, 10, false, true));
     };
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if(this.direction == 0) {
             this.animations[1].drawFrame(this.game.clockTick, ctx, this.x, this.y, 0.7);

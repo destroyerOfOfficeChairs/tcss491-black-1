@@ -5,6 +5,7 @@
 function buildMapData() {
     buildDebugMap();
     buildStartMap();
+    buildMap2();
 };
 
 function buildDebugMap() {
@@ -37,4 +38,63 @@ function buildStartMap() {
     for (var i = walls; i < walls+16; i++) {
         startMap.CastleWall1RightEdge[i] = {x:1607,y:1684-i*16};
     }
+}
+
+function buildMap2() {
+    mapWidth = 75;
+    mapHeight = 75;
+    borderThickness = 4;
+    index = 0;
+
+    for (var i = 0; i < mapWidth; i++) {
+        for (var j = 0; j < mapHeight; j++) {
+            Map2.Grass1[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+
+    index = 0;
+    northBorderWidth = mapWidth;
+    northBorderHeight = borderThickness;
+    for (var i = 0; i < northBorderWidth; i++) {
+        for (var j = 0; j < northBorderHeight; j++) {
+            Map2.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+    westBorderWidth = borderThickness;
+    westBorderHeight = mapHeight;
+    for (var i = 0; i < westBorderWidth; i++) {
+        for (var j = northBorderHeight; j < westBorderHeight; j++) {
+            Map2.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+    eastBorderWidth = borderThickness;
+    eastBorderHeight = mapHeight;
+    for (var i = northBorderWidth - eastBorderWidth; i < northBorderWidth; i++) {
+        for (var j = northBorderHeight; j < eastBorderHeight; j++) {
+            Map2.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+    southBorderWidth = mapWidth;
+    southBorderHeight = borderThickness;
+    for (var i = westBorderWidth; i < northBorderWidth - eastBorderWidth; i++) {
+        for (var j = westBorderHeight - southBorderHeight; j < westBorderHeight; j++) {
+            Map2.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+
+    index = 0;
+    startingWaterX = 375;
+    startingWaterY = 500;
+    for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 8; j++) {
+            Map2.Water[index] = {x: startingWaterX + i * 63, y: startingWaterY + j * 63};
+            index++;
+        }
+    }
+
 }

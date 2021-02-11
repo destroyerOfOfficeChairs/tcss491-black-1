@@ -160,6 +160,9 @@ class Dragon {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         let xPosition = this.x;
         let yPosition = this.y;
@@ -349,6 +352,9 @@ class Goblin {
 		
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         let xPosition = this.x;
         let yPosition = this.y;
@@ -506,6 +512,9 @@ class Bat {
             this.canShoot = true;
             //console.log(this.timeElapsed);
         }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -680,6 +689,9 @@ class Skeleton {
             //console.log(this.timeElapsed);
         }
 		
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {

@@ -30,6 +30,9 @@ class Npc2 {
         }
     };
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     update() {
         if (this.game.left) {
             this.direction = 0;

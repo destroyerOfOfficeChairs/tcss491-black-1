@@ -19,7 +19,7 @@ class Hero {
         this.battle = false;
         this.maxHealth = 100;
 		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
-        this.canPass = false;
+        //this.canPass = false;
         this.timeElapsed = 0;
 
         this.destroyBoxTimeElapsed = 0;
@@ -34,7 +34,7 @@ class Hero {
     reset() {
         this.battle = false;
 		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
-        this.canPass = false;
+        //this.canPass = false;
     }
 
     updateBB() {
@@ -194,13 +194,18 @@ class Hero {
 
                 if (entity instanceof Key) {
                     entity.removeFromWorld = true;
-                    that.canPass = true;
+                    //that.canPass = true;
+                    that.game.camera.keys++;
                 }
 
                 if (entity instanceof Lock) {
-                    if (that.canPass) {
+                    // if (that.canPass) {
+                    //     entity.removeFromWorld = true;
+                    //     that.canPass = false;
+                    // }
+                    if (that.game.camera.keys > 0) {
                         entity.removeFromWorld = true;
-                        that.canPass = false;
+                        that.game.camera.keys--;
                     }
                     if (that.BB.collide(entity.topBB)) {
                         that.velocity.y = -MAX_WALK;
@@ -226,6 +231,8 @@ class Hero {
                                     that.game.addEntity(new Coin(that.game, entity.x + 5, entity.y + 5));
                                 } else if (entity.item == "crystal") {
                                     that.game.addEntity(new Crystal(that.game, entity.x + 5, entity.y + 5));
+                                } else if (entity.item == "key") {
+                                    that.game.addEntity(new Key(that.game, entity.x + 5, entity.y + 5));
                                 }
                             }
                         }
@@ -307,16 +314,16 @@ class Hero {
 
                 if (entity instanceof Wall) {
                     if (that.BB.collide(entity.topBB)) {
-                        that.velocity.y = -MAX_WALK;
+                        that.velocity.y += -MAX_WALK;
                     }
                     if (that.BB.collide(entity.bottomBB)) {
-                        that.velocity.y = MAX_WALK;
+                        that.velocity.y += MAX_WALK;
                     }
                     if (that.BB.collide(entity.leftBB)) {
-                        that.velocity.x = -MAX_WALK;
+                        that.velocity.x += -MAX_WALK;
                     }
                     if (that.BB.collide(entity.rightBB)) {
-                        that.velocity.x = MAX_WALK;
+                        that.velocity.x += MAX_WALK;
                     }
                 }
 
@@ -408,6 +415,11 @@ class Hero {
             this.velocity.y = MAX_WALK;
         }
     };
+
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "Purple";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    }
 
     draw(ctx) {
         let xPosition = this.x;
@@ -584,6 +596,9 @@ class Cleric {
         }
     };
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         let xPosition = this.x;
         let yPosition = this.y;
@@ -749,6 +764,9 @@ class Archer {
         }        
     };
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         let xPosition = this.x;
         let yPosition = this.y;
@@ -866,6 +884,9 @@ class Mage {
             this.timeElapsed = 0;
         }
     };
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
 
     draw(ctx) {
         if(this.facing == 0) {

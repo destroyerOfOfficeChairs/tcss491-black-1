@@ -15,6 +15,9 @@ class FireBreath {
 
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (this.game.attack1) {
             if (this.entity.facing == 0) {//facing right
@@ -70,6 +73,9 @@ class ShadowBall {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
@@ -120,6 +126,9 @@ class Arrow {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
@@ -151,6 +160,9 @@ class Lightning {
 
     update() {
 
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -207,6 +219,9 @@ class FireBall {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
@@ -248,6 +263,9 @@ class Slash {
         //} else if (this.facing == 1) {
             this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         //}
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -304,6 +322,9 @@ class BoneDart {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
@@ -341,6 +362,9 @@ class DeathStare {
 
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (this.game.attack2) {
             if (this.entity.facing == 0) {//facing right
@@ -373,6 +397,9 @@ class Scratch {
 
     update() {
 
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -424,6 +451,9 @@ class SonicWave {
             }
             this.BB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -479,6 +509,9 @@ class Missile {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
@@ -532,6 +565,9 @@ class Laser {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
@@ -582,6 +618,9 @@ class SuperSlash {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (!this.removeFromWorld) {
             if (this.facing == 0) {
@@ -616,6 +655,9 @@ class Spell {
 
     update() {
 
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -667,6 +709,9 @@ class SpiritBall {
             }
             this.BB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {

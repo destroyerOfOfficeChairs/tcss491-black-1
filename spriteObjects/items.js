@@ -26,6 +26,9 @@ class Crystal {
 
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         // for crystal.png with animation
         this.animation.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
@@ -66,6 +69,9 @@ class Coin {
 
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         this.animation.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
 
@@ -98,6 +104,9 @@ class Key {
 
     update() {
 
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -137,6 +146,9 @@ class Lock {
 
     update() {
 
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -179,6 +191,9 @@ class Box {
 
     update() {
 
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {

@@ -22,6 +22,7 @@ class GameEngine {
         this.shop = false;
         this.instructions = false;
 		this.battleui = false;
+        this.map =false;
 
         this.attack1 = false;
         this.attack2 = false;
@@ -29,8 +30,19 @@ class GameEngine {
         this.gameStates = ["titleScreen", "dungeonMap", "battleScene", "worldMap"];
         this.currentState = this.gameStates[0];
 
-        this.gameMaps = [debugMap, startMap];
+        this.gameMaps = [debugMap, startMap, Map2];
         this.currentMap = this.gameMaps[0];
+
+        this.levelSize = 1;
+        this.levelToMapRatio = 1;
+
+        if (this.currentMap == this.gameMaps[0]) {
+            this.levelSize = 32 * 16;
+            this.levelToMapRatio = 100 / this.levelSize;
+        } else if (this.currentMap == this.gameMaps[2]) {
+            this.levelSize = 32 * 75;
+            this.levelToMapRatio = 100 / this.levelSize;
+        }
     };
 
     init(ctx) {
@@ -89,6 +101,9 @@ class GameEngine {
                     break;
                 case "KeyL":
                     that.menu = !that.menu;
+                    break;
+                case "Semicolon":
+                    that.map = !that.map;
                     break;
             }
         }, false);
@@ -171,6 +186,7 @@ class GameEngine {
     };
 
     update() {
+        
         var entitiesCount = this.entities.length;
 
         for (var i = 0; i < entitiesCount; i++) {

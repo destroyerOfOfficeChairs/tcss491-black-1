@@ -10,17 +10,24 @@ class Grass1 {
         this.scale = 1;
         this.width = 32;
         this.height = 32;
+
+        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     };
 
     update() {
 
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 128, 1280, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
     };
 }
 
@@ -39,8 +46,10 @@ class StonePath {
 
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "DarkGoldenRod";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 1634, 1570, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
@@ -62,8 +71,9 @@ class DirtPath {
 
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+        
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 1317, 1237, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
@@ -92,8 +102,10 @@ class Rock {
 
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "Gray";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
@@ -123,8 +135,10 @@ class Bush {
 
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "LawnGreen";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
@@ -153,8 +167,10 @@ class Tree {
 
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "Green";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 578, 827, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
@@ -190,8 +206,10 @@ class Water {
         
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "Blue";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 1760, 833, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
@@ -227,8 +245,12 @@ class Wall {
 
     };
 
-    // drawMinimap(ctx, mmX, mmY) {
-    // }
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "Brown";
+        // ctx.fillRect(mmX + this.x / PARAMS.BITWIDTH + 5, mmY + this.y / PARAMS.BITWIDTH + 5, this.w / PARAMS.BITWIDTH, 6);
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+
+    }
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);

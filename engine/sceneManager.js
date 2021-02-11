@@ -10,11 +10,12 @@ class SceneManager {
         // uncomment this when starting on startMap
 		// this.heroX = 1024;
         // this.heroY = 1900;
-        this.heroX = 130;
-        this.heroY = 130;
+        this.heroX = 200;
+        this.heroY = 200;
 
         this.coins = 0;
         this.crystals = 0;
+        this.keys = 0;
         this.crystalAttackPower = 50;
         this.crystalDefensePower = 50;
         this.attackUpgradeCost = 1;
@@ -29,7 +30,10 @@ class SceneManager {
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
 		this.archer = new Archer(this.game, this.heroX, this.heroY+60);
         this.mage = new Mage(this.game, this.heroX, this.heroY+90);
-        
+
+        //this.minimap = new Minimap(this.game, 1.5 * PARAMS.BLOCKWIDTH, 3.5 * PARAMS.BLOCKWIDTH, 224 * PARAMS.SCALE);
+        this.minimap = new Minimap(this.game, 151, 119, 100);
+
         // commented this out because the dragon should be added as JSON
         // otherwise he shows up in every map.  I'm pretty sure every entity
         // will behave this way, so it's important to add them via JSON from
@@ -42,7 +46,7 @@ class SceneManager {
     }
 
     draw(ctx) {
-        // Do nothing
+        this.minimap.draw(ctx);
     }
     
     update() {
@@ -347,8 +351,31 @@ class SceneManager {
     reset() {
         this.coins = 0;
         this.crystals = 0;
+        this.keys = 0;
         this.game.currentState = this.game.gameStates[0];
         this.game.currentMap = this.game.gameMaps[0];
     }
 	
+}
+
+class Minimap {
+    constructor(game, x, y, w) {
+        Object.assign(this, { game, x, y, w });
+    };
+
+    update() {
+
+    };
+
+    draw(ctx) {
+        if (this.game.map) {
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.x, this.y, this.w, 100);
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.x, this.y, this.w, 100);
+            for (var i = 0; i < this.game.entities.length; i++) {
+                this.game.entities[i].drawMinimap(ctx, this.x, this.y);
+            }
+        }
+    };
 }

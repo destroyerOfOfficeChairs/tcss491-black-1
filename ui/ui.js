@@ -10,6 +10,9 @@ class TitleScreen {
         // if (this.game.attack1) // I have no idea
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         ctx.drawImage(this.image, 0, 0, 256, 224);
         this.animation.drawFrame(this.game.clockTick, ctx, 32, 48, 1);
@@ -62,6 +65,9 @@ class MainMenu {
                 this.game.click = null;
             }
         }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
@@ -134,6 +140,9 @@ class HeadsUpDisplay {
     update() {
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         ctx.font = "8px Georgia";
 
@@ -141,14 +150,16 @@ class HeadsUpDisplay {
 
             if (!this.game.camera.hero.battle) {
                 ctx.fillStyle = "Tan";
-                ctx.fillRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
+                ctx.fillRect(this.padding, 10, this.textboxWidth, 1.5 * this.textboxHeight);
                 ctx.strokeStyle = "Brown";
-                ctx.strokeRect(this.padding, 10, this.textboxWidth, this.textboxHeight);
+                ctx.strokeRect(this.padding, 10, this.textboxWidth, 1.5 * this.textboxHeight);
 
                 ctx.fillStyle = "Yellow";
                 ctx.fillText("C O I N S : " + this.game.camera.coins, 10, 20);
                 ctx.fillStyle = "Purple";
                 ctx.fillText("C R Y S T A L S : " + this.game.camera.crystals , 10, 30);
+                ctx.fillStyle = "Brown";
+                ctx.fillText("K E Y S : " + this.game.camera.keys , 10, 40);
 
 				ctx.fillStyle = "Tan";
 				ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
@@ -323,6 +334,9 @@ class Shop {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (this.game.menu && this.game.shop) {
             ctx.font = "12px Georgia";
@@ -485,6 +499,9 @@ class Instructions {
         }
     }
 
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
     draw(ctx) {
         if (this.game.menu && this.game.instructions) {
             ctx.font = "12px Georgia";
@@ -586,6 +603,9 @@ class BattleUI {
 			}
         }
 	}
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
 	
 	draw(ctx) {
 		ctx.font = "8px Georgia";
