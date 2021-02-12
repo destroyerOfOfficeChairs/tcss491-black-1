@@ -149,6 +149,8 @@ class Lock {
     }
 
     drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "Black";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
     }
 
     draw(ctx) {

@@ -40,6 +40,7 @@ class StonePath {
         this.scale = 1;
         this.width = 60;
         this.height = 60;
+        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     };
 
     update() {
@@ -53,6 +54,10 @@ class StonePath {
 
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 1634, 1570, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
     };
 }
 

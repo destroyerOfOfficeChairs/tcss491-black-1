@@ -10,17 +10,17 @@ class SceneManager {
         // uncomment this when starting on startMap
 		// this.heroX = 1024;
         // this.heroY = 1900;
-        this.heroX = 200;
-        this.heroY = 200;
+        this.heroX = 200; // 200 // 1230 // 1614
+        this.heroY = 200; // 200 // 1030 // 1686
 
         this.coins = 0;
         this.crystals = 0;
         this.keys = 0;
         this.crystalAttackPower = 50;
         this.crystalDefensePower = 50;
-        this.attackUpgradeCost = 1;
-        this.defenseUpgradeCost = 2;
-        this.healthUpgradeCost = 3;
+        this.attackUpgradeCost = 5;
+        this.defenseUpgradeCost = 8;
+        this.healthUpgradeCost = 10;
         this.attackUpgrade = 2;
         this.defenseUpgrade = 1;
         this.healthUpgrade = 10;
