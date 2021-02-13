@@ -39,6 +39,7 @@ class SceneManager {
         // will behave this way, so it's important to add them via JSON from
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
+        this.bossStats = [500, 150, 150];
 
         buildMapData();
         
@@ -279,6 +280,7 @@ class SceneManager {
         this.game.addEntity(new MainMenu(this.game));
         this.game.addEntity(new Shop(this.game));
         this.game.addEntity(new Instructions(this.game));
+        this.game.addEntity(new Credits(this.game));
 
     }
     
@@ -332,6 +334,7 @@ class SceneManager {
         this.game.addEntity(new MainMenu(this.game));
         this.game.addEntity(new Shop(this.game));
         this.game.addEntity(new Instructions(this.game));
+        this.game.addEntity(new Credits(this.game));
 		
 		// load battle manager
 		this.battleManager = new BattleManager(this.game,[this.goblin,this.bat,this.skeleton],

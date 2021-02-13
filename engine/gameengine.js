@@ -21,6 +21,7 @@ class GameEngine {
         this.menu = false;
         this.shop = false;
         this.instructions = false;
+        this.credits = false;
 		this.battleui = false;
         this.map =false;
 
@@ -193,7 +194,8 @@ class GameEngine {
             var entity = this.entities[i];
 
             if (!entity.removeFromWorld) {
-                if (!this.menu || entity instanceof MainMenu || entity instanceof Instructions || entity instanceof Shop) {
+                if (!this.menu || entity instanceof MainMenu || entity instanceof Instructions || 
+                    entity instanceof Shop || entity instanceof Credits) {
                     entity.update();
                 }
             }

@@ -45,10 +45,17 @@ class MainMenu {
         this.shopBB = new BoundingBox(this.shopX, this.shopY - this.shopHeight/2, this.shopWidth, this.shopHeight);
         this.hoverShop = false;
 
+        this.creditsWidth = 40;
+        this.creditsHeight = 20;
+        this.creditsX = PARAMS.CANVASWIDTH / 2 - 40;
+        this.creditsY = 33 * this.padding;
+        this.creditsBB = new BoundingBox(this.creditsX, this.creditsY - this.creditsHeight/2, this.creditsWidth, this.creditsHeight);
+        this.hoverCredits = false;
+
     }
 
     update() {
-        if (this.game.menu && !this.game.instructions && !this.game.shop) {
+        if (this.game.menu && !this.game.instructions && !this.game.shop && !this.game.credits) {
 			if (this.hoverBack && this.game.click) {
                 this.game.menu = false;
                 this.game.click = null;
@@ -58,10 +65,10 @@ class MainMenu {
             } else if (this.hoverShop && this.game.click) {
                 this.game.shop = true;
                 this.game.click = null;
-                //console.log("clicked");
-                // ctx.fillStyle = "Black";
-                // ctx.fillText("Instructions Clicked", PARAMS.CANVASWIDTH / 2 - 20, 6 * this.padding);
-            } else if (!this.hoverInstructions && !this.hoverShop) {
+            } else if (this.hoverCredits && this.game.click) {
+                this.game.credits = true;
+                this.game.click = null;
+            } else if (!this.hoverInstructions && !this.hoverShop && !this.hoverCredits) {
                 this.game.click = null;
             }
         }
@@ -118,11 +125,23 @@ class MainMenu {
             }
             ctx.fillText("Shop", this.shopX, this.shopY);
 
+            // credits button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.creditsBB.left && this.game.mouse.x <= 3 * this.creditsBB.right && 
+                this.game.mouse.y >= 3 * this.creditsBB.top && this.game.mouse.y <= 3 * this.creditsBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverCredits = true;
+            } else {
+                this.hoverCredits = false;
+            }
+            ctx.fillText("Credits", this.creditsX, this.creditsY);
+
             // bounding boxes
             if (PARAMS.DEBUG) {
                 ctx.strokeStyle = 'Red';
                 ctx.strokeRect(this.instructionsBB.x, this.instructionsBB.y, this.instructionsBB.width, this.instructionsBB.height);
                 ctx.strokeRect(this.shopBB.x, this.shopBB.y, this.shopBB.width, this.shopBB.height);
+                ctx.strokeRect(this.creditsBB.x, this.creditsBB.y, this.creditsBB.width, this.creditsBB.height);
 				ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
             }
         }
@@ -293,8 +312,8 @@ class Shop {
                     this.game.camera.hero.stats[1] -= this.game.camera.crystalAttackPower;
                     this.game.camera.hero.stats[2] -= this.game.camera.crystalDefensePower;
                     // reduce boss stats
-                    this.game.camera.boss.stats[1] -= this.game.camera.crystalAttackPower;
-                    this.game.camera.boss.stats[2] -= this.game.camera.crystalDefensePower;
+                    this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower;
+                    this.game.camera.bossStats[2] -= this.game.camera.crystalDefensePower;
 
                     this.displaySuccess = 4;
                     this.displayCrystalError = false;
@@ -532,13 +551,87 @@ class Instructions {
             ctx.fillStyle = "Black";
             ctx.fillText("- WASD or Arrow keys to move", this.backX, this.backY + 4 * this.padding);
             ctx.fillText("- L to toggle menu", this.backX, this.backY + 6 * this.padding);
-            ctx.fillText("- N for battle mode, M for explore mode", this.backX, this.backY + 8 * this.padding);
+            ctx.fillText("- Semicolon key to toggle map", this.backX, this.backY + 8 * this.padding);
             ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
             ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
             ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 14 * this.padding);
             ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 16 * this.padding);
             ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 18 * this.padding);
             ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 20 * this.padding);
+            ctx.fillText("- Break open boxes by pressing B and running into them", this.backX, this.backY + 22 * this.padding);
+            ctx.fillText("- N for battle mode, M for explore mode", this.backX, this.backY + 24 * this.padding);
+            
+            // bounding boxes
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
+            }
+        }
+    }
+}
+
+class Credits {
+    constructor(game) {
+        Object.assign(this, {game});
+        this.padding = 5;
+
+        this.backWidth = 50;
+        this.backHeight = 20;
+        this.backX = 5 * this.padding;
+        this.backY = 8 * this.padding;
+        this.backBB = new BoundingBox(this.backX, this.backY - this.backHeight/2, this.backWidth, this.backHeight);
+        this.hoverBack = false;
+
+    }
+
+    update() {
+        if (this.game.menu && this.game.credits) {
+            if (this.hoverBack && this.game.click) {
+                this.game.credits = false;
+                this.game.click = null;
+            } else if (!this.hoverBack) {
+                this.game.click = null;
+            }
+        }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
+    draw(ctx) {
+        if (this.game.menu && this.game.credits) {
+            ctx.font = "12px Georgia";
+
+            // Credits title
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+
+            ctx.fillStyle = "Black";
+            ctx.fillText("CREDITS", PARAMS.CANVASWIDTH / 2 - 25, 6 * this.padding);
+
+            ctx.font = "10px Georgia";
+
+            //back button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.backBB.left && this.game.mouse.x <= 3 * this.backBB.right && 
+                this.game.mouse.y >= 3 * this.backBB.top && this.game.mouse.y <= 3 * this.backBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverBack = true;
+            } else {
+                this.hoverBack = false;
+            }
+            ctx.fillText("Back", this.backX, this.backY);
+
+            ctx.font = "10px Georgia";
+            ctx.fillStyle = "Black";
+            ctx.fillText("T C S S   4 9 1   T E A M   B L A C K   1 :", this.backX, this.backY + 5 * this.padding);
+            ctx.fillText("     A l b e r t   L i n", this.backX, this.backY + 9 * this.padding);
+            ctx.fillText("     P a t r i c k   S c h m e i c h e l", this.backX, this.backY + 13 * this.padding);
+            ctx.fillText("     V a n e s s a   H u n g", this.backX, this.backY + 17 * this.padding);
+            ctx.fillText("     W i l l i a m   B r y a n", this.backX, this.backY + 21 * this.padding);
+
             // bounding boxes
             if (PARAMS.DEBUG) {
                 ctx.strokeStyle = 'Red';
