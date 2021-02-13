@@ -290,25 +290,25 @@ class Hero {
                         //that.velocity.y = 0;
                         //that.y = entity.BB.top - (that.height * PARAMS.SCALE * that.scale);
                         
-                        that.velocity.y = -MAX_WALK;
+                        that.velocity.y += -MAX_WALK;
                     }
                     if (that.BB.collide(entity.bottomBB)) {
                         // that.velocity.y = 0;
                         // that.y = entity.BB.bottom;
                         
-                        that.velocity.y = MAX_WALK;
+                        that.velocity.y += MAX_WALK;
                     }
                     if (that.BB.collide(entity.leftBB)) {
                         // that.velocity.x = 0;
                         // that.x = entity.BB.left - (that.width * PARAMS.SCALE * that.scale);
                         
-                        that.velocity.x = -MAX_WALK;
+                        that.velocity.x += -MAX_WALK;
                     }
                     if (that.BB.collide(entity.rightBB)) {
                         // that.velocity.x = 0;
                         // that.x = entity.BB.right;
                         
-                        that.velocity.x = MAX_WALK;
+                        that.velocity.x += MAX_WALK;
                     }
                 }
 

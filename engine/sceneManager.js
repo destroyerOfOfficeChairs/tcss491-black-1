@@ -10,17 +10,17 @@ class SceneManager {
         // uncomment this when starting on startMap
 		// this.heroX = 1024;
         // this.heroY = 1900;
-        this.heroX = 200;
-        this.heroY = 200;
+        this.heroX = 200; // 200 // 1230 // 1614
+        this.heroY = 200; // 200 // 1030 // 1686
 
         this.coins = 0;
         this.crystals = 0;
         this.keys = 0;
         this.crystalAttackPower = 50;
         this.crystalDefensePower = 50;
-        this.attackUpgradeCost = 1;
-        this.defenseUpgradeCost = 2;
-        this.healthUpgradeCost = 3;
+        this.attackUpgradeCost = 5;
+        this.defenseUpgradeCost = 8;
+        this.healthUpgradeCost = 10;
         this.attackUpgrade = 2;
         this.defenseUpgrade = 1;
         this.healthUpgrade = 10;
@@ -40,6 +40,7 @@ class SceneManager {
         // will behave this way, so it's important to add them via JSON from
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
+        this.bossStats = [500, 150, 150];
 
         buildMapData();
         
@@ -280,6 +281,7 @@ class SceneManager {
         this.game.addEntity(new MainMenu(this.game));
         this.game.addEntity(new Shop(this.game));
         this.game.addEntity(new Instructions(this.game));
+        this.game.addEntity(new Credits(this.game));
 
     }
     
@@ -333,6 +335,7 @@ class SceneManager {
         this.game.addEntity(new MainMenu(this.game));
         this.game.addEntity(new Shop(this.game));
         this.game.addEntity(new Instructions(this.game));
+        this.game.addEntity(new Credits(this.game));
 		
 		// load battle manager
 		this.battleManager = new BattleManager(this.game, [this.goblin,this.bat,this.skeleton],
