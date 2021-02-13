@@ -10,7 +10,7 @@ class Dragon {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [500, 150, 150]; // stats = [hp, att, def]
+		this.stats = [500, 150, 150, 3]; // stats = [hp, att, def, spd]
 
         this.timeElapsed = 0;
         this.stillAttacking = false;
@@ -200,8 +200,7 @@ class Goblin {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [50, 5, 1];
-		// stats = [hp, att, def]
+		this.stats = [50, 5, 1, 2]; // stats = [hp, att, def, spd]
         this.timeelapsed = 0;
         this.canShoot = true;
 
@@ -401,8 +400,7 @@ class Bat {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         //this.steps = 0; // number of steps has taken
         this.velocity = { x: 0, y: 0 };
-		this.stats = [25, 3, 0];
-		// stats = [hp, att, def]
+		this.stats = [25, 5, 0, 3]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
         this.canShoot = false;
 		
@@ -555,8 +553,7 @@ class Skeleton {
         this.timeElapsed = 0;
         this.canShoot = false;
 
-		this.stats = [75, 8, 3];
-		// stats = [hp, att, def]
+		this.stats = [75, 8, 3, 1]; // stats = [hp, att, def, spd]
 		
         this.animations = [];
         this.loadAnimations();

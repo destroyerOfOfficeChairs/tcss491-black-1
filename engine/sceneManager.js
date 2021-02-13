@@ -33,7 +33,8 @@ class SceneManager {
 
         //this.minimap = new Minimap(this.game, 1.5 * PARAMS.BLOCKWIDTH, 3.5 * PARAMS.BLOCKWIDTH, 224 * PARAMS.SCALE);
         this.minimap = new Minimap(this.game, 151, 119, 100);
-
+		
+		this.boss = new Dragon(this.game, 1000, 1000);
         // commented this out because the dragon should be added as JSON
         // otherwise he shows up in every map.  I'm pretty sure every entity
         // will behave this way, so it's important to add them via JSON from
@@ -334,10 +335,11 @@ class SceneManager {
         this.game.addEntity(new Instructions(this.game));
 		
 		// load battle manager
-		this.battleManager = new BattleManager(this.game,[this.goblin,this.bat,this.skeleton],
+		this.battleManager = new BattleManager(this.game, [this.goblin,this.bat,this.skeleton],
 			[this.hero, this.cleric, this.archer, this.mage]);
-		this.game.addEntity(new BattleUI(this.game, [this.goblin,this.bat,this.skeleton],
-			[this.hero, this.cleric, this.archer, this.mage]));
+		this.ui = new BattleUI(this.game, this.battleManager, [this.goblin,this.bat,this.skeleton],
+			[this.hero, this.cleric, this.archer, this.mage])
+		this.game.addEntity(this.ui);
     }
     
     sleep(milliseconds) {

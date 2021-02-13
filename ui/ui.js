@@ -550,17 +550,17 @@ class Instructions {
 
 // UI for battle mode
 class BattleUI {
-	constructor(game, e, p) {
+	constructor(game, bm, e, p) {
 		Object.assign(this, {game});
 		//loading in enemies and party
 		this.enemies = [];
 		var i;
 		for (i = 0; i < e.length; i++){
-			this.enemies[i] = [e[i], e[i].stats[0]];
+			this.enemies[i] = [e[i], e[i].stats[0], e[i].name];
 		}
 		this.party = [];
 		for (i = 0; i < p.length; i++){
-			this.party[i] = [p[i], p[i].stats[0]];
+			this.party[i] = [p[i], p[i].stats[0], p[i].name];
 		}
 		
 		//setting up dimensions and buttons
@@ -584,12 +584,31 @@ class BattleUI {
 		
 		this.defBB = new BoundingBox(this.attX, this.attY + 45, this.attWidth, this.attHeight);
         this.hoverDef = false;
+		
+		var x;
+		this.enemyBB = [];
+		for(x=0; x<this.enemies.length; x++){
+			this.enemyBB.push([new BoundingBox(this.x+10,this.y+20+(15*x),this.attWidth,this.attHeight),false]);
+		}
+		
+		this.battleManager = bm;
+		this.attack = false;
 	}
 	
 	update() {
 		if (this.game.camera.hero.battle) {
 			if (this.hoverAtt && this.game.click) {
                 console.log("Attack!");
+				if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0){
+					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 3));
+				} else {
+					this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
+				}
+				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+					this.battleManager.activeChar++;
+				} else {
+					this.battleManager.activeChar = 0;
+				}
                 this.game.click = null;
             } else if (this.hoverSpec && this.game.click) {
                 console.log("Special!");
@@ -622,10 +641,21 @@ class BattleUI {
             ctx.fillRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 4);
             ctx.strokeStyle = "Brown";
             ctx.strokeRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 4);
-			ctx.fillStyle = "Black";
+			//ctx.fillStyle = "Black";
 			var i;
 			for (i = 0; i < this.enemies.length; i++) {
-				ctx.fillText(this.enemies[i][0].name, this.x+10, this.y + 20 + (15 * i));
+				if(this.game.mouse && this.game.mouse.x >= 3 * this.enemyBB[i][0].left && this.game.mouse.x <= 3 * this.enemyBB[i][0].right && 
+                this.game.mouse.y >= 3 * this.enemyBB[i][0].top && this.game.mouse.y <= 3 * this.enemyBB[i][0].bottom){
+					ctx.fillStyle = "Purple";
+					this.enemyBB[i][1] = true;
+				} else if (this.battleManager.turnOrder[this.battleManager.activeChar][2] == this.enemies[i][2]) {
+					ctx.fillStyle = "Green";
+					this.enemyBB[i][1] = false;
+				}else {
+					ctx.fillStyle = "Black";
+					this.enemyBB[i][1] = false;
+				}
+				ctx.fillText(this.enemies[i][2], this.x+10, this.y + 20 + (15 * i));
 			}
 			
 			//party list
@@ -635,8 +665,14 @@ class BattleUI {
             ctx.strokeRect(this.x + 145, this.y + 2, 98, this.textboxHeight - 4);
 			ctx.fillStyle = "Black";
 			for (i = 0; i < this.party.length; i++) {
-				ctx.fillText(this.party[i][0].name, this.x + 150, this.y + 15 + (15 * i));
-				ctx.fillText(this.party[i][1] + " / " + this.party[i][0].stats[0], this.x + 200, this.y + 15 + (15 * i));
+				if(this.battleManager.turnOrder[this.battleManager.activeChar][2] == this.party[i][2]){
+					ctx.fillStyle = "Green";
+				} else {
+					ctx.fillStyle = "Black";
+				}
+				ctx.fillText(this.party[i][2], this.x + 150, this.y + 15 + (15 * i));
+				ctx.fillStyle = "Black";
+				ctx.fillText(this.battleManager.party[i][1] + " / " + this.party[i][0].stats[0], this.x + 200, this.y + 15 + (15 * i));
 			}
 			
 			//atack button
@@ -691,6 +727,10 @@ class BattleUI {
 				ctx.strokeRect(this.attBB.x, this.attBB.y + 7, this.attBB.width, this.attBB.height);
 				ctx.strokeRect(this.attBB.x, this.attBB.y + 22, this.attBB.width, this.attBB.height);
 				ctx.strokeRect(this.attBB.x, this.attBB.y + 37, this.attBB.width, this.attBB.height);
+				var i;
+				for(i=0;i<this.enemyBB.length;i++){
+					ctx.strokeRect(this.enemyBB[i][0].x, this.enemyBB[i][0].y-7, this.enemyBB[i][0].width, this.enemyBB[i][0].height);
+				}
             }
 	}
 }

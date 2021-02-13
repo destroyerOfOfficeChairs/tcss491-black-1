@@ -18,8 +18,8 @@ class Hero {
         this.velocity = { x: 0, y: 0 };
         this.battle = false;
         this.maxHealth = 100;
-		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
-        //this.canPass = false;
+		this.stats = [this.maxHealth, 10, 2, 7]; // [hp, att, def, spd]
+        this.canPass = false;
         this.timeElapsed = 0;
 
         this.destroyBoxTimeElapsed = 0;
@@ -473,8 +473,7 @@ class Cleric {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
 		this.battle = true;
-		this.stats = [100, 8, 3];
-		// stats = [hp, att, def]
+		this.stats = [100, 8, 3, 4]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
 		
 		this.animations = [];
@@ -640,7 +639,7 @@ class Archer {
         this.height = 55;
         this.velocity = { x: 0, y: 0 };
 		this.battle = false;
-        this.stats = [100, 8, 3];
+        this.stats = [100, 8, 3, 6]; // hp, att, def, spd
         this.stillAttacking = false;
         this.stillAttackingSpecial = false;
         this.timeElapsed = 0;
@@ -812,7 +811,7 @@ class Mage {
         this.height = 120;
         this.velocity = { x: 0, y: 0 };
 		this.battle = false;
-        this.stats = [100, 8, 3];
+        this.stats = [100, 8, 3, 5]; // hp, att, def, spd
         this.stillAttacking = false;
         this.timeElapsed = 0;
         
