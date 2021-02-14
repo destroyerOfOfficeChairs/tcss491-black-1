@@ -697,21 +697,44 @@ class BattleUI {
 				} else {
 					this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
 				}
+                this.game.click = null;
+				
+				// advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-                this.game.click = null;
             } else if (this.hoverSpec && this.game.click) {
                 console.log("Special!");
                 this.game.click = null;
+				
+				// advance turn order or reset
+				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+					this.battleManager.activeChar++;
+				} else {
+					this.battleManager.activeChar = 0;
+				}
             } else if (this.hoverItem && this.game.click) {
                 console.log("Item!");
                 this.game.click = null;
+				
+				// advance turn order or reset
+				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+					this.battleManager.activeChar++;
+				} else {
+					this.battleManager.activeChar = 0;
+				}
             } else if (this.hoverDef && this.game.click) {
                 console.log("Defend!");
 				this.game.click = null;
+				
+				// advance turn order or reset
+				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+					this.battleManager.activeChar++;
+				} else {
+					this.battleManager.activeChar = 0;
+				}
 			}
         }
 	}
