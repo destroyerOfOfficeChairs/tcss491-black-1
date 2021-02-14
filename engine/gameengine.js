@@ -31,8 +31,8 @@ class GameEngine {
         this.gameStates = ["titleScreen", "dungeonMap", "battleScene", "worldMap"];
         this.currentState = this.gameStates[0];
 
-        this.gameMaps = [debugMap, startMap, Map2];
-        this.currentMap = this.gameMaps[0];
+        this.gameMaps = [debugMap, startMap, Map2, Map3];
+        this.currentMap = this.gameMaps[3];
 
         this.levelSize = 1;
         this.levelToMapRatio = 1;
@@ -42,6 +42,9 @@ class GameEngine {
             this.levelToMapRatio = 100 / this.levelSize;
         } else if (this.currentMap == this.gameMaps[2]) {
             this.levelSize = 32 * 75;
+            this.levelToMapRatio = 100 / this.levelSize;
+        } else if (this.currentMap == this.gameMaps[3]) {
+            this.levelSize = 60 * 26;
             this.levelToMapRatio = 100 / this.levelSize;
         }
     };

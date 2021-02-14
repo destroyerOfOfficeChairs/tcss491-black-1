@@ -6,6 +6,7 @@ function buildMapData() {
     buildDebugMap();
     buildStartMap();
     buildMap2();
+    buildMap3();
 };
 
 function buildDebugMap() {
@@ -46,7 +47,7 @@ function buildMap2() {
     borderThickness = 4;
     index = 0;
 
-    //walls
+    //grass
     for (var i = 0; i < mapWidth; i++) {
         for (var j = 0; j < mapHeight; j++) {
             Map2.Grass1[index] = {x: i * 32, y: j * 32};
@@ -54,6 +55,7 @@ function buildMap2() {
         }
     }
 
+    //walls
     //borders of the map
     index = 0;
     northBorderWidth = mapWidth;
@@ -341,6 +343,91 @@ function buildMap2() {
     for (var i = 0; i < 4; i++) {
         Map2.StonePath[index] = {x: startingStonePathX, y: startingStonePathY + i * 60};
         index++;
+    }
+
+}
+
+function buildMap3() {
+    mapWidth = 26;
+    mapHeight = 26;
+    borderThickness = 4;
+    index = 0;
+
+    //grass
+    for (var i = 0; i < mapWidth; i++) {
+        for (var j = 0; j < mapHeight; j++) {
+            Map3.StonePath[index] = {x: i * 60, y: j * 60};
+            index++;
+        }
+    }
+
+    //walls
+    //borders of the map
+    index = 0;
+    northBorderWidth = mapWidth * 2;
+    northBorderHeight = borderThickness;
+    for (var i = 0; i < northBorderWidth; i++) {
+        for (var j = 0; j < northBorderHeight; j++) {
+            Map3.Wall[index] = {x: i * 30, y: j * 30};
+            index++;
+        }
+    }
+    westBorderWidth = borderThickness;
+    westBorderHeight = mapHeight * 2;
+    for (var i = 0; i < westBorderWidth; i++) {
+        for (var j = northBorderHeight; j < westBorderHeight; j++) {
+            Map3.Wall[index] = {x: i * 30, y: j * 30};
+            index++;
+        }
+    }
+    eastBorderWidth = borderThickness;
+    eastBorderHeight = mapHeight * 2;
+    for (var i = northBorderWidth - eastBorderWidth; i < northBorderWidth; i++) {
+        for (var j = northBorderHeight; j < eastBorderHeight; j++) {
+            Map3.Wall[index] = {x: i * 30, y: j * 30};
+            index++;
+        }
+    }
+    southBorderWidth = mapWidth * 2;
+    southBorderHeight = borderThickness;
+    for (var i = westBorderWidth; i < northBorderWidth - eastBorderWidth; i++) {
+        for (var j = westBorderHeight - southBorderHeight; j < westBorderHeight; j++) {
+            Map3.Wall[index] = {x: i * 30, y: j * 30};
+            index++;
+        }
+    }
+
+    verticalWallWidth = 4;
+    verticalWallHeight = 2 * mapHeight - 2 * borderThickness;
+    for (var i = 0; i < verticalWallWidth; i++) {
+        for (var j = 0; j < verticalWallHeight; j++) {
+            if (j != Math.floor(verticalWallHeight / 4) - 2
+            && j != Math.floor(verticalWallHeight / 4) - 1
+            && j != Math.floor(verticalWallHeight * 3/4)
+            && j != Math.floor(verticalWallHeight * 3/4) + 1
+            && j != Math.floor(verticalWallHeight / 2)
+            && j != Math.floor(verticalWallHeight / 2) - 1
+            ) {
+                Map3.Wall[index] = {x: 30 * (mapWidth - verticalWallWidth / 2) + i * 30, y: 30 * (mapHeight - verticalWallHeight / 2) + j * 30};
+                index++;
+            }
+        }
+    }
+
+    horizontalWallWidth = 2 * mapHeight - 2 * borderThickness;
+    horizontalWallHeight = 4;
+    for (var i = 0; i < horizontalWallWidth; i++) {
+        for (var j = 0; j < horizontalWallHeight; j++) {
+            if ((i != Math.floor(horizontalWallWidth / 4) - 2 || j < Math.floor(horizontalWallHeight / 4))
+            && (i != Math.floor(horizontalWallWidth / 4) - 1 || j < Math.floor(horizontalWallHeight / 4))
+            && i != Math.floor(horizontalWallWidth * 3/4)
+            && i != Math.floor(horizontalWallWidth * 3/4) + 1
+            && (i < Math.floor(horizontalWallWidth / 4) - 2 || i > Math.floor(horizontalWallWidth / 2) || j < Math.floor(horizontalWallHeight / 4) || j >= Math.floor(3 * horizontalWallHeight / 4))
+            ) {
+                Map3.Wall[index] = {x: 30 * (mapWidth - horizontalWallWidth / 2) + i * 30, y: 30 * (mapHeight - horizontalWallHeight / 2) + j * 30};
+                index++;
+            }
+        }
     }
 
 }
