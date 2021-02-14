@@ -658,46 +658,51 @@ class BattleUI {
 		
 		//setting up dimensions and buttons
         this.x = 5;
-		this.y = 150;
+		this.y = 170;
 		this.textboxWidth = 245;
         this.textboxHeight = 70;
 		
-		this.attX = 95 + this.x;
-        this.attY = 15 + this.y;
+		this.attX = 93 + this.x;
+        this.attY = 11 + this.y;
         this.attWidth = 50;
         this.attHeight = 10;
         this.attBB = new BoundingBox(this.attX, this.attY, this.attWidth, this.attHeight);
         this.hoverAtt = false;
 		
-		this.specBB = new BoundingBox(this.attX, this.attY + 15, this.attWidth, this.attHeight);
+		this.specBB = new BoundingBox(this.attX, this.attY + 12, this.attWidth, this.attHeight);
         this.hoverSpec = false;
 		
-		this.itemBB = new BoundingBox(this.attX, this.attY + 30, this.attWidth, this.attHeight);
+		this.itemBB = new BoundingBox(this.attX, this.attY + 24, this.attWidth, this.attHeight);
         this.hoverItem = false;
 		
-		this.defBB = new BoundingBox(this.attX, this.attY + 45, this.attWidth, this.attHeight);
+		this.defBB = new BoundingBox(this.attX, this.attY + 36, this.attWidth, this.attHeight);
         this.hoverDef = false;
 		
 		var x;
-		this.enemyBB = [];
+		this.enemyBB = []; // array with entries containing: [enemy's name BB, if hovering over enemy name]
 		for(x=0; x<this.enemies.length; x++){
-			this.enemyBB.push([new BoundingBox(this.x+10,this.y+20+(15*x),this.attWidth,this.attHeight),false]);
+			this.enemyBB.push([new BoundingBox(this.x+10,this.y+15+(15*x),this.attWidth,this.attHeight),false]);
 		}
 		
 		this.battleManager = bm;
-		this.attack = false;
+		this.attack = 0;
 	}
 	
+	// Allows user to interact with battle menu when it's a character's turn, 
+	// and only cycles to next character in turn order when an action is done.
+	// Automatically does an enemy's attack against a random player character
+	// when it's an enemy's turn.
 	update() {
-		if (this.game.camera.hero.battle) {
-			if (this.hoverAtt && this.game.click) {
-                console.log("Attack!");
-				if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0){
-					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 3));
-				} else {
-					this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
+		if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0){ // if player character
+			var i;
+			for(i=0; i<this.enemyBB.length; i++){ // allows user to pick target, has to be done before attack
+				if(this.enemyBB[i][1] && this.game.click){
+					this.attack = i;
 				}
-                this.game.click = null;
+			}
+			if (this.hoverAtt && this.game.click) { // if attack button is clicked
+				console.log("Attack!");
+					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
 				
 				// advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
@@ -705,9 +710,8 @@ class BattleUI {
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-            } else if (this.hoverSpec && this.game.click) {
-                console.log("Special!");
-                this.game.click = null;
+			} else if (this.hoverSpec && this.game.click) {
+				console.log("Special!");
 				
 				// advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
@@ -715,9 +719,8 @@ class BattleUI {
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-            } else if (this.hoverItem && this.game.click) {
-                console.log("Item!");
-                this.game.click = null;
+			} else if (this.hoverItem && this.game.click) {
+				console.log("Item!");
 				
 				// advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
@@ -725,9 +728,8 @@ class BattleUI {
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-            } else if (this.hoverDef && this.game.click) {
-                console.log("Defend!");
-				this.game.click = null;
+			} else if (this.hoverDef && this.game.click) {
+				console.log("Defend!");
 				
 				// advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
@@ -736,7 +738,19 @@ class BattleUI {
 					this.battleManager.activeChar = 0;
 				}
 			}
-        }
+			this.game.click = null;
+		} else { // if enemy character
+			this.battleManager.sleep(1000);
+			this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
+			
+			// advance turn order or reset
+			if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+				this.battleManager.activeChar++;
+			} else {
+				this.battleManager.activeChar = 0;
+			}
+			this.game.click = null;
+		}
 	}
 
     drawMinimap(ctx, mmX, mmY) {
@@ -745,108 +759,106 @@ class BattleUI {
 	draw(ctx) {
 		ctx.font = "8px Georgia";
 		
-		//if (this.game.camera.hero.battle){
-			// main battle ui
-			ctx.fillStyle = "Tan";
-            ctx.fillRect(this.x, this.y, this.textboxWidth, this.textboxHeight);
-            ctx.strokeStyle = "Brown";
-            ctx.strokeRect(this.x, this.y, this.textboxWidth, this.textboxHeight);
-			
-			//enemies list
-			ctx.fillStyle = "Tan";
-            ctx.fillRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 4);
-            ctx.strokeStyle = "Brown";
-            ctx.strokeRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 4);
-			//ctx.fillStyle = "Black";
-			var i;
-			for (i = 0; i < this.enemies.length; i++) {
-				if(this.game.mouse && this.game.mouse.x >= 3 * this.enemyBB[i][0].left && this.game.mouse.x <= 3 * this.enemyBB[i][0].right && 
-                this.game.mouse.y >= 3 * this.enemyBB[i][0].top && this.game.mouse.y <= 3 * this.enemyBB[i][0].bottom){
-					ctx.fillStyle = "Purple";
-					this.enemyBB[i][1] = true;
-				} else if (this.battleManager.turnOrder[this.battleManager.activeChar][2] == this.enemies[i][2]) {
-					ctx.fillStyle = "Green";
-					this.enemyBB[i][1] = false;
-				}else {
-					ctx.fillStyle = "Black";
-					this.enemyBB[i][1] = false;
-				}
-				ctx.fillText(this.enemies[i][2], this.x+10, this.y + 20 + (15 * i));
-			}
-			
-			//party list
-			ctx.fillStyle = "Tan";
-            ctx.fillRect(this.x + 145, this.y + 2, 98, this.textboxHeight - 4);
-            ctx.strokeStyle = "Brown";
-            ctx.strokeRect(this.x + 145, this.y + 2, 98, this.textboxHeight - 4);
-			ctx.fillStyle = "Black";
-			for (i = 0; i < this.party.length; i++) {
-				if(this.battleManager.turnOrder[this.battleManager.activeChar][2] == this.party[i][2]){
-					ctx.fillStyle = "Green";
-				} else {
-					ctx.fillStyle = "Black";
-				}
-				ctx.fillText(this.party[i][2], this.x + 150, this.y + 15 + (15 * i));
+		// main battle ui
+		ctx.fillStyle = "Tan";
+		ctx.fillRect(this.x, this.y, this.textboxWidth, this.textboxHeight-17);
+		ctx.strokeStyle = "Brown";
+		ctx.strokeRect(this.x, this.y, this.textboxWidth, this.textboxHeight-17);
+		
+		//enemies list
+		ctx.fillStyle = "Tan";
+		ctx.fillRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 19);
+		ctx.strokeStyle = "Brown";
+		ctx.strokeRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 19);
+		var i;
+		for (i = 0; i < this.enemies.length; i++) {
+			if(this.game.mouse && this.game.mouse.x >= 3 * this.enemyBB[i][0].left && this.game.mouse.x <= 3 * this.enemyBB[i][0].right && 
+			this.game.mouse.y >= 3 * this.enemyBB[i][0].top && this.game.mouse.y <= 3 * this.enemyBB[i][0].bottom){
+				ctx.fillStyle = "Purple";
+				this.enemyBB[i][1] = true;
+			} else if (this.battleManager.turnOrder[this.battleManager.activeChar][2] == this.enemies[i][2]) {
+				ctx.fillStyle = "Green";
+				this.enemyBB[i][1] = false;
+			}else {
 				ctx.fillStyle = "Black";
-				ctx.fillText(this.battleManager.party[i][1] + " / " + this.party[i][0].stats[0], this.x + 200, this.y + 15 + (15 * i));
+				this.enemyBB[i][1] = false;
 			}
-			
-			//atack button
-            ctx.fillStyle = "Black";
-			if (this.game.mouse && this.game.mouse.x >= 3 * this.attBB.left && this.game.mouse.x <= 3 * this.attBB.right && 
-                this.game.mouse.y >= 3 * this.attBB.top && this.game.mouse.y <= 3 * this.attBB.bottom) {
-                ctx.fillStyle = "Purple";
-                this.hoverAtt = true;
-            }else {
-                this.hoverAtt = false;
-            }
-            ctx.fillText("A T T A C K", this.attX, this.attY);
-			
-			//special attack button
+			ctx.fillText(this.enemies[i][2], this.x+10, this.y + 15 + (15 * i));
+		}
+		
+		//party list
+		ctx.fillStyle = "Tan";
+		ctx.fillRect(this.x + 145, this.y + 2, 98, this.textboxHeight - 19);
+		ctx.strokeStyle = "Brown";
+		ctx.strokeRect(this.x + 145, this.y + 2, 98, this.textboxHeight - 19);
+		ctx.fillStyle = "Black";
+		for (i = 0; i < this.party.length; i++) {
+			if(this.battleManager.turnOrder[this.battleManager.activeChar][2] == this.party[i][2]){
+				ctx.fillStyle = "Green";
+			} else {
+				ctx.fillStyle = "Black";
+			}
+			ctx.fillText(this.party[i][2], this.x + 150, this.y + 12 + (11 * i));
 			ctx.fillStyle = "Black";
-			if (this.game.mouse && this.game.mouse.x >= 3 * this.specBB.left && this.game.mouse.x <= 3 * this.specBB.right && 
-                this.game.mouse.y >= 3 * this.specBB.top && this.game.mouse.y <= 3 * this.specBB.bottom) {
-                ctx.fillStyle = "Purple";
-                this.hoverSpec = true;
-            }else {
-                this.hoverSpec = false;
-            }
-            ctx.fillText("S P E C I A L", this.attX, this.attY + 15);
-			
-			//items button
-			ctx.fillStyle = "Black";
-			if (this.game.mouse && this.game.mouse.x >= 3 * this.itemBB.left && this.game.mouse.x <= 3 * this.itemBB.right && 
-                this.game.mouse.y >= 3 * this.itemBB.top && this.game.mouse.y <= 3 * this.itemBB.bottom) {
-                ctx.fillStyle = "Purple";
-                this.hoverItem = true;
-            }else {
-                this.hoverItem = false;
-            }
-			ctx.fillText("I T E M", this.attX, this.attY + 30);
-			
-			//defend button
-			ctx.fillStyle = "Black";
-			if (this.game.mouse && this.game.mouse.x >= 3 * this.defBB.left && this.game.mouse.x <= 3 * this.defBB.right && 
-                this.game.mouse.y >= 3 * this.defBB.top && this.game.mouse.y <= 3 * this.defBB.bottom) {
-                ctx.fillStyle = "Purple";
-                this.hoverDef = true;
-            }else {
-                this.hoverDef = false;
-            }
-			ctx.fillText("D E F E N D", this.attX, this.attY + 45);
-		//}
+			ctx.fillText(this.battleManager.party[i][1] + " / " + this.party[i][0].stats[0], this.x + 200, this.y + 12 + (11 * i));
+		}
+		
+		//attack button
+		ctx.fillStyle = "Black";
+		if (this.game.mouse && this.game.mouse.x >= 3 * this.attBB.left && this.game.mouse.x <= 3 * this.attBB.right && 
+			this.game.mouse.y >= 3 * this.attBB.top && this.game.mouse.y <= 3 * this.attBB.bottom) {
+			ctx.fillStyle = "Purple";
+			this.hoverAtt = true;
+		}else {
+			this.hoverAtt = false;
+		}
+		ctx.fillText("A T T A C K", this.attX, this.attY);
+		
+		//special attack button
+		ctx.fillStyle = "Black";
+		if (this.game.mouse && this.game.mouse.x >= 3 * this.specBB.left && this.game.mouse.x <= 3 * this.specBB.right && 
+			this.game.mouse.y >= 3 * this.specBB.top && this.game.mouse.y <= 3 * this.specBB.bottom) {
+			ctx.fillStyle = "Purple";
+			this.hoverSpec = true;
+		}else {
+			this.hoverSpec = false;
+		}
+		ctx.fillText("S P E C I A L", this.attX, this.attY + 12);
+		
+		//items button
+		ctx.fillStyle = "Black";
+		if (this.game.mouse && this.game.mouse.x >= 3 * this.itemBB.left && this.game.mouse.x <= 3 * this.itemBB.right && 
+			this.game.mouse.y >= 3 * this.itemBB.top && this.game.mouse.y <= 3 * this.itemBB.bottom) {
+			ctx.fillStyle = "Purple";
+			this.hoverItem = true;
+		}else {
+			this.hoverItem = false;
+		}
+		ctx.fillText("I T E M", this.attX, this.attY + 24);
+		
+		//defend button
+		ctx.fillStyle = "Black";
+		if (this.game.mouse && this.game.mouse.x >= 3 * this.defBB.left && this.game.mouse.x <= 3 * this.defBB.right && 
+			this.game.mouse.y >= 3 * this.defBB.top && this.game.mouse.y <= 3 * this.defBB.bottom) {
+			ctx.fillStyle = "Purple";
+			this.hoverDef = true;
+		}else {
+			this.hoverDef = false;
+		}
+		ctx.fillText("D E F E N D", this.attX, this.attY + 36);
+		
 		
 		// bounding boxes
-            if (PARAMS.DEBUG) {
-                ctx.strokeStyle = 'Red';
-                ctx.strokeRect(this.attBB.x, this.attBB.y-8, this.attBB.width, this.attBB.height);
-				ctx.strokeRect(this.attBB.x, this.attBB.y + 7, this.attBB.width, this.attBB.height);
-				ctx.strokeRect(this.attBB.x, this.attBB.y + 22, this.attBB.width, this.attBB.height);
-				ctx.strokeRect(this.attBB.x, this.attBB.y + 37, this.attBB.width, this.attBB.height);
-				var i;
-				for(i=0;i<this.enemyBB.length;i++){
-					ctx.strokeRect(this.enemyBB[i][0].x, this.enemyBB[i][0].y-7, this.enemyBB[i][0].width, this.enemyBB[i][0].height);
-				}
-            }
+		if (PARAMS.DEBUG) {
+			ctx.strokeStyle = 'Red';
+			ctx.strokeRect(this.attBB.x, this.attBB.y-8, this.attBB.width, this.attBB.height);
+			ctx.strokeRect(this.attBB.x, this.attBB.y + 4, this.attBB.width, this.attBB.height);
+			ctx.strokeRect(this.attBB.x, this.attBB.y + 16, this.attBB.width, this.attBB.height);
+			ctx.strokeRect(this.attBB.x, this.attBB.y + 28, this.attBB.width, this.attBB.height);
+			var i;
+			for(i=0;i<this.enemyBB.length;i++){
+				ctx.strokeRect(this.enemyBB[i][0].x, this.enemyBB[i][0].y-7, this.enemyBB[i][0].width, this.enemyBB[i][0].height);
+			}
+		}
 	}
 }

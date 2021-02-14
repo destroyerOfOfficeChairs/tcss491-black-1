@@ -299,37 +299,20 @@ class SceneManager {
         }
 		
 		// add player characters
-		this.game.addEntity(this.hero);
-		this.hero.x = 200;
-		this.hero.y = 5;
 		this.hero.battle = true;
-        this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
-		//console.log("Battle hero: " + this.hero.x + ", " + this.hero.y);
-		this.game.addEntity(this.cleric);
-		this.cleric.x = this.hero.x;
-		this.cleric.y = this.hero.y + 35;
-        this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
-		//console.log("Battle cleric: " + this.cleric.x + ", " + this.cleric.y);
-		this.game.addEntity(this.archer);
-		this.archer.x = this.hero.x;
-		this.archer.y = this.cleric.y + 30;
+        //this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
+        //this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
 		this.archer.battle = true;
-		this.game.addEntity(this.mage);
-		this.mage.x = this.hero.x;
-		this.mage.y = this.archer.y + 40;
 		this.mage.battle = true;
-        this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
+        //this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
 		
 		// add enemies
-		this.goblin = new Goblin(this.game, 10, 10)
-		this.game.addEntity(this.goblin);
-		this.bat = new Bat(this.game, 20, 60)
-        this.game.addEntity(this.bat);
-        this.game.addEntity(new Scratch(this.game, this.bat.x, this.bat.y, this.bat));
+		this.goblin = new Goblin(this.game, 5, 55)
+		this.bat = new Bat(this.game, 5, 143)
+        //this.game.addEntity(new Scratch(this.game, this.bat.x, this.bat.y, this.bat));
         
-		this.skeleton = new Skeleton(this.game, 20, 100)
-        this.game.addEntity(this.skeleton);
-        this.game.addEntity(new DeathStare(this.game, this.skeleton.x, this.skeleton.y, this.skeleton));
+		this.skeleton = new Skeleton(this.game, 5, 98)
+        //this.game.addEntity(new DeathStare(this.game, this.skeleton.x, this.skeleton.y, this.skeleton));
         
         this.game.addEntity(new HeadsUpDisplay(this.game));
         this.game.addEntity(new MainMenu(this.game));
@@ -338,9 +321,9 @@ class SceneManager {
         this.game.addEntity(new Credits(this.game));
 		
 		// load battle manager
-		this.battleManager = new BattleManager(this.game, [this.goblin,this.bat,this.skeleton],
+		this.battleManager = new BattleManager(this.game, [this.goblin,this.skeleton,this.bat],
 			[this.hero, this.cleric, this.archer, this.mage]);
-		this.ui = new BattleUI(this.game, this.battleManager, [this.goblin,this.bat,this.skeleton],
+		this.ui = new BattleUI(this.game, this.battleManager, [this.goblin,this.skeleton,this.bat],
 			[this.hero, this.cleric, this.archer, this.mage])
 		this.game.addEntity(this.ui);
     }

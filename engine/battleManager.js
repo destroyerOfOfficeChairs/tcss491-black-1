@@ -13,6 +13,19 @@ class BattleManager {
 		
 		console.log("battle loaded");
 		console.log(this.turnOrder);
+		var i;
+			var x = 10;
+			var y = 15;
+			for(i=0; i<this.enemies.length; i++){
+				this.enemies[i][0].x = 5;
+				this.enemies[i][0].y = 55 + (i * 43);
+				this.game.addEntity(this.enemies[i][0]);
+			}
+			for(i=0; i<this.party.length; i++){
+				this.party[i][0].x = 210;
+				this.party[i][0].y = 40 + (i * 32);
+				this.game.addEntity(this.party[i][0]);
+			}
 	};
 	
 	update(){
@@ -76,7 +89,7 @@ class BattleManager {
 		this.list = [];
 		var i;
 		for (i = 0; i < chars.length; i++){
-			this.list[i] = [chars[i], chars[i].stats[0], chars[i].name];
+			this.list[i] = [chars[i], chars[i].stats[0], chars[i].name, false]; // character object, hp, name, defending
 		}
 		return this.list;
 	};
@@ -114,6 +127,7 @@ class BattleManager {
 	
 	// subtracts the difference between the attacker's attack and the defender's defense from the defender's health
 	attackEnemy(attacker, defender) {
+		this.party[defender][3] = false;
 		var damage = this.party[attacker][0].stats[1] - this.enemies[defender][0].stats[2];
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
 			damage += Math.floor(damage/2);
@@ -135,6 +149,10 @@ class BattleManager {
 			damage += Math.floor(damage/2);
 			console.log("Critical hit!");
 		}
+		if(this.party[defender][3]){ // if party memeber is defending
+			damage = Math.floor(damage/2);
+			this.party[defender][3] = false;
+		}
 		if (this.party[defender][1] - damage > 0) {
 			this.party[defender][1] -= damage;
 		}
@@ -143,6 +161,10 @@ class BattleManager {
 		}
 		console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");
 		console.log(this.party[defender][2] + "'s health = " + this.party[defender][1]);
+	}
+	
+	defend(entity){
+		
 	}
 	
 	win() {
