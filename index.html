@@ -1,4 +1,4 @@
-﻿
+﻿c
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,6 @@
     <script type="text/javascript" src="./maps/buildMapData.js"></script>
     <script type="text/javascript" src="./maps/debugMap.js"></script>
     <script type="text/javascript" src="./maps/startMap.js"></script>
-    <script type="text/javascript" src="./maps/Map2.js"></script>
     <script type="text/javascript" src="./spriteObjects/background.js"></script>
     <script type="text/javascript" src="./spriteObjects/boundingbox.js"></script>
     <script type="text/javascript" src="./spriteObjects/castleinterior.js"></script>
@@ -36,12 +35,28 @@
         <input type="checkbox" id="debug" checked> Debug
     </div>
 </body>
+
+    <div class="container" style="display": flex; width: 1200px">
+        <canvas id="gameWorld" width = "600" height ="600" tabindex="1" autofocus></canvas>
+        <div>
+            <div class="chat" id="message"></div>
+            <div class="response" id="response1"></div>
+            <div class="response" id="response2"></div>
+            <div class="response" id="response3"></div>
+        <div>
+     </div>
+        <div>
+        <br />
+        <input type="checkbox" id="debug" > Debug
+    </div>
+
+
 <footer>
-    <!-- Move around with WASD or arrow keys.<br>
+    Move around with WASD or arrow keys.<br>
     Press 'L' to toggle menu <br>
 	Press 'N' to enter battle mode, and 'M' to return to level.
     Press and hold 'B' to play an attacking animation.<br>
     Pick up the key and touch the door. See what happens...<br>
-    Stand in the bounding box an enemy is facing in. Press and hold 'B', the hero's health will fall -->
+    Stand in the bounding box an enemy is facing in. Press and hold 'B', the hero's health will fall
 </footer>
 </html>
