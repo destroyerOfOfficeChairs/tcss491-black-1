@@ -417,7 +417,8 @@ class Hero {
     };
 
     drawMinimap(ctx, mmX, mmY) {
-        ctx.fillStyle = "Purple";
+        //ctx.fillStyle = "Purple";
+        ctx.fillStyle = "Red";
         ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
     }
 

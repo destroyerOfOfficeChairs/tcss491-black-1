@@ -32,7 +32,7 @@ class GameEngine {
         this.currentState = this.gameStates[0];
 
         this.gameMaps = [debugMap, startMap, Map2, Map3];
-        this.currentMap = this.gameMaps[3];
+        this.currentMap = this.gameMaps[0];
 
         this.levelSize = 1;
         this.levelToMapRatio = 1;

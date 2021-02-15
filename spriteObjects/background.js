@@ -19,6 +19,9 @@ class Grass1 {
     };
 
     drawMinimap(ctx, mmX, mmY) {
+        // ctx.fillStyle = "Green";
+        // ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    
     }
 
     draw(ctx) {
@@ -108,7 +111,7 @@ class Rock {
     };
 
     drawMinimap(ctx, mmX, mmY) {
-        ctx.fillStyle = "Gray";
+        ctx.fillStyle = "dimgray";
         ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
     }
 
@@ -173,7 +176,7 @@ class Tree {
     };
 
     drawMinimap(ctx, mmX, mmY) {
-        ctx.fillStyle = "Green";
+        ctx.fillStyle = "DarkGreen";
         ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
     }
 

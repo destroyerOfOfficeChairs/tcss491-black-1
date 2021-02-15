@@ -175,16 +175,16 @@ class SceneManager {
                 this.game.addEntity(new Tree(this.game, ent.x, ent.y));
             }
         }
-        if (map.Wall) {
-            for (var i = 0; i < map.Wall.length; i++) {
-                let ent = map.Wall[i];
-                this.game.addEntity(new Wall(this.game, ent.x, ent.y));
-            }
-        }
         if (map.Water) {
             for (var i = 0; i < map.Water.length; i++) {
                 let ent = map.Water[i];
                 this.game.addEntity(new Water(this.game, ent.x, ent.y));
+            }
+        }
+        if (map.Wall) {
+            for (var i = 0; i < map.Wall.length; i++) {
+                let ent = map.Wall[i];
+                this.game.addEntity(new Wall(this.game, ent.x, ent.y));
             }
         }
         if (map.Lock) {

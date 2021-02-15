@@ -353,10 +353,23 @@ function buildMap3() {
     borderThickness = 4;
     index = 0;
 
-    //grass
+    //stone path
     for (var i = 0; i < mapWidth; i++) {
         for (var j = 0; j < mapHeight; j++) {
-            Map3.StonePath[index] = {x: i * 60, y: j * 60};
+            if (i >= mapWidth / 2 || j <= mapHeight / 2 ) {
+                Map3.StonePath[index] = {x: i * 60, y: j * 60};
+                index++;
+            }
+        }
+    }
+
+    //grass
+    index= 0;
+    startingGrassX = 129;
+    startingGrassY = 840;
+    for (var i = 0; i < 21; i++) {
+        for (var j = 0; j < 20; j++) {
+            Map3.Grass1[index] = {x: startingGrassX + i * 32, y: startingGrassY + j * 32};
             index++;
         }
     }
@@ -427,6 +440,67 @@ function buildMap3() {
                 Map3.Wall[index] = {x: 30 * (mapWidth - horizontalWallWidth / 2) + i * 30, y: 30 * (mapHeight - horizontalWallHeight / 2) + j * 30};
                 index++;
             }
+        }
+    }
+
+    // small cage
+    startingWallX = 900;
+    startingWallY = 180;
+    for (var i = 0; i < 6; i++) {
+        for (var j = 0; j < 6; j++) {
+            if ((i == 0 || i == 5 || j == 0 || j == 5) && (i != 5 || (j != 2 && j != 3))) {
+                Map3.Wall[index] = {x: startingWallX + i * 310/8, y: startingWallY + j * 310/8};
+                index++;
+            }
+        }
+    }
+
+    // water
+    index = 0;
+    startingWaterX = 849;
+    startingWaterY = 480;
+    for (var i = 0; i < 10; i++) {
+        for (var j = 0; j < 2; j++) {
+            if (i != 7) {
+                Map3.Water[index] = {x: startingWaterX + i * 63, y: startingWaterY + j * 63};
+                index++;
+            }
+        }
+    }
+
+    startingWaterX = 849;
+    startingWaterY = 900;
+    for (var i = 0; i < 10; i++) {
+        if (i != 3) {
+            Map3.Water[index] = {x: startingWaterX + i * 63, y: startingWaterY};
+            index++;
+        }
+    }
+
+    startingWaterX = 849;
+    startingWaterY = 1020;
+    for (var i = 0; i < 10; i++) {
+        if (i != 5) {
+            Map3.Water[index] = {x: startingWaterX + i * 63, y: startingWaterY};
+            index++;
+        }
+    }
+
+    startingWaterX = 849;
+    startingWaterY = 1200;
+    for (var i = 0; i < 10; i++) {
+        if (i != 8) {
+            Map3.Water[index] = {x: startingWaterX + i * 63, y: startingWaterY};
+            index++;
+        }
+    }
+
+    startingWaterX = 849;
+    startingWaterY = 1320;
+    for (var i = 0; i < 10; i++) {
+        if (i != 1) {
+            Map3.Water[index] = {x: startingWaterX + i * 63, y: startingWaterY};
+            index++;
         }
     }
 
