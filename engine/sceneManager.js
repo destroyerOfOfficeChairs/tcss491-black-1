@@ -10,8 +10,10 @@ class SceneManager {
         // uncomment this when starting on startMap
 		// this.heroX = 1024;
         // this.heroY = 1900;
-        this.heroX = 200; // 200 // 1230 // 1614
-        this.heroY = 200; // 200 // 1030 // 1686
+        this.startingHeroX = 200;
+        this.startingHeroY = 200;
+        this.heroX = this.startingHeroX; // 200 // 1230 // 1614
+        this.heroY = this.startingHeroY; // 200 // 1030 // 1686
 
         this.coins = 0;
         this.crystals = 0;
@@ -68,7 +70,7 @@ class SceneManager {
                     break;
             case this.game.gameStates[1]:
                 if (this.game.changeLevel) {
-                    this.loadMap(this.game.currentMap, this.heroX, this.heroY);
+                    this.loadMap(this.game.currentMap, this.startingHeroX, this.startingHeroY);
                 }
                 // center camera on hero during level exploration
                 this.x = this.hero.x - this.midpoint + this.hero.width/2 * PARAMS.SCALE * this.hero.scale;
