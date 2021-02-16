@@ -127,6 +127,7 @@ class BattleManager {
 	
 	// subtracts the difference between the attacker's attack and the defender's defense from the defender's health
 	attackEnemy(attacker, defender) {
+		this.party[attacker][0].basicAttack = true;
 		this.party[defender][3] = false;
 		var damage = this.party[attacker][0].stats[1] - this.enemies[defender][0].stats[2];
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit

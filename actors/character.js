@@ -22,6 +22,10 @@ class Hero {
         this.canPass = false;
         this.timeElapsed = 0;
 
+        this.timeElapsedBasic = 0;
+        this.basicAttack = false;
+        this.specialAttack = false;
+
         this.destroyBoxTimeElapsed = 0;
         
         this.updateBB();
@@ -137,8 +141,15 @@ class Hero {
 			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
 			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+			if (this.basicAttack || this.game.attack1 || this.stillAttacking) { // attacks during its turn
 				this.state = 2;
+                if (this.basicAttack) {
+                    this.timeElapsedBasic += this.game.clockTick;
+                    if (this.timeElapsedBasic > 1) {
+                        this.basicAttack = false;
+                        this.timeElapsedBasic = 0;
+                    }
+                }
 			}
 		}
         // update position
@@ -164,7 +175,7 @@ class Hero {
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed == 0) {
                 this.game.addEntity(new SuperSlash(this.game, this.x, this.y, this.facing, this));
             }
@@ -476,6 +487,11 @@ class Cleric {
 		this.battle = true;
 		this.stats = [100, 8, 3, 4]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
+
+        this.timeElapsedBasic = 0;
+        this.basicAttack = false;
+        this.specialAttack = false;
+        
 		
 		this.animations = [];
 		this.loadAnimations();
@@ -579,8 +595,15 @@ class Cleric {
 			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
 			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+			if (this.basicAttack || this.game.attack1 || this.stillAttacking) { // attacks during its turn
 				this.state = 2;
+                if (this.basicAttack) {
+                    this.timeElapsedBasic += this.game.clockTick;
+                    if (this.timeElapsedBasic > 1) {
+                        this.basicAttack = false;
+                        this.timeElapsedBasic = 0;
+                    }
+                }
 			}
 		}
 
@@ -652,6 +675,10 @@ class Archer {
         this.timeElapsedSpecial = 0;
         this.canShoot = false;
         this.projectile = 0; // 0 is arrow, 1 is missile
+
+        this.timeElapsedBasic = 0;
+        this.basicAttack = false;
+        this.specialAttack = false;
 
         this.animations=[];
         this.loadAnimations();
@@ -747,7 +774,7 @@ class Archer {
         }
 
 		this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-		if (this.game.attack1 || this.game.attack2 || this.stillAttacking) { // attacks when B or V is pressed
+		if (this.game.attack1 || this.game.attack2 || this.stillAttacking || this.basicAttack) { // attacks when B or V is pressed
 			this.state = 1;
             if (this.timeElapsed >= 0.8 && this.timeElapsed <= 0.85 && this.canShoot) {
                 if (this.projectile == 0) {
@@ -761,6 +788,7 @@ class Archer {
             if (this.timeElapsed >= 1.25) {
                 this.timeElapsed = 0;
                 this.canShoot = true;
+                this.basicAttack = false;
             }
 		} else if ((!this.game.attack1 || this.game.attack2) && !this.stillAttacking) {
             this.timeElapsed = 0;
@@ -821,6 +849,10 @@ class Mage {
         this.stats = [100, 8, 3, 5]; // hp, att, def, spd
         this.stillAttacking = false;
         this.timeElapsed = 0;
+
+        this.timeElapsedBasic = 0;
+        this.basicAttack = false;
+        this.specialAttack = false;
         
         // this.animations.push(new Animator(this.spritesheet, 1, 150, 50, 15, 13, 0.1, 25, false, true));
         // this.animations.push(new Animator(this.spritesheet, 0, 150, 50, 15, 13, 0.1, 25, false, true));
@@ -867,13 +899,18 @@ class Mage {
 		}
 		else {
 			this.facing = 1;
-			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
+			this.stillAttacking = this.state == 2 && !this.animations[this.facing].cycled;
 
 			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-			if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
-				this.state = 1;
-			} else {
-				this.state = 0;
+			if (this.basicAttack || this.game.attack1 || this.stillAttacking) { // attacks during its turn
+				this.state = 2;
+                if (this.basicAttack) {
+                    this.timeElapsedBasic += this.game.clockTick;
+                    if (this.timeElapsedBasic > 1) {
+                        this.basicAttack = false;
+                        this.timeElapsedBasic = 0;
+                    }
+                }
 			}
 		}
 

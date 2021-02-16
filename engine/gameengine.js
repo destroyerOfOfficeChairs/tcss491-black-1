@@ -116,7 +116,7 @@ class GameEngine {
                     if (that.mapIndex >= that.gameMaps.length) {
                         that.mapIndex = 0;
                     }
-                    console.log(that.mapIndex);
+                    // console.log(that.mapIndex);
                     that.currentMap = that.gameMaps[that.mapIndex];
                     that.changeLevel = true;
                     break;

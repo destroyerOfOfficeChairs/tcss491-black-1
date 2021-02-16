@@ -191,7 +191,7 @@ class Lightning {
     }
 
     draw(ctx) {
-        if (this.game.attack1) {
+        if (this.game.attack1 || this.entity.basicAttack) {
             if (this.entity.facing == 0) {//facing right
                 ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y - (1 * this.entity.height * PARAMS.SCALE * this.entity.scale) - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             } else if (this.entity.facing == 1) {//facing left
@@ -294,7 +294,7 @@ class Slash {
     }
 
     draw(ctx) {
-        if (this.game.attack1) {
+        if (this.game.attack1 || this.entity.basicAttack) {
             if (this.entity.facing == 0) {//facing right
                 ctx.drawImage(this.spritesheet, 74, 20, this.width, this.height, this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.entity.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             } else if (this.entity.facing == 1) {//facing left
@@ -687,7 +687,7 @@ class Spell {
     }
 
     draw(ctx) {
-        if (this.game.attack1) {
+        if (this.game.attack1 || this.entity.basicAttack) {
             if (this.entity.facing == 0) {
                 ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             } else if (this.entity.facing == 1) {

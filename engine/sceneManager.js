@@ -70,6 +70,7 @@ class SceneManager {
                     break;
             case this.game.gameStates[1]:
                 if (this.game.changeLevel) {
+                    this.keys = 0;
                     this.loadMap(this.game.currentMap, this.startingHeroX, this.startingHeroY);
                 }
                 // center camera on hero during level exploration
