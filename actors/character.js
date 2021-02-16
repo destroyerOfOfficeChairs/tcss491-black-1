@@ -479,6 +479,7 @@ class Cleric {
 		
 		this.animations = [];
 		this.loadAnimations();
+        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
 		//this.animations.push(new Animator(this.spritesheet, 0, 15, 32, 50, 2, .5, 96, false, true, false));
 		//                                                x, y, width, height, frames, speed, spacing, flip, loop, oscillate
 	};
@@ -616,6 +617,10 @@ class Cleric {
         
         this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE * this.scale);
 
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
         //for testing boundaries
         /*ctx.fillStyle = "Black";
         ctx.strokeStyle = "Black";
@@ -807,6 +812,7 @@ class Mage {
         this.animations = [];
         this.facing = 0;        // 0 = right, 1 = left
         this.animations=[];
+        this.state = 0; // 0 = idle, 1 = attack
         this.scale = 1/4;
         this.width = 102;
         this.height = 120;

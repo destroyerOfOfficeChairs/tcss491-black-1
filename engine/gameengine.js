@@ -24,6 +24,7 @@ class GameEngine {
         this.credits = false;
 		this.battleui = false;
         this.map =false;
+        this.changeLevel = false;
 
         this.attack1 = false;
         this.attack2 = false;
@@ -32,7 +33,8 @@ class GameEngine {
         this.currentState = this.gameStates[0];
 
         this.gameMaps = [debugMap, startMap, Map2, Map3];
-        this.currentMap = this.gameMaps[3];
+        this.mapIndex = 0;
+        this.currentMap = this.gameMaps[this.mapIndex];
 
         this.levelSize = 1;
         this.levelToMapRatio = 1;
@@ -109,6 +111,15 @@ class GameEngine {
                 case "Semicolon":
                     that.map = !that.map;
                     break;
+                case "KeyC":
+                    that.mapIndex++;
+                    if (that.mapIndex >= that.gameMaps.length) {
+                        that.mapIndex = 0;
+                    }
+                    console.log(that.mapIndex);
+                    that.currentMap = that.gameMaps[that.mapIndex];
+                    that.changeLevel = true;
+                    break;
             }
         }, false);
 
@@ -142,6 +153,9 @@ class GameEngine {
 				case "KeyM":
 					that.m = false;
 					break;
+                case "KeyC":
+                    that.changeLevel = false;
+                    break;
             }
         }, false);
 

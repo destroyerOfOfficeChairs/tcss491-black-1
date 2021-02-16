@@ -8,6 +8,9 @@ class TitleScreen {
 
     update() {
         // if (this.game.attack1) // I have no idea
+        if (this.game.attack1) {
+            this.removeFromWorld = true;
+        }
     }
 
     drawMinimap(ctx, mmX, mmY) {

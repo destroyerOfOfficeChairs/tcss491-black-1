@@ -35,8 +35,9 @@ class FireBreath {
     }
 
     update() {
-
-    }
+        this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+}
 
     drawMinimap(ctx, mmX, mmY) {
     }
@@ -178,11 +179,12 @@ class Lightning {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/lightning.png");
         this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y - (1 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y - (1 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-
+        
     }
 
     update() {
-
+        this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y - (1 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y - (1 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     }
 
     drawMinimap(ctx, mmX, mmY) {
@@ -673,11 +675,12 @@ class Spell {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spell.png");
         this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-
+        
     }
 
     update() {
-
+        this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     }
 
     drawMinimap(ctx, mmX, mmY) {

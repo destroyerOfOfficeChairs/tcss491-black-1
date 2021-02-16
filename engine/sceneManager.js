@@ -33,6 +33,9 @@ class SceneManager {
 
         //this.minimap = new Minimap(this.game, 1.5 * PARAMS.BLOCKWIDTH, 3.5 * PARAMS.BLOCKWIDTH, 224 * PARAMS.SCALE);
         this.minimap = new Minimap(this.game, 151, 119, 100);
+
+        //saves the entities for each level to preserve state
+        this.savedMapEntities = [];
 		
 		this.boss = new Dragon(this.game, 1000, 1000);
         // commented this out because the dragon should be added as JSON
@@ -60,9 +63,13 @@ class SceneManager {
         PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.game.currentState) {
             case this.game.gameStates[0]:
-                if (this.game.attack1) this.loadMap(this.game.currentMap, this.heroX, this.heroY);
-                break;
+                if (this.game.attack1) 
+                    this.loadMap(this.game.currentMap, this.heroX, this.heroY);
+                    break;
             case this.game.gameStates[1]:
+                if (this.game.changeLevel) {
+                    this.loadMap(this.game.currentMap, this.heroX, this.heroY);
+                }
                 // center camera on hero during level exploration
                 this.x = this.hero.x - this.midpoint + this.hero.width/2 * PARAMS.SCALE * this.hero.scale;
                 this.y = this.hero.y - PARAMS.CANVASHEIGHT/2 + this.hero.height/2 * PARAMS.SCALE * this.hero.scale;
@@ -71,6 +78,8 @@ class SceneManager {
                 if(this.game.n){
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
+                    this.hero.velocity.x = 0;
+                    this.hero.velocity.y = 0;
                     this.game.currentState = this.game.gameStates[2];
                     this.sleep(200);
                     this.battle = true;
@@ -103,6 +112,7 @@ class SceneManager {
         this.game.entities = [];
         this.x = 0;
         this.y = 0;
+
         if (map.CastleFloor1) {
             for (var i = 0; i < map.CastleFloor1.length; i++) {
                 let ent = map.CastleFloor1[i];
@@ -299,20 +309,19 @@ class SceneManager {
         }
 		
 		// add player characters
-		this.hero.battle = true;
-        //this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
-        //this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
+        this.hero.battle = true;
+        this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
+        this.cleric.battle = true;
 		this.archer.battle = true;
 		this.mage.battle = true;
-        //this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
 		
 		// add enemies
 		this.goblin = new Goblin(this.game, 5, 55)
 		this.bat = new Bat(this.game, 5, 143)
-        //this.game.addEntity(new Scratch(this.game, this.bat.x, this.bat.y, this.bat));
+        this.game.addEntity(new Scratch(this.game, this.bat.x, this.bat.y, this.bat));
         
 		this.skeleton = new Skeleton(this.game, 5, 98)
-        //this.game.addEntity(new DeathStare(this.game, this.skeleton.x, this.skeleton.y, this.skeleton));
+        this.game.addEntity(new DeathStare(this.game, this.skeleton.x, this.skeleton.y, this.skeleton));
         
         this.game.addEntity(new HeadsUpDisplay(this.game));
         this.game.addEntity(new MainMenu(this.game));
@@ -326,6 +335,11 @@ class SceneManager {
 		this.ui = new BattleUI(this.game, this.battleManager, [this.goblin,this.skeleton,this.bat],
 			[this.hero, this.cleric, this.archer, this.mage])
 		this.game.addEntity(this.ui);
+
+        this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
+        this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
+
+
     }
     
     sleep(milliseconds) {
