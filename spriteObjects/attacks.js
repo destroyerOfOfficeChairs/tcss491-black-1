@@ -1,3 +1,26 @@
+class Score {
+    constructor(game, x, y, score) {
+        Object.assign(this, { game, x, y, score});
+
+        this.velocity = -32;
+        this.elapsed = 0;
+        console.log("damage appears at x = " + this.x);
+        console.log("damage appears at y = " + this.y);
+    }
+
+    update() {
+        this.elapsed += this.game.clockTick;
+        if (this.elapsed > 1) this.removeFromWorld = true;
+        this.y += this.game.clockTick * this.velocity;
+    }
+
+    draw(ctx) {
+        ctx.font = "12px Georgia";
+        ctx.fillStyle = "White";
+        ctx.fillText(this.score, this.x, this.y);
+    }
+}
+
 class FireBreath {
     constructor(game, x, y, entity) {
         Object.assign(this, { game, x, y, entity});

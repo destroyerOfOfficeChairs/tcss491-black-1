@@ -133,6 +133,7 @@ class BattleManager {
 			damage += Math.floor(damage/2);
 			console.log("Critical hit!");
 		}
+		this.game.addEntity(new Score(this.game, this.enemies[defender][0].x + this.enemies[defender][0].width * PARAMS.SCALE * this.enemies[defender][0].scale / 2, this.enemies[defender][0].y, -1 * damage));
 		if (this.enemies[defender][1] - damage > 0) {
 			this.enemies[defender][1] -= damage;
 		}
@@ -149,7 +150,8 @@ class BattleManager {
 			damage += Math.floor(damage/2);
 			console.log("Critical hit!");
 		}
-		if(this.party[defender][3]){ // if party memeber is defending
+		this.game.addEntity(new Score(this.game, this.party[defender][0].x + this.party[defender][0].width * PARAMS.SCALE * this.party[defender][0].scale / 2, this.party[defender][0].y, -1 * damage));
+		if(this.party[defender][3]){ // if party member is defending
 			damage = Math.floor(damage/2);
 			this.party[defender][3] = false;
 		}
