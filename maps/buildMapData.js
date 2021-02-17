@@ -7,6 +7,7 @@ function buildMapData() {
     buildStartMap();
     buildMap2();
     buildMap3();
+    buildMap4();
 };
 
 function buildDebugMap() {
@@ -503,5 +504,58 @@ function buildMap3() {
             index++;
         }
     }
+
+}
+
+function buildMap4() {
+    mapWidth = 25;
+    mapHeight = 25;
+    borderThickness = 4;
+    index = 0;
+
+    //grass
+    for (var i = 0; i < mapWidth; i++) {
+        for (var j = 0; j < mapHeight; j++) {
+            Map4.Grass1[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+
+    //walls
+    //borders of the map
+    index = 0;
+    northBorderWidth = mapWidth;
+    northBorderHeight = borderThickness;
+    for (var i = 0; i < northBorderWidth; i++) {
+        for (var j = 0; j < northBorderHeight; j++) {
+            Map4.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+    westBorderWidth = borderThickness;
+    westBorderHeight = mapHeight;
+    for (var i = 0; i < westBorderWidth; i++) {
+        for (var j = northBorderHeight; j < westBorderHeight; j++) {
+            Map4.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+    eastBorderWidth = borderThickness;
+    eastBorderHeight = mapHeight;
+    for (var i = northBorderWidth - eastBorderWidth; i < northBorderWidth; i++) {
+        for (var j = northBorderHeight; j < eastBorderHeight; j++) {
+            Map4.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+    southBorderWidth = mapWidth;
+    southBorderHeight = borderThickness;
+    for (var i = westBorderWidth; i < northBorderWidth - eastBorderWidth; i++) {
+        for (var j = westBorderHeight - southBorderHeight; j < westBorderHeight; j++) {
+            Map4.Wall[index] = {x: i * 32, y: j * 32};
+            index++;
+        }
+    }
+
 
 }

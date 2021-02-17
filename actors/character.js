@@ -203,6 +203,20 @@ class Hero {
                     that.game.camera.coins++;
                 }
 
+                if (entity instanceof Portal) {
+                    that.game.mapIndex++;
+                    if (that.game.mapIndex >= that.game.gameMaps.length) {
+                        // that.mapIndex = 0;
+
+                        //boss battle
+                        console.log("boss battle should be initiated");
+                    } else {
+                        // console.log(that.mapIndex);
+                        that.game.currentMap = that.game.gameMaps[that.game.mapIndex];
+                        that.game.changeLevel = true;
+                    }
+                }
+
                 if (entity instanceof Key) {
                     entity.removeFromWorld = true;
                     //that.canPass = true;
@@ -767,7 +781,7 @@ class Archer {
 		}
         this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
 
-        if (this.game.attack1) {
+        if (this.game.attack1 || this.basicAttack) {
             this.projectile = 0;
         } else if (this.game.attack2) {
             this.projectile = 1;
@@ -789,6 +803,8 @@ class Archer {
                 this.timeElapsed = 0;
                 this.canShoot = true;
                 this.basicAttack = false;
+                //this.game.attack1 = false;
+                //this.game.attack2 = false;
             }
 		} else if ((!this.game.attack1 || this.game.attack2) && !this.stillAttacking) {
             this.timeElapsed = 0;

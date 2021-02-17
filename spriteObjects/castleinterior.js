@@ -12,9 +12,15 @@ class CastleWall1Mid {
         this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, 1);
         this.bottomBB = new BoundingBox(this.x, this.y + this.height * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, 1);
     }
+
     update() {
 
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        
+    }
+
     draw(ctx) {
         ctx.drawImage(this.spritesheet,
             544,
@@ -51,9 +57,15 @@ class CastleWall1LeftCorner {
         this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, 1);
         this.bottomBB = new BoundingBox(this.x, this.y + this.height * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, 1);
     }
+
     update() {
 
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        
+    }
+
     draw(ctx) {
         ctx.drawImage(this.spritesheet,
             513,
@@ -90,9 +102,15 @@ class CastleWall1RightCorner {
         this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, 1);
         this.bottomBB = new BoundingBox(this.x, this.y + this.height * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, 1);
     }
+
     update() {
 
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        
+    }
+
     draw(ctx) {
         ctx.drawImage(this.spritesheet,
             576,
@@ -129,9 +147,15 @@ class CastleWall1RightEdge {
         this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, 1);
         this.bottomBB = new BoundingBox(this.x, this.y + this.height * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, 1);
     }
+
     update() {
 
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        
+    }
+    
     draw(ctx) {
         ctx.drawImage(this.spritesheet,
             239,
@@ -162,9 +186,15 @@ class CastleFloor1 {
         this.width = 64;
         this.height = 64;
     }
+
     update() {
 
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        
+    }
+
     draw(ctx) {
         ctx.drawImage(this.spritesheet,
             448,
@@ -186,9 +216,15 @@ class CastleFloor2 {
         this.width = 128;
         this.height = 160;
     }
+
     update() {
 
     }
+
+    drawMinimap(ctx, mmX, mmY) {
+        
+    }
+    
     draw(ctx) {
         ctx.drawImage(this.spritesheet,
             448,

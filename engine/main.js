@@ -18,6 +18,7 @@ ASSET_MANAGER.queueDownload("./sprites/gem.png");
 ASSET_MANAGER.queueDownload("./sprites/lockeddoors.png");
 ASSET_MANAGER.queueDownload("./sprites/lock.png");
 ASSET_MANAGER.queueDownload("./sprites/key.png");
+ASSET_MANAGER.queueDownload("./sprites/portal.png");
 
 ASSET_MANAGER.queueDownload("./sprites/firebreath.png");
 ASSET_MANAGER.queueDownload("./sprites/shadowball.png");

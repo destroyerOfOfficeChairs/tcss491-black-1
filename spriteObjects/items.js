@@ -217,3 +217,38 @@ class Box {
         }
     }
 }
+
+class Portal {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/portal.png");
+        this.scale = 1/10;
+        this.width = 250;
+        this.height = 592;
+        this.animation = new Animator(this.spritesheet, 0, 0, this.width, this.height, 4, 0.2, 0, false, true);
+        this.BB = new BoundingBox(this.x + 1/8 * this.width * PARAMS.SCALE * this.scale, this.y, 3/4 * this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+    }
+
+    update() {
+
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
+        ctx.fillStyle = "Purple";
+        ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    }
+
+    draw(ctx) {
+        this.animation.drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
+
+        //for testing boundaries
+        // ctx.fillStyle = "Black";
+        // ctx.strokeStyle = "Black";
+        // ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
+
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height); 
+        }
+    }
+}

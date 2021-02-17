@@ -32,8 +32,8 @@ class GameEngine {
         this.gameStates = ["titleScreen", "dungeonMap", "battleScene", "worldMap"];
         this.currentState = this.gameStates[0];
 
-        this.gameMaps = [debugMap, startMap, Map2, Map3];
-        this.mapIndex = 0;
+        this.gameMaps = [debugMap, startMap, Map2, Map3, Map4];
+        this.mapIndex = 2;
         this.currentMap = this.gameMaps[this.mapIndex];
 
         this.levelSize = 1;
@@ -41,14 +41,15 @@ class GameEngine {
 
         if (this.currentMap == this.gameMaps[0]) {
             this.levelSize = 32 * 16;
-            this.levelToMapRatio = 100 / this.levelSize;
         } else if (this.currentMap == this.gameMaps[2]) {
             this.levelSize = 32 * 75;
-            this.levelToMapRatio = 100 / this.levelSize;
         } else if (this.currentMap == this.gameMaps[3]) {
             this.levelSize = 60 * 26;
-            this.levelToMapRatio = 100 / this.levelSize;
+        } else if (this.currentMap == this.gameMaps[4]) {
+            this.levelSize = 32 * 25;
         }
+        this.levelToMapRatio = 100 / this.levelSize;
+
     };
 
     init(ctx) {
@@ -112,13 +113,15 @@ class GameEngine {
                     that.map = !that.map;
                     break;
                 case "KeyC":
-                    that.mapIndex++;
-                    if (that.mapIndex >= that.gameMaps.length) {
-                        that.mapIndex = 0;
+                    if (PARAMS.DEBUG) {
+                        that.mapIndex++;
+                        if (that.mapIndex >= that.gameMaps.length) {
+                            that.mapIndex = 0;
+                        }
+                        // console.log(that.mapIndex);
+                        that.currentMap = that.gameMaps[that.mapIndex];
+                        that.changeLevel = true;
                     }
-                    // console.log(that.mapIndex);
-                    that.currentMap = that.gameMaps[that.mapIndex];
-                    that.changeLevel = true;
                     break;
             }
         }, false);
@@ -227,14 +230,14 @@ class GameEngine {
 
         if (this.currentMap == this.gameMaps[0]) {
             this.levelSize = 32 * 16;
-            this.levelToMapRatio = 100 / this.levelSize;
         } else if (this.currentMap == this.gameMaps[2]) {
             this.levelSize = 32 * 75;
-            this.levelToMapRatio = 100 / this.levelSize;
         } else if (this.currentMap == this.gameMaps[3]) {
             this.levelSize = 60 * 26;
-            this.levelToMapRatio = 100 / this.levelSize;
+        } else if (this.currentMap == this.gameMaps[4]) {
+            this.levelSize = 32 * 25;
         }
+        this.levelToMapRatio = 100 / this.levelSize;
     };
 
     loop() {

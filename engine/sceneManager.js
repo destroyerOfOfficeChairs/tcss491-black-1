@@ -38,6 +38,9 @@ class SceneManager {
 
         //saves the entities for each level to preserve state
         this.savedMapEntities = [];
+        for (var i = 0; i < this.game.gameMaps.length; i++) { // 4 directions (right, left, down, up)
+            this.savedMapEntities.push([]);
+        }
 		
 		this.boss = new Dragon(this.game, 1000, 1000);
         // commented this out because the dragon should be added as JSON
@@ -70,8 +73,9 @@ class SceneManager {
                     break;
             case this.game.gameStates[1]:
                 if (this.game.changeLevel) {
-                    this.keys = 0;
+                    //this.keys = 0;
                     this.loadMap(this.game.currentMap, this.startingHeroX, this.startingHeroY);
+                    this.game.changeLevel = false;
                 }
                 // center camera on hero during level exploration
                 this.x = this.hero.x - this.midpoint + this.hero.width/2 * PARAMS.SCALE * this.hero.scale;
@@ -116,185 +120,201 @@ class SceneManager {
         this.x = 0;
         this.y = 0;
 
-        if (map.CastleFloor1) {
-            for (var i = 0; i < map.CastleFloor1.length; i++) {
-                let ent = map.CastleFloor1[i];
-                this.game.addEntity(new CastleFloor1(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.CastleWall1Mid) {
-            for (var i = 0; i < map.CastleWall1Mid.length; i++) {
-                let ent = map.CastleWall1Mid[i];
-                this.game.addEntity(new CastleWall1Mid(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.CastleWall1LeftCorner) {
-            for (var i = 0; i < map.CastleWall1LeftCorner.length; i++) {
-                let ent = map.CastleWall1LeftCorner[i];
-                this.game.addEntity(new CastleWall1LeftCorner(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.CastleWall1RightCorner) {
-            for (var i = 0; i < map.CastleWall1RightCorner.length; i++) {
-                let ent = map.CastleWall1RightCorner[i];
-                this.game.addEntity(new CastleWall1RightCorner(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.CastleWall1RightEdge) {
-            for (var i = 0; i < map.CastleWall1RightEdge.length; i++) {
-                let ent = map.CastleWall1RightEdge[i];
-                this.game.addEntity(new CastleWall1RightEdge(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Grass1) {
-            for (var i = 0; i < map.Grass1.length; i++) {
-                let ent = map.Grass1[i];
-                this.game.addEntity(new Grass1(this.game, ent.x, ent.y))
-            }
-        }
-        if (map.StonePath) {
-            for (var i = 0; i < map.StonePath.length; i++) {
-                let ent = map.StonePath[i];
-                this.game.addEntity(new StonePath(this.game, ent.x, ent.y))
-            }
-        }
-        if (map.DirthPath) {
-            for (var i = 0; i < map.DirtPath.length; i++) {
-                let ent = map.DirtPath[i];
-                this.game.addEntity(new DirtPath(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Bush) {
-            for (var i = 0; i < map.Bush.length; i++) {
-                let ent = map.Bush[i];
-                this.game.addEntity(new Bush(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Rock) {
-            for (var i = 0; i < map.Rock.length; i++) {
-                let ent = map.Rock[i];
-                this.game.addEntity(new Rock(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Box) {
-            for (var i = 0; i < map.Box.length; i++) {
-                let ent = map.Box[i];
-                this.game.addEntity(new Box(this.game, ent.x, ent.y, ent.item));
-            }
-        }
-        if (map.Tree) {
-            for (var i = 0; i < map.Tree.length; i++) {
-                let ent = map.Tree[i];
-                this.game.addEntity(new Tree(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Water) {
-            for (var i = 0; i < map.Water.length; i++) {
-                let ent = map.Water[i];
-                this.game.addEntity(new Water(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Wall) {
-            for (var i = 0; i < map.Wall.length; i++) {
-                let ent = map.Wall[i];
-                this.game.addEntity(new Wall(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Lock) {
-            for (var i = 0; i < map.Lock.length; i++) {
-                let ent = map.Lock[i];
-                this.game.addEntity(new Lock(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Coin) {
-            for (var i = 0; i < map.Coin.length; i++) {
-                let ent = map.Coin[i];
-                this.game.addEntity(new Coin(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Crystal) {
-            for (var i = 0; i < map.Crystal.length; i++) {
-                let ent = map.Crystal[i];
-                this.game.addEntity(new Crystal(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Key) {
-            for (var i = 0; i < map.Key.length; i++) {
-                let ent = map.Key[i];
-                this.game.addEntity(new Key(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Goblin) {
-            for (var i = 0; i < map.Goblin.length; i++) {
-                let ent = map.Goblin[i];
-                this.game.addEntity(new Goblin(this.game, ent.x, ent.y));
-            }
-        }
-        if (map.Bat) {
-            for (var i = 0; i < map.Bat.length; i++) {
-                let ent = map.Bat[i];
-                let bat = new Bat(this.game, ent.x, ent.y)
-                this.game.addEntity(bat);
-                this.game.addEntity(new Scratch(this.game, ent.x, ent.y, bat));
-            }
-        }
-        if (map.Skeleton) {
-            for (var i = 0; i < map.Skeleton.length; i++) {
-                let ent = map.Skeleton[i];
-                let skeleton = new Skeleton(this.game, ent.x, ent.y)
-                this.game.addEntity(skeleton);
-                this.game.addEntity(new DeathStare(this.game, ent.x, ent.y, skeleton));
-            }
-        }
-        if (map.Dragon) {
-            for (var i = 0; i < map.Dragon.length; i++) {
-                let ent = map.Dragon[i];
-                let theDragon = new Dragon(this.game, ent.x, ent.y);
-                this.game.addEntity(theDragon);
-                this.game.addEntity(new FireBreath(this.game, ent.x, ent.y, theDragon));
-            }
-        }
-        // this.game.addEntity(this.boss);
-        // this.game.addEntity(new FireBreath(this.game, this.boss.x, this.boss.y));
-        //this.game.addEntity(new ShadowBall(this.game, this.boss.x, this.boss.y, this.boss.facing));
+        if (this.savedMapEntities[this.game.mapIndex].length == 0) { //if adding entites for the first time
 
-        if (map.Archer) {
-            for (var i = 0; i < map.Archer.length; i++) {
-                let ent = map.Archer[i];
-                this.game.addEntity(new Archer(this.game, ent.x, ent.y));
+            if (map.CastleFloor1) {
+                for (var i = 0; i < map.CastleFloor1.length; i++) {
+                    let ent = map.CastleFloor1[i];
+                    this.game.addEntity(new CastleFloor1(this.game, ent.x, ent.y));
+                }
             }
-        }
-        if (map.Mage) {
-            for (var i = 0; i < map.Mage.length; i++) {
-                let ent = map.Mage[i];
-                let mage = new Mage(this.game, ent.x, ent.y);
-                this.game.addEntity(mage);
-                this.game.addEntity(new Lightning(this.game, ent.x, ent.y, mage));
+            if (map.CastleWall1Mid) {
+                for (var i = 0; i < map.CastleWall1Mid.length; i++) {
+                    let ent = map.CastleWall1Mid[i];
+                    this.game.addEntity(new CastleWall1Mid(this.game, ent.x, ent.y));
+                }
             }
-        }
-        if (map.Cleric) {
-            for (var i = 0; i < map.Cleric.length; i++) {
-                let ent = map.Cleric[i];
-                let cleric = new Cleric(this.game, ent.x, ent.y);
-                this.game.addEntity(cleric);
-                this.game.addEntity(new Spell(this.game, ent.x, ent.y, cleric));
+            if (map.CastleWall1LeftCorner) {
+                for (var i = 0; i < map.CastleWall1LeftCorner.length; i++) {
+                    let ent = map.CastleWall1LeftCorner[i];
+                    this.game.addEntity(new CastleWall1LeftCorner(this.game, ent.x, ent.y));
+                }
             }
+            if (map.CastleWall1RightCorner) {
+                for (var i = 0; i < map.CastleWall1RightCorner.length; i++) {
+                    let ent = map.CastleWall1RightCorner[i];
+                    this.game.addEntity(new CastleWall1RightCorner(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.CastleWall1RightEdge) {
+                for (var i = 0; i < map.CastleWall1RightEdge.length; i++) {
+                    let ent = map.CastleWall1RightEdge[i];
+                    this.game.addEntity(new CastleWall1RightEdge(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Grass1) {
+                for (var i = 0; i < map.Grass1.length; i++) {
+                    let ent = map.Grass1[i];
+                    this.game.addEntity(new Grass1(this.game, ent.x, ent.y))
+                }
+            }
+            if (map.StonePath) {
+                for (var i = 0; i < map.StonePath.length; i++) {
+                    let ent = map.StonePath[i];
+                    this.game.addEntity(new StonePath(this.game, ent.x, ent.y))
+                }
+            }
+            if (map.DirthPath) {
+                for (var i = 0; i < map.DirtPath.length; i++) {
+                    let ent = map.DirtPath[i];
+                    this.game.addEntity(new DirtPath(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Bush) {
+                for (var i = 0; i < map.Bush.length; i++) {
+                    let ent = map.Bush[i];
+                    this.game.addEntity(new Bush(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Rock) {
+                for (var i = 0; i < map.Rock.length; i++) {
+                    let ent = map.Rock[i];
+                    this.game.addEntity(new Rock(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Box) {
+                for (var i = 0; i < map.Box.length; i++) {
+                    let ent = map.Box[i];
+                    this.game.addEntity(new Box(this.game, ent.x, ent.y, ent.item));
+                }
+            }
+            if (map.Tree) {
+                for (var i = 0; i < map.Tree.length; i++) {
+                    let ent = map.Tree[i];
+                    this.game.addEntity(new Tree(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Water) {
+                for (var i = 0; i < map.Water.length; i++) {
+                    let ent = map.Water[i];
+                    this.game.addEntity(new Water(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Wall) {
+                for (var i = 0; i < map.Wall.length; i++) {
+                    let ent = map.Wall[i];
+                    this.game.addEntity(new Wall(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Lock) {
+                for (var i = 0; i < map.Lock.length; i++) {
+                    let ent = map.Lock[i];
+                    this.game.addEntity(new Lock(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Coin) {
+                for (var i = 0; i < map.Coin.length; i++) {
+                    let ent = map.Coin[i];
+                    this.game.addEntity(new Coin(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Crystal) {
+                for (var i = 0; i < map.Crystal.length; i++) {
+                    let ent = map.Crystal[i];
+                    this.game.addEntity(new Crystal(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Key) {
+                for (var i = 0; i < map.Key.length; i++) {
+                    let ent = map.Key[i];
+                    this.game.addEntity(new Key(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Portal) {
+                for (var i = 0; i < map.Portal.length; i++) {
+                    let ent = map.Portal[i];
+                    this.game.addEntity(new Portal(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Goblin) {
+                for (var i = 0; i < map.Goblin.length; i++) {
+                    let ent = map.Goblin[i];
+                    this.game.addEntity(new Goblin(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Bat) {
+                for (var i = 0; i < map.Bat.length; i++) {
+                    let ent = map.Bat[i];
+                    let bat = new Bat(this.game, ent.x, ent.y)
+                    this.game.addEntity(bat);
+                    this.game.addEntity(new Scratch(this.game, ent.x, ent.y, bat));
+                }
+            }
+            if (map.Skeleton) {
+                for (var i = 0; i < map.Skeleton.length; i++) {
+                    let ent = map.Skeleton[i];
+                    let skeleton = new Skeleton(this.game, ent.x, ent.y)
+                    this.game.addEntity(skeleton);
+                    this.game.addEntity(new DeathStare(this.game, ent.x, ent.y, skeleton));
+                }
+            }
+            if (map.Dragon) {
+                for (var i = 0; i < map.Dragon.length; i++) {
+                    let ent = map.Dragon[i];
+                    let theDragon = new Dragon(this.game, ent.x, ent.y);
+                    this.game.addEntity(theDragon);
+                    this.game.addEntity(new FireBreath(this.game, ent.x, ent.y, theDragon));
+                }
+            }
+            // this.game.addEntity(this.boss);
+            // this.game.addEntity(new FireBreath(this.game, this.boss.x, this.boss.y));
+            //this.game.addEntity(new ShadowBall(this.game, this.boss.x, this.boss.y, this.boss.facing));
+    
+            if (map.Archer) {
+                for (var i = 0; i < map.Archer.length; i++) {
+                    let ent = map.Archer[i];
+                    this.game.addEntity(new Archer(this.game, ent.x, ent.y));
+                }
+            }
+            if (map.Mage) {
+                for (var i = 0; i < map.Mage.length; i++) {
+                    let ent = map.Mage[i];
+                    let mage = new Mage(this.game, ent.x, ent.y);
+                    this.game.addEntity(mage);
+                    this.game.addEntity(new Lightning(this.game, ent.x, ent.y, mage));
+                }
+            }
+            if (map.Cleric) {
+                for (var i = 0; i < map.Cleric.length; i++) {
+                    let ent = map.Cleric[i];
+                    let cleric = new Cleric(this.game, ent.x, ent.y);
+                    this.game.addEntity(cleric);
+                    this.game.addEntity(new Spell(this.game, ent.x, ent.y, cleric));
+                }
+            }
+    
+            //this.game.addEntity(this.cleric);
+            //this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
+    
+            this.hero.x = x;
+            this.hero.y = y;
+            this.hero.battle = false;
+            this.game.addEntity(this.hero);
+            this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
+            
+            this.game.addEntity(new HeadsUpDisplay(this.game));
+            this.game.addEntity(new MainMenu(this.game));
+            this.game.addEntity(new Shop(this.game));
+            this.game.addEntity(new Instructions(this.game));
+            this.game.addEntity(new Credits(this.game));
+    
+            this.savedMapEntities[this.game.mapIndex] = this.game.entities;
+        } else {                                            //reload entities to preserve state of the game
+            this.game.entities = this.savedMapEntities[this.game.mapIndex];
+            this.hero.x = x;
+            this.hero.y = y;
+            this.hero.battle = false;
         }
-
-        //this.game.addEntity(this.cleric);
-        //this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
-
-        this.hero.x = x;
-        this.hero.y = y;
-        this.hero.battle = false;
-        this.game.addEntity(this.hero);
-        this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
-        
-        this.game.addEntity(new HeadsUpDisplay(this.game));
-        this.game.addEntity(new MainMenu(this.game));
-        this.game.addEntity(new Shop(this.game));
-        this.game.addEntity(new Instructions(this.game));
-        this.game.addEntity(new Credits(this.game));
 
     }
     
