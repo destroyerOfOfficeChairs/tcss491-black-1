@@ -214,6 +214,8 @@ class Hero {
                         // console.log(that.mapIndex);
                         that.game.currentMap = that.game.gameMaps[that.game.mapIndex];
                         that.game.changeLevel = true;
+                        that.x = that.game.camera.startingHeroX;
+                        that.y = that.game.camera.startingHeroY;
                     }
                 }
 
