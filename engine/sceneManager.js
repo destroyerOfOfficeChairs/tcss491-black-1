@@ -27,6 +27,7 @@ class SceneManager {
         this.defenseUpgrade = 1;
         this.healthUpgrade = 10;
         this.battle = false;
+        this.bossBattle = false;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -38,17 +39,17 @@ class SceneManager {
 
         //saves the entities for each level to preserve state
         this.savedMapEntities = [];
-        for (var i = 0; i < this.game.gameMaps.length; i++) { // 4 directions (right, left, down, up)
+        for (var i = 0; i < this.game.gameMaps.length; i++) {
             this.savedMapEntities.push([]);
         }
 		
-		this.boss = new Dragon(this.game, 1000, 1000);
         // commented this out because the dragon should be added as JSON
         // otherwise he shows up in every map.  I'm pretty sure every entity
         // will behave this way, so it's important to add them via JSON from
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
-        this.bossStats = [500, 150, 150];
+
+        this.bossStats = [500, 150, 150, 3]; // stats = [hp, att, def, spd]
 
         buildMapData();
         
@@ -61,9 +62,11 @@ class SceneManager {
     
     update() {
         if (this.hero.stats[0] <= 0) { // hero dies
-            this.hero.reset();
-            this.reset();
-            this.loadTitleScreen(this.game, 0, 0);
+            location.reload();
+            // this.hero.reset();
+            // this.reset();
+            // this.loadTitleScreen(this.game, 0, 0);
+            // this.game.currentState = this.game.gameStates[0];
         }
         PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.game.currentState) {
@@ -80,6 +83,15 @@ class SceneManager {
                 // center camera on hero during level exploration
                 this.x = this.hero.x - this.midpoint + this.hero.width/2 * PARAMS.SCALE * this.hero.scale;
                 this.y = this.hero.y - PARAMS.CANVASHEIGHT/2 + this.hero.height/2 * PARAMS.SCALE * this.hero.scale;
+
+                if (this.bossBattle) {
+                    this.heroX = this.hero.x;
+                    this.heroY = this.hero.y;
+                    this.hero.velocity.x = 0;
+                    this.hero.velocity.y = 0;
+                    this.sleep(200);
+                    this.loadBossBattle();
+                }
                 
                 // press N to switch to a battle scene
                 if(this.game.n){
@@ -87,7 +99,7 @@ class SceneManager {
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;
                     this.hero.velocity.y = 0;
-                    this.game.currentState = this.game.gameStates[2];
+                    //this.game.currentState = this.game.gameStates[2];
                     this.sleep(200);
                     this.battle = true;
                     this.loadBattle();
@@ -102,6 +114,7 @@ class SceneManager {
                 if(this.game.m){
                     this.sleep(200);
                     this.battle = false;
+                    this.bossBattle = false;
                     this.loadMap(this.game.currentMap, this.heroX, this.heroY);
                 }
                 break;
@@ -296,8 +309,8 @@ class SceneManager {
             //this.game.addEntity(this.cleric);
             //this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
     
-            this.hero.x = x;
-            this.hero.y = y;
+            //this.hero.x = x;
+            //this.hero.y = y;
             this.hero.battle = false;
             this.game.addEntity(this.hero);
             this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
@@ -364,6 +377,49 @@ class SceneManager {
 
 
     }
+
+    loadBossBattle() {
+        this.game.currentState = this.game.gameStates[2];
+        this.x = 0;
+        this.game.entities = [];
+		
+        // add decorations, etc. here
+        var k, l;
+        for (k = 0; k < 15; k++) {
+            for (l = 0; l < 15; l++) {
+                this.game.addEntity(new Grass1(this.game, k * 32, l * 32));
+            }
+        }
+		
+		// add player characters
+        this.hero.battle = true;
+        this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
+        this.cleric.battle = true;
+		this.archer.battle = true;
+		this.mage.battle = true;
+		
+		// add enemies
+		this.dragon = new Dragon(this.game, 5, 50);
+        this.game.addEntity(new FireBreath(this.game, this.dragon.x, this.dragon.y, this.dragon));
+        
+        this.game.addEntity(new HeadsUpDisplay(this.game));
+        this.game.addEntity(new MainMenu(this.game));
+        this.game.addEntity(new Shop(this.game));
+        this.game.addEntity(new Instructions(this.game));
+        this.game.addEntity(new Credits(this.game));
+		
+		// load battle manager
+		this.battleManager = new BattleManager(this.game, [this.dragon],
+			[this.hero, this.cleric, this.archer, this.mage]);
+		this.ui = new BattleUI(this.game, this.battleManager, [this.dragon],
+			[this.hero, this.cleric, this.archer, this.mage])
+		this.game.addEntity(this.ui);
+
+        this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
+        this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
+
+
+    }
     
     sleep(milliseconds) {
         const date = Date.now();
@@ -374,11 +430,25 @@ class SceneManager {
     };
     
     reset() {
+        this.battle = false;
+        this.bossBattle = false;
         this.coins = 0;
         this.crystals = 0;
         this.keys = 0;
+
+        this.hero.x = this.startingHeroX;
+        this.hero.y = this.startingHeroY;
+        // console.log(this.hero.x);
+        // console.log(this.hero.y);
+
         this.game.currentState = this.game.gameStates[0];
-        this.game.currentMap = this.game.gameMaps[0];
+        this.game.mapIndex = 2;
+        this.game.currentMap = this.game.gameMaps[this.game.mapIndex];
+        this.game.entities = [];
+        this.savedMapEntities = [];
+        for (var i = 0; i < this.game.gameMaps.length; i++) { // 4 directions (right, left, down, up)
+            this.savedMapEntities.push([]);
+        }
     }
 	
 }

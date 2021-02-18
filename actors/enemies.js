@@ -10,7 +10,7 @@ class Dragon {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [500, 150, 150, 3]; // stats = [hp, att, def, spd]
+		this.stats = this.game.camera.bossStats; // stats = [hp, att, def, spd]
 
         this.timeElapsed = 0;
         this.stillAttacking = false;
@@ -19,12 +19,13 @@ class Dragon {
         this.animations = [];
         this.loadAnimations();
 
-        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-        
-        this.leftBB = new BoundingBox(this.x, this.y, this.width * 1/2 * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-        this.rightBB = new BoundingBox(this.x + this.width * 1/2 * PARAMS.SCALE * this.scale, this.y, this.width * 1/2 * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-        this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * 1/2 * PARAMS.SCALE * this.scale);
-        this.bottomBB = new BoundingBox(this.x, this.y + this.height * 1/2 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, this.height * 1/2 * PARAMS.SCALE * this.scale);
+        this.updateBB();
+
+        // this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        // this.leftBB = new BoundingBox(this.x, this.y, this.width * 1/2 * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        // this.rightBB = new BoundingBox(this.x + this.width * 1/2 * PARAMS.SCALE * this.scale, this.y, this.width * 1/2 * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        // this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * 1/2 * PARAMS.SCALE * this.scale);
+        // this.bottomBB = new BoundingBox(this.x, this.y + this.height * 1/2 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, this.height * 1/2 * PARAMS.SCALE * this.scale);
 
         // this.leftBB = new BoundingBox(this.x - 1/8 * this.width * PARAMS.SCALE * this.scale, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
         // this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 7/8, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
@@ -83,31 +84,45 @@ class Dragon {
 
     }
 
+    updateBB() {
+        this.lastBB = this.BB;
+        this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
+        this.leftBB = new BoundingBox(this.x, this.y, this.width * 1/2 * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.rightBB = new BoundingBox(this.x + this.width * 1/2 * PARAMS.SCALE * this.scale, this.y, this.width * 1/2 * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * 1/2 * PARAMS.SCALE * this.scale);
+        this.bottomBB = new BoundingBox(this.x, this.y + this.height * 1/2 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, this.height * 1/2 * PARAMS.SCALE * this.scale);
+
+    };
+
     update() {
         const TICK = this.game.clockTick;
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-        if (this.game.down && !this.game.up) { // keyboard input of down
-            this.facing = 2;
-            this.velocity.y += MIN_WALK;
-        } else if (!this.game.down && this.game.up) { // keyboard input of up
-            this.facing = 3;
-            this.velocity.y -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.y = 0;
-        }
+        this.updateBB();
 
-        if (this.game.right && !this.game.left) { //keyboard input of right
-            this.facing = 0;
-            this.velocity.x += MIN_WALK;
-        } else if (!this.game.right && this.game.left) { // keyboard input of left
-            this.facing = 1;
-            this.velocity.x -= MIN_WALK;
-        } else {
-            // do nothing
-            this.velocity.x = 0;
+        if (!this.game.camera.battle && !this.game.camera.bossBattle) {
+            if (this.game.down && !this.game.up) { // keyboard input of down
+                this.facing = 2;
+                this.velocity.y += MIN_WALK;
+            } else if (!this.game.down && this.game.up) { // keyboard input of up
+                this.facing = 3;
+                this.velocity.y -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.y = 0;
+            }
+    
+            if (this.game.right && !this.game.left) { //keyboard input of right
+                this.facing = 0;
+                this.velocity.x += MIN_WALK;
+            } else if (!this.game.right && this.game.left) { // keyboard input of left
+                this.facing = 1;
+                this.velocity.x -= MIN_WALK;
+            } else {
+                // do nothing
+                this.velocity.x = 0;
+            }
         }
 
         // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;

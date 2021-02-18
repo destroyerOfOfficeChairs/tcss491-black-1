@@ -206,10 +206,10 @@ class Hero {
                 if (entity instanceof Portal) {
                     that.game.mapIndex++;
                     if (that.game.mapIndex >= that.game.gameMaps.length) {
-                        // that.mapIndex = 0;
+                        that.game.mapIndex = 2;
 
                         //boss battle
-                        console.log("boss battle should be initiated");
+                        that.game.camera.bossBattle = true;
                     } else {
                         // console.log(that.mapIndex);
                         that.game.currentMap = that.game.gameMaps[that.game.mapIndex];
@@ -498,7 +498,7 @@ class Cleric {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.battle = true;
+		this.battle = false;
 		this.stats = [100, 8, 3, 4]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
 
@@ -569,7 +569,7 @@ class Cleric {
         const MIN_WALK = 1 * PARAMS.SCALE;
         const MAX_WALK = 2 * PARAMS.SCALE;
 
-		if (!this.game.camera.battle) {
+		if (!this.game.camera.battle && !this.game.camera.bossBattle) {
 			if (this.game.down && !this.game.up) { // keyboard input of down
 				this.facing = 2;
 				this.velocity.y += MIN_WALK;

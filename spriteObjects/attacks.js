@@ -35,9 +35,11 @@ class FireBreath {
     }
 
     update() {
+        this.x = this.entity.x;
+        this.y = this.entity.y;
         this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-}
+    }
 
     drawMinimap(ctx, mmX, mmY) {
     }

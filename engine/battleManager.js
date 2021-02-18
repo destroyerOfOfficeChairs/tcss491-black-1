@@ -168,6 +168,10 @@ class BattleManager {
 		else {
 			this.party[defender][1] = 0;
 		}
+
+		if (this.party[defender][2] == "H e r o") {
+			this.game.hero.stats[0] = this.party[defender][1];
+		}
 		console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");
 		console.log(this.party[defender][2] + "'s health = " + this.party[defender][1]);
 	}
