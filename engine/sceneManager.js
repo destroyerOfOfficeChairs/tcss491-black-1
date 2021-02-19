@@ -94,7 +94,7 @@ class SceneManager {
                 }
                 
                 // press N to switch to a battle scene
-                if(this.game.n){
+                if(this.game.n || this.hero.dist >= 1000){
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;

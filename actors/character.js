@@ -22,6 +22,9 @@ class Hero {
         this.canPass = false;
         this.timeElapsed = 0;
 
+        this.dist = 0; // distance in pixels that the player has walked since the last battle
+        this.lastPosition = {x:this.x, y:this.y}; // This is checked on every update to calculate this.dist
+
         this.timeElapsedBasic = 0;
         this.basicAttack = false;
         this.specialAttack = false;
@@ -102,6 +105,13 @@ class Hero {
         const MAX_WALK = 2 * PARAMS.SCALE;
 
 		if (this.battle == false) {
+
+            // updates the distance travelled since the last battle. For use in calculating when to enter
+            // a random battle.
+            this.dist += Math.abs(this.x - this.lastPosition.x) + Math.abs(this.y - this.lastPosition.y);
+            this.lastPosition.x = this.x;
+            this.lastPosition.y = this.y;
+
 			if (this.game.down && !this.game.up) { // keyboard input of down
 				this.facing = 2;
 				this.velocity.y += MIN_WALK;
@@ -137,6 +147,7 @@ class Hero {
 			}
 		}
 		else {
+            this.dist = 0;
 			this.facing = 1;
 			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
