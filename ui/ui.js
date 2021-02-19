@@ -689,6 +689,8 @@ class BattleUI {
 		
 		this.battleManager = bm;
 		this.attack = 0;
+		this.acceptInput = true;
+		this.end = -1;
 	}
 	
 	// Allows user to interact with battle menu when it's a character's turn, 
@@ -696,45 +698,69 @@ class BattleUI {
 	// Automatically does an enemy's attack against a random player character
 	// when it's an enemy's turn.
 	update() {
-		if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0){ // if player character
+		//check end state
+		if(this.battleManager.isDefeated() == 1 && this.acceptInput){// victory
+			this.end = 1;
+			this.acceptInput = false;
+			this.game.camera.coins += 10;
+		} else if(this.battleManager.isDefeated() == 0 && this.acceptInput) {// defeat
+			this.end = 0;
+			this.acceptInput = false;
+		}
+		//skip dead character
+		if (this.battleManager.turnOrder[this.battleManager.activeChar][1] == 0){
+			if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+				this.battleManager.activeChar++;
+			} else {
+				this.battleManager.activeChar = 0;
+			}
+		} else if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0){ // if player character
+			this.battleManager.isDefeated();
 			var i;
 			for(i=0; i<this.enemyBB.length; i++){ // allows user to pick target, has to be done before attack
 				if(this.enemyBB[i][1] && this.game.click){
 					this.attack = i;
 				}
 			}
-			if (this.hoverAtt && this.game.click) { // if attack button is clicked
+			if (this.hoverAtt && this.game.click && this.acceptInput) { // if attack button is clicked
 				console.log("Attack!");
+					if(this.battleManager.enemies[this.attack][1] == 0){
+						if(this.attack > this.battleManager.enemies.length-1){
+							this.attack = 0;
+						} else {
+							this.attack++;
+						}
+					}
 					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
 				
-				// advance turn order or reset
+				//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-			} else if (this.hoverSpec && this.game.click) {
+			} else if (this.hoverSpec && this.game.click && this.acceptInput) {
 				console.log("Special!");
 				
-				// advance turn order or reset
+				//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-			} else if (this.hoverItem && this.game.click) {
+			} else if (this.hoverItem && this.game.click && this.acceptInput) {
 				console.log("Item!");
 				
-				// advance turn order or reset
+				//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-			} else if (this.hoverDef && this.game.click) {
+			} else if (this.hoverDef && this.game.click && this.acceptInput) {
 				console.log("Defend!");
-				
-				// advance turn order or reset
+				this.battleManager.defend(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]));
+				//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
@@ -742,11 +768,11 @@ class BattleUI {
 				}
 			}
 			this.game.click = null;
-		} else { // if enemy character
-			this.battleManager.sleep(1000);
+		} else if (this.acceptInput) { // if enemy character
+			this.battleManager.sleep(150);
 			this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
 			
-			// advance turn order or reset
+			//advance turn order or reset
 			if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 				this.battleManager.activeChar++;
 			} else {
@@ -786,7 +812,9 @@ class BattleUI {
 				ctx.fillStyle = "Black";
 				this.enemyBB[i][1] = false;
 			}
-			ctx.fillText(this.enemies[i][2], this.x+10, this.y + 15 + (15 * i));
+			if(this.battleManager.enemies[i][1] > 0){
+				ctx.fillText(this.enemies[i][2], this.x+10, this.y + 15 + (15 * i));
+			}
 		}
 		
 		//party list
@@ -850,7 +878,6 @@ class BattleUI {
 		}
 		ctx.fillText("D E F E N D", this.attX, this.attY + 36);
 		
-		
 		// bounding boxes
 		if (PARAMS.DEBUG) {
 			ctx.strokeStyle = 'Red';
@@ -860,8 +887,33 @@ class BattleUI {
 			ctx.strokeRect(this.attBB.x, this.attBB.y + 28, this.attBB.width, this.attBB.height);
 			var i;
 			for(i=0;i<this.enemyBB.length;i++){
-				ctx.strokeRect(this.enemyBB[i][0].x, this.enemyBB[i][0].y-7, this.enemyBB[i][0].width, this.enemyBB[i][0].height);
+				if(this.battleManager.enemies[i][1] > 0){
+					ctx.strokeRect(this.enemyBB[i][0].x, this.enemyBB[i][0].y-7, this.enemyBB[i][0].width, this.enemyBB[i][0].height);
+				}
 			}
+		}
+		
+		// end states
+		// win state
+		if(this.end == 1){
+			ctx.fillStyle = "Tan";
+			ctx.fillRect(50, 50, 150, 100);
+			ctx.strokeStyle = "Brown";
+			ctx.strokeRect(50, 50, 150, 100);
+			ctx.fillStyle = "Black";
+			ctx.fillText("V I C T O R Y !", 100, 85);
+			ctx.fillText("Y O U  G A I N E D  10  C O I N S", 67, 105);
+			ctx.fillText('P R E S S  " M "  T O  R E T U R N', 65, 125);
+		}
+		// loss state
+		if(this.end == 0){
+			ctx.fillStyle = "Tan";
+			ctx.fillRect(50, 50, 150, 100);
+			ctx.strokeStyle = "Brown";
+			ctx.strokeRect(50, 50, 150, 100);
+			ctx.fillStyle = "Black";
+			ctx.fillText("D E F E A T !", 100, 90);
+			ctx.fillText('P R E S S  " M "  T O  R E T U R N', 65, 115);
 		}
 	}
 }

@@ -15,6 +15,7 @@ class Dragon {
         this.timeElapsed = 0;
         this.stillAttacking = false;
         this.hasShadowBall = true;
+		this.removeFromWorld = false;
 
         this.animations = [];
         this.loadAnimations();
@@ -215,9 +216,10 @@ class Goblin {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [50, 5, 1, 2]; // stats = [hp, att, def, spd]
+		this.stats = [50, 10, 1, 2]; // stats = [hp, att, def, spd]
         this.timeelapsed = 0;
         this.canShoot = true;
+		this.removeFromWorld = false;
 
         this.stillAttacking = false;
 
@@ -415,9 +417,10 @@ class Bat {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         //this.steps = 0; // number of steps has taken
         this.velocity = { x: 0, y: 0 };
-		this.stats = [25, 5, 0, 3]; // stats = [hp, att, def, spd]
+		this.stats = [25, 10, 0, 3]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
         this.canShoot = false;
+		this.removeFromWorld = false;
 		
         this.animations = [];
         this.loadAnimations();
@@ -567,8 +570,9 @@ class Skeleton {
 		this.stillAttacking = false;
         this.timeElapsed = 0;
         this.canShoot = false;
+		this.removeFromWorld = false;
 
-		this.stats = [75, 8, 3, 1]; // stats = [hp, att, def, spd]
+		this.stats = [75, 20, 3, 1]; // stats = [hp, att, def, spd]
 		
         this.animations = [];
         this.loadAnimations();

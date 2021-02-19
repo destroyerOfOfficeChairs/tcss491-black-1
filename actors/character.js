@@ -18,7 +18,7 @@ class Hero {
         this.velocity = { x: 0, y: 0 };
         this.battle = false;
         this.maxHealth = 100;
-		this.stats = [this.maxHealth, 10, 2, 7]; // [hp, att, def, spd]
+		this.stats = [100, 10, 2, 7]; // [hp, att, def, spd]
         this.canPass = false;
         this.timeElapsed = 0;
 
@@ -37,7 +37,7 @@ class Hero {
 
     reset() {
         this.battle = false;
-		this.stats = [this.maxHealth, 10, 2]; // [hp, att, def]
+		this.stats = [this.maxHealth, 10, 2, 7]; // [hp, att, def]
         //this.canPass = false;
     }
 
