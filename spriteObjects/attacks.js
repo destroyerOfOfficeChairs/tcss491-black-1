@@ -45,7 +45,7 @@ class FireBreath {
     }
 
     draw(ctx) {
-        if (this.game.attack1) {
+        if (this.game.attack1 || this.entity.basicAttack) {
             if (this.entity.facing == 0) {//facing right
                 this.animations.drawFrame(this.game.clockTick, ctx, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale) - this.game.camera.y, PARAMS.SCALE * this.scale);
             } else if (this.entity.facing == 1) {//facing left
@@ -353,7 +353,7 @@ class BoneDart {
     }
 
     draw(ctx) {
-        if (!this.removeFromWorld) {
+        if (!this.removeFromWorld || this.entity.basicAttack) {
             if (this.facing == 0) {
                 ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y + (1/2 * this.entity.height * PARAMS.SCALE * this.entity.scale) - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             } else if (this.facing == 1) {
@@ -430,7 +430,7 @@ class Scratch {
     }
 
     draw(ctx) {
-        if (this.game.attack1) {
+        if (this.game.attack1 || this.entity.basicAttack) {
             if (this.entity.facing == 0) {
                 ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             } else if (this.entity.facing == 1) {

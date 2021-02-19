@@ -10,6 +10,7 @@ class BattleManager {
 		this.win = false;
 		this.acceptInput = false;
 		this.activeChar = 0;
+		this.timeEnemyAttackElapsed = 0;
 		
 		console.log("battle loaded");
 		console.log(this.turnOrder);
@@ -29,59 +30,39 @@ class BattleManager {
 	};
 	
 	update(){
-		if(!this.isOver){ //&& this.acceptInput){
-			
-		}
+		
 	};
 	
-	//currently goes through rounds before even loading graphics for battle, need to make it so that
-	//it will wait for player input during player turns and have enemies attack during theirs
-	round() {
-		var i = 0;
-		
-		//battle loop
-		while(true) {
-			//character takes turn
-			if(this.party.indexOf(this.turnOrder[i]) >= 0) { // if player character
-				console.log("Player " + this.turnOrder[i][2] + "'s turn!");
-				this.attackEnemy(this.party.indexOf(this.turnOrder[i]),Math.floor(Math.random() * 3));
-				this.sleep(500);
-			}
-			else { // if enemy
-				console.log("Enemy " + this.turnOrder[i][2] + "'s turn!");
-				this.attackPlayer(this.enemies.indexOf(this.turnOrder[i]),Math.floor(Math.random() * 4));
-				this.sleep(500);
-			}
-			
-			//check if one side is defeated
-			if(this.isDefeated(this.party)) {
-				this.lose();
-				break;
-			}
-			if(this.isDefeated(this.enemies)) {
-				this.win = true;
-				this.win();
-				break;
-			}
-			//loop back to beginning of turn order if all characters acted
-			if(i == this.turnOrder.length - 1) { break;//i = 0; 
-			} else { i++; }
-		}
-	}
-	
-	isDefeated(group) {
-		var defeat = false;
+	//checking for end state and activating win or lose state
+	isDefeated() {
+		var e = this.enemies.length;
+		var p = this.party.length;
+		var eCount = 0;
+		var pCount = 0;
 		var i;
-		for(i = 0; i < group.length; i++) {
-			if(group[i][1] > 0) {
-				defeat = false;
-				break;
-			}
-			else {
-				defeat = true;
+		for(i = 0; i < e; i++){ // count living enemies
+			if(this.enemies[i][1] > 0){
+				eCount++;
+			} else {
+				this.enemies[i][0].removeFromWorld = true;
 			}
 		}
-		return defeat;
+		for(i = 0; i < p; i++){// count living party members
+			if(this.party[i][1] > 0){
+				pCount++;
+			}
+		}
+		if(eCount == 0){// if no living enemies - victory
+			this.isOver = true;
+			this.win = true;
+			return 1;
+		}
+		if(pCount == 0){// if no living party members - defeat
+			this.isOver = true;
+			this.win = false;
+			this.game.camera.hero.stats[0] = this.game.camera.hero.maxHealth;
+			return 0;
+		}
 	}
 	
 	// loads 2d array with [entity,hp] for every entity in the chars array
@@ -149,6 +130,7 @@ class BattleManager {
 	};
 	// enemy version
 	attackPlayer(attacker, defender) {
+		this.enemies[attacker][0].basicAttack = true;
 		var damage = this.enemies[attacker][0].stats[1] - this.party[defender][0].stats[2];
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
 			damage += Math.floor(damage/2);
@@ -169,46 +151,20 @@ class BattleManager {
 			this.party[defender][1] = 0;
 		}
 
-		if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {
-			this.game.hero.stats[0] = this.party[defender][1];
-		}
+		// if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {
+		// 	this.game.hero.stats[0] = this.party[defender][1];
+		// }
+
 		console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");
 		console.log(this.party[defender][2] + "'s health = " + this.party[defender][1]);
 	}
 	
-	defend(entity){
-		
-	}
-	
-	win() {
-		
-	}
-	
-	lose() {
-		
+	defend(player){
+		this.party[player][3] = true;
 	}
 	
 	draw(ctx) {
-		if(this.isOver) {
-			if(this.win) {
-				ctx.fillStyle = "Tan";
-				ctx.fillRect(50, 40, 150, 100);
-				ctx.strokeStyle = "Brown";
-				ctx.strokeRect(50, 40, 150, 100);
-				ctx.fillStyle = "Black";
-				ctx.fillText("V I C T O R Y !", 100, 90);
-				this.sleep(1500);
-			}
-			else {
-				ctx.fillStyle = "Tan";
-				ctx.fillRect(50, 40, 150, 100);
-				ctx.strokeStyle = "Brown";
-				ctx.strokeRect(50, 40, 150, 100);
-				ctx.fillStyle = "Black";
-				ctx.fillText("D E F E A T !", 102, 90);
-				this.sleep(1500);
-			}
-		}
+		
 	};
 	
 	sleep(milliseconds) {
@@ -218,4 +174,5 @@ class BattleManager {
             currentDate = Date.now();
         } while (currentDate - date < milliseconds);
     };
+
 };

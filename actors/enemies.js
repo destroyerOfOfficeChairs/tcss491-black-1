@@ -15,6 +15,11 @@ class Dragon {
         this.timeElapsed = 0;
         this.stillAttacking = false;
         this.hasShadowBall = true;
+		this.removeFromWorld = false;
+
+        this.basicAttack = false;
+        this.specialAttack = false;
+        this.timeElapsedBasic = 0;
 
         this.animations = [];
         this.loadAnimations();
@@ -133,8 +138,16 @@ class Dragon {
         this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+        
+        if (this.basicAttack || this.game.attack1 || this.stillAttacking) { // attacks during its turn
             this.state = 2;
+            if (this.basicAttack) {
+                this.timeElapsedBasic += this.game.clockTick;
+                if (this.timeElapsedBasic > 1) {
+                    this.basicAttack = false;
+                    this.timeElapsedBasic = 0;
+                }
+            }
         }
 
         // update position
@@ -215,9 +228,14 @@ class Goblin {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [50, 5, 1, 2]; // stats = [hp, att, def, spd]
+		this.stats = [50, 10, 1, 2]; // stats = [hp, att, def, spd]
         this.timeelapsed = 0;
         this.canShoot = true;
+		this.removeFromWorld = false;
+
+        this.basicAttack = false;
+        this.specialAttack = false;
+        this.timeElapsedBasic = 0;
 
         this.stillAttacking = false;
 
@@ -321,8 +339,15 @@ class Goblin {
         this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+        if (this.basicAttack || this.game.attack1 || this.stillAttacking) { // attacks during its turn
             this.state = 2;
+            if (this.basicAttack) {
+                this.timeElapsedBasic += this.game.clockTick;
+                if (this.timeElapsedBasic > 1) {
+                    this.basicAttack = false;
+                    this.timeElapsedBasic = 0;
+                }
+            }
         }
 
         if (this.game.attack2) {
@@ -415,9 +440,14 @@ class Bat {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         //this.steps = 0; // number of steps has taken
         this.velocity = { x: 0, y: 0 };
-		this.stats = [25, 5, 0, 3]; // stats = [hp, att, def, spd]
+		this.stats = [25, 10, 0, 3]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
         this.canShoot = false;
+		this.removeFromWorld = false;
+
+        this.basicAttack = false;
+        this.specialAttack = false;
+        this.timeElapsedBasic = 0;
 		
         this.animations = [];
         this.loadAnimations();
@@ -509,6 +539,17 @@ class Bat {
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
 
+        if (this.basicAttack || this.game.attack1) { // attacks during its turn
+            //this.state = 2;
+            if (this.basicAttack) {
+                this.timeElapsedBasic += this.game.clockTick;
+                if (this.timeElapsedBasic > 1) {
+                    this.basicAttack = false;
+                    this.timeElapsedBasic = 0;
+                }
+            }
+        }
+
         if (this.game.attack2) {
             if (this.timeElapsed >= 0 && this.canShoot) {
                 this.game.addEntity(new SonicWave(this.game, this.x, this.y, this.facing, this));
@@ -567,8 +608,13 @@ class Skeleton {
 		this.stillAttacking = false;
         this.timeElapsed = 0;
         this.canShoot = false;
+		this.removeFromWorld = false;
 
-		this.stats = [75, 8, 3, 1]; // stats = [hp, att, def, spd]
+        this.basicAttack = false;
+        this.specialAttack = false;
+        this.timeElapsedBasic = 0;
+
+		this.stats = [75, 20, 3, 1]; // stats = [hp, att, def, spd]
 		
         this.animations = [];
         this.loadAnimations();
@@ -680,11 +726,19 @@ class Skeleton {
 		this.stillAttacking = this.state == 1 && !this.animations[1][this.facing].cycled;
 
         this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-        if (this.game.attack1 || this.stillAttacking) { // attacks when B is pressed
+
+        if (this.basicAttack || this.game.attack1 || this.stillAttacking) { // attacks during its turn
             this.state = 1;
+            if (this.basicAttack) {
+                this.timeElapsedBasic += this.game.clockTick;
+                if (this.timeElapsedBasic > 1) {
+                    this.basicAttack = false;
+                    this.timeElapsedBasic = 0;
+                }
+            }
         }
 
-        if (this.game.attack1 || this.stillAttacking) {
+        if (this.basicAttack || this.game.attack1 || this.stillAttacking) {
             if (this.timeElapsed >= 0 && this.canShoot) {
                 this.game.addEntity(new BoneDart(this.game, this.x, this.y, this.facing, this));
                 this.canShoot = false;

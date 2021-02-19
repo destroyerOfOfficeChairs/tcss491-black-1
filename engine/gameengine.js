@@ -25,6 +25,7 @@ class GameEngine {
 		this.battleui = false;
         this.map =false;
         this.changeLevel = false;
+        this.gameWon = false;
 
         this.attack1 = false;
         this.attack2 = false;

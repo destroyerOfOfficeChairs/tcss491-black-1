@@ -49,7 +49,7 @@ class SceneManager {
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
 
-        this.bossStats = [500, 150, 150, 3]; // stats = [hp, att, def, spd]
+        this.bossStats = [100, 50, 0, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
 
         buildMapData();
         
@@ -61,8 +61,12 @@ class SceneManager {
     }
     
     update() {
-        if (this.hero.stats[0] <= 0) { // hero dies (it should be changed such that when you lose, you restart)
+        if (this.game.m && this.game.gameWon) {
             location.reload();
+        }
+        if (this.hero.stats[0] <= 0) { // hero dies (it should be changed such that when you lose, you restart)
+            //location.reload();
+
             // this.hero.reset();
             // this.reset();
             // this.loadTitleScreen(this.game, 0, 0);
@@ -443,6 +447,7 @@ class SceneManager {
     };
     
     reset() {
+        this.game.gameWon = false;
         this.battle = false;
         this.bossBattle = false;
         this.coins = 0;
