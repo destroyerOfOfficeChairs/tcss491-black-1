@@ -61,7 +61,7 @@ class SceneManager {
     }
     
     update() {
-        if (this.hero.stats[0] <= 0) { // hero dies
+        if (this.hero.stats[0] <= 0) { // hero dies (it should be changed such that when you lose, you restart)
             location.reload();
             // this.hero.reset();
             // this.reset();
@@ -76,7 +76,18 @@ class SceneManager {
                     break;
             case this.game.gameStates[1]:
                 if (this.game.changeLevel) {
-                    //this.keys = 0;
+                    this.game.mapIndex++;
+                    if (this.game.mapIndex >= this.game.gameMaps.length) {
+                        this.game.mapIndex = 2;
+
+                        //boss battle
+                        this.game.camera.bossBattle = true;
+                    } else {
+                        //this.keys = 0;
+                        this.hero.x = this.startingHeroX;
+                        this.hero.y = this.startingHeroY;
+                    }
+                    this.game.currentMap = this.game.gameMaps[this.game.mapIndex];                        
                     this.loadMap(this.game.currentMap, this.startingHeroX, this.startingHeroY);
                     this.game.changeLevel = false;
                 }
@@ -335,6 +346,7 @@ class SceneManager {
         this.game.currentState = this.game.gameStates[2];
         this.x = 0;
         this.game.entities = [];
+        this.game.map = false;
 		
         // add decorations, etc. here
         var k, l;
@@ -382,6 +394,7 @@ class SceneManager {
         this.game.currentState = this.game.gameStates[2];
         this.x = 0;
         this.game.entities = [];
+        this.game.map = false;
 		
         // add decorations, etc. here
         var k, l;

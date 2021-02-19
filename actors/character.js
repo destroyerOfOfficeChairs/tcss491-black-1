@@ -204,19 +204,20 @@ class Hero {
                 }
 
                 if (entity instanceof Portal) {
-                    that.game.mapIndex++;
-                    if (that.game.mapIndex >= that.game.gameMaps.length) {
-                        that.game.mapIndex = 2;
+                    that.game.changeLevel = true;
+                    // that.game.mapIndex++;
+                    // if (that.game.mapIndex >= that.game.gameMaps.length) {
+                    //     that.game.mapIndex = 2;
 
-                        //boss battle
-                        that.game.camera.bossBattle = true;
-                    } else {
-                        // console.log(that.mapIndex);
-                        that.game.currentMap = that.game.gameMaps[that.game.mapIndex];
-                        that.game.changeLevel = true;
-                        that.x = that.game.camera.startingHeroX;
-                        that.y = that.game.camera.startingHeroY;
-                    }
+                    //     //boss battle
+                    //     that.game.camera.bossBattle = true;
+                    // } else {
+                    //     // console.log(that.mapIndex);
+                    //     //that.game.currentMap = that.game.gameMaps[that.game.mapIndex];
+                    //     that.game.changeLevel = true;
+                    //     //that.x = that.game.camera.startingHeroX;
+                    //     //that.y = that.game.camera.startingHeroY;
+                    // }
                 }
 
                 if (entity instanceof Key) {

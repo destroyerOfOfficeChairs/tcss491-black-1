@@ -169,7 +169,7 @@ class BattleManager {
 			this.party[defender][1] = 0;
 		}
 
-		if (this.party[defender][2] == "H e r o") {
+		if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {
 			this.game.hero.stats[0] = this.party[defender][1];
 		}
 		console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");
