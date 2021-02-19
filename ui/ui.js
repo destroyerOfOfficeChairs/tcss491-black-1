@@ -688,7 +688,7 @@ class BattleUI {
 		this.textboxWidth = 245;
         this.textboxHeight = 70;
 		
-		this.attX = 93 + this.x;
+		this.attX = 95 + this.x;
         this.attY = 11 + this.y;
         this.attWidth = 50;
         this.attHeight = 10;
@@ -707,7 +707,7 @@ class BattleUI {
 		var x;
 		this.enemyBB = []; // array with entries containing: [enemy's name BB, if hovering over enemy name]
 		for(x=0; x<this.enemies.length; x++){
-			this.enemyBB.push([new BoundingBox(this.x+10,this.y+15+(15*x),this.attWidth,this.attHeight),false]);
+			this.enemyBB.push([new BoundingBox(this.x+5,this.y+15+(15*x),this.attWidth,this.attHeight),false]);
 		}
 		
 		this.battleManager = bm;
@@ -826,9 +826,9 @@ class BattleUI {
 		
 		//enemies list
 		ctx.fillStyle = "Tan";
-		ctx.fillRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 19);
+		ctx.fillRect(this.x + 2, this.y + 2, 90, this.textboxHeight - 19);
 		ctx.strokeStyle = "Brown";
-		ctx.strokeRect(this.x + 2, this.y + 2, 80, this.textboxHeight - 19);
+		ctx.strokeRect(this.x + 2, this.y + 2, 90, this.textboxHeight - 19);
 		var i;
 		for (i = 0; i < this.enemies.length; i++) {
 			if(this.battleManager.timeEnemyAttackElapsed == 0 && this.game.mouse && this.game.mouse.x >= 3 * this.enemyBB[i][0].left && this.game.mouse.x <= 3 * this.enemyBB[i][0].right && 
@@ -843,7 +843,8 @@ class BattleUI {
 				this.enemyBB[i][1] = false;
 			}
 			if(this.battleManager.enemies[i][1] > 0){
-				ctx.fillText(this.enemies[i][2], this.x+10, this.y + 15 + (15 * i));
+				ctx.fillText(this.enemies[i][2], this.x + 5, this.y + 15 + (15 * i));
+                ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 60, this.y + 15 + (15 * i));
 			}
 		}
 		

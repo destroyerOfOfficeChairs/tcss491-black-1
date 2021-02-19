@@ -49,7 +49,7 @@ class SceneManager {
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
 
-        this.bossStats = [100, 50, 0, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
+        this.bossStats = [600, 80, 0, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
 
         buildMapData();
         
@@ -109,7 +109,7 @@ class SceneManager {
                 }
                 
                 // press N to switch to a battle scene
-                if(this.game.n){
+                if(this.game.n || this.hero.dist >= 5000){
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;
