@@ -4,8 +4,6 @@ class Score {
 
         this.velocity = -32;
         this.elapsed = 0;
-        console.log("damage appears at x = " + this.x);
-        console.log("damage appears at y = " + this.y);
     }
 
     update() {

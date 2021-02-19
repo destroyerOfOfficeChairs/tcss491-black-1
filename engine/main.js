@@ -35,6 +35,7 @@ ASSET_MANAGER.queueDownload("./sprites/laser.png");
 ASSET_MANAGER.queueDownload("./sprites/superslash.png");
 ASSET_MANAGER.queueDownload("./sprites/spiritball.png");
 ASSET_MANAGER.queueDownload("./sprites/spell.png");
+ASSET_MANAGER.queueDownload("./sprites/shield.png");
 
 ASSET_MANAGER.queueDownload("./sprites/archer.png");
 ASSET_MANAGER.queueDownload("./sprites/mage.png");

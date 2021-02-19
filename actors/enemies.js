@@ -440,7 +440,7 @@ class Bat {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         //this.steps = 0; // number of steps has taken
         this.velocity = { x: 0, y: 0 };
-		this.stats = [25, 10, 0, 3]; // stats = [hp, att, def, spd]
+		this.stats = [35, 10, 8, 3]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
         this.canShoot = false;
 		this.removeFromWorld = false;
@@ -614,7 +614,7 @@ class Skeleton {
         this.specialAttack = false;
         this.timeElapsedBasic = 0;
 
-		this.stats = [75, 20, 3, 1]; // stats = [hp, att, def, spd]
+		this.stats = [125, 30, 3, 1]; // stats = [hp, att, def, spd]
 		
         this.animations = [];
         this.loadAnimations();

@@ -118,13 +118,13 @@ class BattleManager {
 		if (damage < 0) {// damage should not add health if damage is calculated to be negative
 			damage = 0;
 		}
-		this.game.addEntity(new Score(this.game, this.enemies[defender][0].x + this.enemies[defender][0].width * PARAMS.SCALE * this.enemies[defender][0].scale / 2, this.enemies[defender][0].y, -1 * damage));
 		if (this.enemies[defender][1] - damage > 0) {
 			this.enemies[defender][1] -= damage;
 		}
 		else {
 			this.enemies[defender][1] = 0;
 		}
+		this.game.addEntity(new Score(this.game, this.enemies[defender][0].x + this.enemies[defender][0].width * PARAMS.SCALE * this.enemies[defender][0].scale / 2, this.enemies[defender][0].y, -1 * damage));
 		console.log(this.party[attacker][2] + " attacks " + this.enemies[defender][2] + " for " + damage + " damage!");
 		console.log(this.enemies[defender][2] + "'s health = " + this.enemies[defender][1]);
 	};
@@ -139,10 +139,10 @@ class BattleManager {
 		if (damage < 0) { // damage should not add health if damage is calculated to be negative
 			damage = 0;
 		}
-		this.game.addEntity(new Score(this.game, this.party[defender][0].x + this.party[defender][0].width * PARAMS.SCALE * this.party[defender][0].scale / 2, this.party[defender][0].y, -1 * damage));
 		if(this.party[defender][3]){ // if party member is defending
+			console.log("defense is used and is effective");
 			damage = Math.floor(damage/2);
-			this.party[defender][3] = false;
+			// this.party[defender][3] = false;
 		}
 		if (this.party[defender][1] - damage > 0) {
 			this.party[defender][1] -= damage;
@@ -154,7 +154,7 @@ class BattleManager {
 		// if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {
 		// 	this.game.hero.stats[0] = this.party[defender][1];
 		// }
-
+		this.game.addEntity(new Score(this.game, this.party[defender][0].x + this.party[defender][0].width * PARAMS.SCALE * this.party[defender][0].scale / 2, this.party[defender][0].y, -1 * damage));
 		console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");
 		console.log(this.party[defender][2] + "'s health = " + this.party[defender][1]);
 	}

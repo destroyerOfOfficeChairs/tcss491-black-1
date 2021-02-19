@@ -338,7 +338,7 @@ class Shop {
                     this.game.camera.hero.stats[2] -= this.game.camera.crystalDefensePower;
                     // reduce boss stats
                     this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower;
-                    this.game.camera.bossStats[2] -= this.game.camera.crystalDefensePower;
+                    this.game.camera.bossStats[0] -= this.game.camera.crystalDefensePower;
 
                     this.displaySuccess = 4;
                     this.displayCrystalError = false;
@@ -709,6 +709,8 @@ class BattleUI {
 		for(x=0; x<this.enemies.length; x++){
 			this.enemyBB.push([new BoundingBox(this.x+5,this.y+15+(15*x),this.attWidth,this.attHeight),false]);
 		}
+
+        this.shieldList = [];
 		
 		this.battleManager = bm;
 		this.attack = 0;
@@ -781,6 +783,11 @@ class BattleUI {
 					this.battleManager.activeChar = 0;
 				}
 			} else if (this.hoverDef && this.game.click && this.acceptInput) {
+                //let shield = new Shield(this.game, this.party[this.battleManager.activeChar][0].x - 10, this.party[this.battleManager.activeChar][0].y);
+                let shield = new Shield(this.game, this.battleManager.turnOrder[this.battleManager.activeChar][0].x - 10, this.battleManager.turnOrder[this.battleManager.activeChar][0].y);
+                this.game.addEntity(shield);
+                this.shieldList.push(shield);
+
 				console.log("Defend!");
 				this.battleManager.defend(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]));
 				//advance turn order or reset
@@ -804,6 +811,16 @@ class BattleUI {
 				    this.battleManager.activeChar++;
 			    } else {
 				    this.battleManager.activeChar = 0;
+
+                    //remove shields after all enemies attacked
+                    for (var i = 0; i < this.shieldList.length; i++) {
+                        this.shieldList[i].removeFromWorld = true;
+                    }
+                    this.shieldList = [];
+
+                    for (var i = 0; i < this.battleManager.party.length; i++) {
+                        this.battleManager.party[i][3] = false;
+                    }
 			    }
             } else {
                 this.battleManager.timeEnemyAttackElapsed += this.game.clockTick;

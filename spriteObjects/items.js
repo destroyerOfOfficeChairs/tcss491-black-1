@@ -252,3 +252,28 @@ class Portal {
         }
     }
 }
+
+class Shield {
+    constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/shield.png");
+        this.scale = 1/10;
+        this.width = 190;
+        this.height = 220;
+    }
+
+    update() {
+
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.spritesheet, 40, 30, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        //for testing boundaries
+        // ctx.fillStyle = "Black";
+        // ctx.strokeStyle = "Black";
+        // ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
+    }
+}
