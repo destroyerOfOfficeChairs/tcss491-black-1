@@ -577,15 +577,22 @@ class Instructions {
             ctx.fillText("- WASD or Arrow keys to move", this.backX, this.backY + 4 * this.padding);
             ctx.fillText("- L to toggle menu", this.backX, this.backY + 6 * this.padding);
             ctx.fillText("- Semicolon key to toggle map", this.backX, this.backY + 8 * this.padding);
-            ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
-            ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
-            ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 14 * this.padding);
-            ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 16 * this.padding);
-            ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 18 * this.padding);
-            ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 20 * this.padding);
-            ctx.fillText("- Break open boxes by pressing B and running into them", this.backX, this.backY + 22 * this.padding);
-            ctx.fillText("- Touch portals to advance to next level", this.backX, this.backY + 24 * this.padding);
-            ctx.fillText("- N for battle mode, M for explore mode", this.backX, this.backY + 26 * this.padding);
+            ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 10 * this.padding);
+            ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 12 * this.padding);
+            ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 14 * this.padding);
+            ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 16 * this.padding);
+            ctx.fillText("- Break open boxes by pressing B and running into them", this.backX, this.backY + 18 * this.padding);
+            ctx.fillText("- Touch portals to advance to next level", this.backX, this.backY + 20 * this.padding);
+            ctx.fillText("B A T T L E S :", this.backX, this.backY + 22 * this.padding);
+            ctx.fillText("     - You will randomly encounter battles", this.backX, this.backY + 24 * this.padding);
+            ctx.fillText("     - your attacking character's name is highlighted", this.backX, this.backY + 26 * this.padding);
+            ctx.fillText("     - click an enemy's name to select it", this.backX, this.backY + 28 * this.padding);
+            ctx.fillText("     - click attack to attack it", this.backX, this.backY + 30 * this.padding);
+            ctx.fillText("     - click defense to reduce damage done to character", this.backX, this.backY + 32 * this.padding);
+
+            //ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
+            //ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
+            //ctx.fillText("- N for battle mode, M for explore mode", this.backX, this.backY + 26 * this.padding);
             
             // bounding boxes
             if (PARAMS.DEBUG) {
@@ -711,6 +718,7 @@ class BattleUI {
 		}
 
         this.shieldList = [];
+        this.ourTurn = true;
 		
 		this.battleManager = bm;
 		this.attack = 0;
@@ -741,6 +749,7 @@ class BattleUI {
 			}
 		} else if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0 && this.battleManager.timeEnemyAttackElapsed == 0){ // if player character
 			this.battleManager.isDefeated();
+            this.ourTurn = true;
 			var i;
 			for(i=0; i<this.enemyBB.length; i++){ // allows user to pick target, has to be done before attack
 				if(this.enemyBB[i][1] && this.game.click){
@@ -749,12 +758,13 @@ class BattleUI {
 			}
 			if (this.hoverAtt && this.game.click && this.acceptInput) { // if attack button is clicked
 				console.log("Attack!");
-					if(this.battleManager.enemies[this.attack][1] == 0){
-						if(this.attack > this.battleManager.enemies.length-1){
-							this.attack = 0;
-						} else {
-							this.attack++;
-						}
+					if(this.battleManager.enemies[this.attack][1] == 0){ // if enemy defeated, the default enemy to attack is the first one
+                        this.attack = 0;
+						// if(this.attack > this.battleManager.enemies.length-1){
+						// 	this.attack = 0;
+						// } else {
+						// 	this.attack++;
+						// }
 					}
 					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
 				
@@ -800,6 +810,7 @@ class BattleUI {
 			this.game.click = null;
 		} else if (this.acceptInput) { // if enemy character
 			//this.battleManager.sleep(150);
+            this.ourTurn = false;
 
             if (this.battleManager.timeEnemyAttackElapsed > 3) {
                 this.battleManager.timeEnemyAttackElapsed = 0;
@@ -840,6 +851,19 @@ class BattleUI {
 		ctx.fillRect(this.x, this.y, this.textboxWidth, this.textboxHeight-17);
 		ctx.strokeStyle = "Brown";
 		ctx.strokeRect(this.x, this.y, this.textboxWidth, this.textboxHeight-17);
+
+        //show who's turn it is
+        ctx.fillStyle = "Tan";
+		ctx.fillRect(this.x + 85, 10, this.textboxWidth / 3, this.textboxHeight / 4);
+		ctx.strokeStyle = "Brown";
+		ctx.strokeRect(this.x + 85, 10, this.textboxWidth / 3, this.textboxHeight / 4);
+        if (this.ourTurn) {
+            ctx.fillStyle = "Blue";
+            ctx.fillText("O U R   T U R N", this.x + 90, 20);
+        } else {
+            ctx.fillStyle = "Red";
+            ctx.fillText("E N E M Y   T U R N", this.x + 90, 20);
+        }
 		
 		//enemies list
 		ctx.fillStyle = "Tan";

@@ -164,8 +164,17 @@ class Hero {
 			}
 		}
         // update position
-        this.x += this.velocity.x; //* TICK * PARAMS.SCALE;
-        this.y += this.velocity.y; //* TICK * PARAMS.SCALE;
+        if (this.velocity.x < 0) {
+            this.x += Math.floor(this.velocity.x * 50 * TICK * PARAMS.SCALE);
+        } else {
+            this.x += Math.ceil(this.velocity.x * 50 * TICK * PARAMS.SCALE);
+        }
+
+        if (this.velocity.y < 0) {
+            this.y += Math.floor(this.velocity.y * 50 * TICK * PARAMS.SCALE);
+        } else {
+            this.y += Math.ceil(this.velocity.y * 50 * TICK * PARAMS.SCALE);
+        }
         this.updateBB();
 
         // doesn't let sprites go off the canvas
