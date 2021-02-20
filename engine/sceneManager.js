@@ -351,6 +351,7 @@ class SceneManager {
         this.x = 0;
         this.game.entities = [];
         this.game.map = false;
+        this.game.menu = false;
 		
         // add decorations, etc. here
         var k, l;
@@ -399,6 +400,7 @@ class SceneManager {
         this.x = 0;
         this.game.entities = [];
         this.game.map = false;
+        this.game.menu = false;
 		
         // add decorations, etc. here
         var k, l;

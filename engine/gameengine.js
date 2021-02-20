@@ -108,10 +108,14 @@ class GameEngine {
                     that.attack2 = true;
                     break;
                 case "KeyL":
-                    that.menu = !that.menu;
+                    if (!that.camera.battle && !that.camera.bossBattle) {
+                        that.menu = !that.menu;
+                    }
                     break;
                 case "Semicolon":
-                    that.map = !that.map;
+                    if (!that.camera.battle && !that.camera.bossBattle) {
+                        that.map = !that.map;
+                    }
                     break;
                 case "KeyC":
                     if (PARAMS.DEBUG) {
