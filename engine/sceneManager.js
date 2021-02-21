@@ -28,7 +28,7 @@ class SceneManager {
         this.healthUpgrade = 10;
         this.battle = false;
         this.bossBattle = false;
-		this.encounter = Math.floor(Math.random()*2000)+700;
+		this.encounter = Math.floor(Math.random()*2000)+4000;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -50,7 +50,7 @@ class SceneManager {
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
 
-        this.bossStats = [1000, 180, 0, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
+        this.bossStats = [1000, 360, 300, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
 
         buildMapData();
         
@@ -65,14 +65,15 @@ class SceneManager {
         if (this.game.m && this.game.gameWon) {
             location.reload();
         }
-        if (this.hero.stats[0] <= 0) { // hero dies (it should be changed such that when you lose, you restart)
-            //location.reload();
+        // if (this.hero.stats[0] <= 0) { // hero dies (it should be changed such that when you lose, you restart)
+        //     //location.reload();
 
-            // this.hero.reset();
-            // this.reset();
-            // this.loadTitleScreen(this.game, 0, 0);
-            // this.game.currentState = this.game.gameStates[0];
-        }
+        //     // this.hero.reset();
+        //     // this.reset();
+        //     // this.loadTitleScreen(this.game, 0, 0);
+        //     // this.game.currentState = this.game.gameStates[0];
+        // }
+
         PARAMS.DEBUG = document.getElementById("debug").checked;
         switch (this.game.currentState) {
             case this.game.gameStates[0]:
@@ -111,7 +112,7 @@ class SceneManager {
                 
                 // press N to switch to a battle scene
                 if((this.game.n && PARAMS.DEBUG)|| this.hero.dist >= this.encounter){
-					this.encounter = Math.floor(Math.random()*2000)+700;
+					this.encounter = Math.floor(Math.random()*2000)+4000;
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;
