@@ -584,11 +584,11 @@ class Instructions {
             ctx.fillText("- Break open boxes by pressing B and running into them", this.backX, this.backY + 18 * this.padding);
             ctx.fillText("- Touch portals to advance to next level", this.backX, this.backY + 20 * this.padding);
             ctx.fillText("B A T T L E S :", this.backX, this.backY + 22 * this.padding);
-            ctx.fillText("     - You will randomly encounter battles", this.backX, this.backY + 24 * this.padding);
+            ctx.fillText("     - Battles are random, press 'M' to run away", this.backX, this.backY + 24 * this.padding);
             ctx.fillText("     - your attacking character's name is highlighted", this.backX, this.backY + 26 * this.padding);
-            ctx.fillText("     - click an enemy's name to select it", this.backX, this.backY + 28 * this.padding);
-            ctx.fillText("     - click attack to attack it", this.backX, this.backY + 30 * this.padding);
-            ctx.fillText("     - click defense to reduce damage done to character", this.backX, this.backY + 32 * this.padding);
+            ctx.fillText("     - click an enemy's name to target it", this.backX, this.backY + 28 * this.padding);
+            ctx.fillText("     - click attack to perform an attack", this.backX, this.backY + 30 * this.padding);
+            ctx.fillText("     - click defense to reduce damage received", this.backX, this.backY + 32 * this.padding);
 
             //ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
             //ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
@@ -809,10 +809,9 @@ class BattleUI {
 			}
 			this.game.click = null;
 		} else if (this.acceptInput) { // if enemy character
-			//this.battleManager.sleep(150);
             this.ourTurn = false;
 
-            if (this.battleManager.timeEnemyAttackElapsed > 3) {
+            if (this.battleManager.timeEnemyAttackElapsed > 1) {
                 this.battleManager.timeEnemyAttackElapsed = 0;
 
                 this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
@@ -852,7 +851,7 @@ class BattleUI {
 		ctx.strokeStyle = "Brown";
 		ctx.strokeRect(this.x, this.y, this.textboxWidth, this.textboxHeight-17);
 
-        //show who's turn it is
+        //show whose turn it is
         ctx.fillStyle = "Tan";
 		ctx.fillRect(this.x + 85, 10, this.textboxWidth / 3, this.textboxHeight / 4);
 		ctx.strokeStyle = "Brown";

@@ -77,7 +77,8 @@ class BattleManager {
 	
 	// takes enemies and party arrays and determines turn order based on spd stats
 	loadTurnOrder(e,p) {
-		this.list = [];
+		// this commented version is based on spd stat (needs work in order to be able to use multiple encounter types)
+		/*this.list = [];
 		var i;
 		var spd = 7;
 		
@@ -95,6 +96,17 @@ class BattleManager {
 			spd--;
 		}
 		
+		return this.list;*/
+		
+		//this version just puts party first and enemies after in the order
+		this.list = [];
+		var i;
+		for(i=0; i<p.length; i++){
+			this.list.push(p[i]);
+		}
+		for(i=0; i<e.length; i++){
+			this.list.push(e[i]);
+		}
 		return this.list;
 	}
 	

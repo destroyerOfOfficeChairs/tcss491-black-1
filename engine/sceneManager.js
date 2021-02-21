@@ -28,6 +28,7 @@ class SceneManager {
         this.healthUpgrade = 10;
         this.battle = false;
         this.bossBattle = false;
+		this.encounter = Math.floor(Math.random()*2000)+700;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -109,7 +110,8 @@ class SceneManager {
                 }
                 
                 // press N to switch to a battle scene
-                if(this.game.n || this.hero.dist >= 5000){
+                if((this.game.n && PARAMS.DEBUG)|| this.hero.dist >= this.encounter){
+					this.encounter = Math.floor(Math.random()*2000)+700;
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;
@@ -357,7 +359,18 @@ class SceneManager {
         var k, l;
         for (k = 0; k < 15; k++) {
             for (l = 0; l < 15; l++) {
-                this.game.addEntity(new Grass1(this.game, k * 32, l * 32));
+				switch (this.game.mapIndex){
+					case 2:
+						this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
+						this.game.addEntity(new Grass1(this.game, (k * 32) + 10, (l * 32) + 8));
+						break;
+					case 3:
+						this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
+						break;
+					case 4:
+						this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
+						break;
+				}
             }
         }
 		
@@ -369,11 +382,11 @@ class SceneManager {
 		this.mage.battle = true;
 		
 		// add enemies
-		this.goblin = new Goblin(this.game, 5, 55)
-		this.bat = new Bat(this.game, 5, 143)
+		this.goblin = new Goblin(this.game, 5, 55);
+		this.bat = new Bat(this.game, 5, 143);
         this.game.addEntity(new Scratch(this.game, this.bat.x, this.bat.y, this.bat));
         
-		this.skeleton = new Skeleton(this.game, 5, 98)
+		this.skeleton = new Skeleton(this.game, 5, 98);
         this.game.addEntity(new DeathStare(this.game, this.skeleton.x, this.skeleton.y, this.skeleton));
         
         this.game.addEntity(new HeadsUpDisplay(this.game));
@@ -382,10 +395,25 @@ class SceneManager {
         this.game.addEntity(new Instructions(this.game));
         this.game.addEntity(new Credits(this.game));
 		
+		//types of random encounters
+		this.enemyGroups = [];
+		this.enemyGroups.push([this.goblin, this.skeleton, this.bat]);
+		this.enemyGroups.push([this.goblin, new Goblin(this.game, 5, 55), new Goblin(this.game, 5, 55)]);
+		this.enemyGroups.push([this.goblin, new Goblin(this.game, 5, 55), this.bat]);
+		this.enemyGroups.push([this.goblin, new Goblin(this.game, 5, 55), this.skeleton]);
+		this.enemyGroups.push([this.skeleton, new Skeleton(this.game, 5, 98), new Skeleton(this.game, 5, 98)]);
+		this.enemyGroups.push([this.skeleton, new Skeleton(this.game, 5, 98), this.goblin]);
+		this.enemyGroups.push([this.skeleton, new Skeleton(this.game, 5, 98), this.bat]);
+		this.enemyGroups.push([this.bat, new Bat(this.game, 5, 143), new Bat(this.game, 5, 143)]);
+		this.enemyGroups.push([this.bat, new Bat(this.game, 5, 143), this.goblin]);
+		this.enemyGroups.push([this.bat, new Bat(this.game, 5, 143), this.skeleton]);
+		//choose an encounter
+		this.chosenGroup = this.enemyGroups[Math.floor(Math.random()*10)];
+		
 		// load battle manager
-		this.battleManager = new BattleManager(this.game, [this.goblin,this.skeleton,this.bat],
+		this.battleManager = new BattleManager(this.game, this.chosenGroup,//[this.goblin,this.skeleton,this.bat],
 			[this.hero, this.cleric, this.archer, this.mage]);
-		this.ui = new BattleUI(this.game, this.battleManager, [this.goblin,this.skeleton,this.bat],
+		this.ui = new BattleUI(this.game, this.battleManager, this.chosenGroup,//[this.goblin,this.skeleton,this.bat],
 			[this.hero, this.cleric, this.archer, this.mage])
 		this.game.addEntity(this.ui);
 
