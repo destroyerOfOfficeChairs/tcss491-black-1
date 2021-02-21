@@ -758,13 +758,13 @@ class BattleUI {
 			}
 			if (this.hoverAtt && this.game.click && this.acceptInput) { // if attack button is clicked
 				console.log("Attack!");
-					if(this.battleManager.enemies[this.attack][1] == 0){ // if enemy defeated, the default enemy to attack is the first one
-                        this.attack = 0;
-						// if(this.attack > this.battleManager.enemies.length-1){
-						// 	this.attack = 0;
-						// } else {
-						// 	this.attack++;
-						// }
+					if(this.battleManager.enemies[this.attack][1] == 0){
+                        //this.attack = 0;
+						if(this.attack > this.battleManager.enemies.length-1){
+							this.attack = 0;
+						} else {
+							this.attack++;
+						}
 					}
 					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
 				
