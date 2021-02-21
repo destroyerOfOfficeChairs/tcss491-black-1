@@ -49,8 +49,23 @@ ASSET_MANAGER.queueDownload("./sprites/RPGW_Grassland_v1.3/MainLevBuild.png");
 ASSET_MANAGER.queueDownload("./sprites/RPGW_Grassland_v1.3/decorative.png");
 ASSET_MANAGER.queueDownload("./sprites/RPG_Buildings_CASTLE_v1.0/castle_interriors.png");
 
+//music
+//level theme
+ASSET_MANAGER.queueDownload("./music/Short_Casual_Loop_2.mp3");
+//background track 1
+ASSET_MANAGER.queueDownload("./music/Lyric__Fantasy_Theme_2.mp3");
+//background track 2
+ASSET_MANAGER.queueDownload("./music/Lyric__Fantasy_Theme_1.mp3");
+//battle theme
+ASSET_MANAGER.queueDownload("./music/Short_Combat_Loop_1.mp3");
+
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
+
+	//ASSET_MANAGER.autoRepeat("./music/Short_Casual_Loop_2.mp3");
+	//ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_2.mp3");
+	//ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_1.mp3");
+	//ASSET_MANAGER.autoRepeat("./music/Short_Combat_Loop_1.mp3");
 
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');

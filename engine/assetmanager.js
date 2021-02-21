@@ -18,26 +18,58 @@ class AssetManager {
     downloadAll(callback) {
         if (this.downloadQueue.length === 0) setTimeout(callback, 10);
         for (var i = 0; i < this.downloadQueue.length; i++) {
-            var img = new Image();
-            var that = this;
+			
+			if (this.downloadQueue[i].substring(this.downloadQueue[i].length - 3) == 'mp3') { // mp3 file
+				var aud = new Audio(this.downloadQueue[i]);
+				var that = this;
+				var path = this.downloadQueue[i];
+				console.log(path);
+				
+				aud.addEventListener("loadeddata", function () {
+					console.log("Loaded" + this.src);
+					that.successCount++;
+					if (that.isDone()) callback();
+				});
 
-            var path = this.downloadQueue[i];
-            console.log(path);
+				aud.addEventListener("error", function () {
+					console.log("Error loading " + this.src);
+					that.errorCount++;
+					if (that.isDone()) callback();
+				});
 
-            img.addEventListener("load", function () {
-                console.log("Loaded " + this.src);
-                that.successCount++;
-                if (that.isDone()) callback();
-            });
+				aud.addEventListener("ended", function () {
+					aud.pause();
+					aud.currentTime = 0;
+				});
 
-            img.addEventListener("error", function () {
-                console.log("Error loading " + this.src);
-                that.errorCount++;
-                if (that.isDone()) callback();
-            });
+				aud.src = path;
+				aud.load();
 
-            img.src = path;
-            this.cache[path] = img;
+				this.cache[path] = aud;
+				
+			} else { // image file
+				var img = new Image();
+				var that = this;
+
+				var path = this.downloadQueue[i];
+				console.log(path);
+
+				img.addEventListener("load", function () {
+					console.log("Loaded " + this.src);
+					that.successCount++;
+					if (that.isDone()) callback();
+				});
+
+				img.addEventListener("error", function () {
+					console.log("Error loading " + this.src);
+					that.errorCount++;
+					if (that.isDone()) callback();
+				});
+
+				img.src = path;
+				this.cache[path] = img;
+			}
+			
         }
     };
 

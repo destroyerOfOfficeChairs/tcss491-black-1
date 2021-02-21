@@ -28,7 +28,7 @@ class SceneManager {
         this.healthUpgrade = 10;
         this.battle = false;
         this.bossBattle = false;
-		this.encounter = Math.floor(Math.random()*2000)+4000;
+		this.encounter = Math.floor(Math.random()*2000)+800; // 4000+ steps is far too high a range, you'll explore well over half the map before you find even your first battle
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
         this.cleric = new Cleric(this.game, this.heroX, this.heroY+30);
@@ -112,7 +112,7 @@ class SceneManager {
                 
                 // press N to switch to a battle scene
                 if((this.game.n && PARAMS.DEBUG)|| this.hero.dist >= this.encounter){
-					this.encounter = Math.floor(Math.random()*2000)+4000;
+					this.encounter = Math.floor(Math.random()*2000)+800; // 4000+ steps is far too high a range, you'll explore well over half the map before you find even your first battle
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;
