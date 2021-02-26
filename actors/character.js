@@ -213,9 +213,11 @@ class Hero {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if (entity instanceof Crystal) {
                     entity.removeFromWorld = true;
-                    that.stats[1] += that.game.camera.crystalAttackPower;
-                    that.stats[2] += that.game.camera.crystalDefensePower;
-                    that.game.camera.crystals++;
+                    // that.stats[1] += that.game.camera.crystalAttackPower;
+                    // that.stats[2] += that.game.camera.crystalDefensePower;
+                    // that.game.camera.crystals++;
+                    that.game.pause = true;
+                    that.game.addEntity(new CrystalChoice(that.game));
                 }
 
                 if (entity instanceof Coin) {

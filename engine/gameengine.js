@@ -5,6 +5,7 @@ class GameEngine {
         this.entities = [];
         this.showOutlines = false;
         this.ctx = null;
+        this.pause = false;
         this.click = null;
         this.mouse = null;
         this.wheel = null;
@@ -108,17 +109,17 @@ class GameEngine {
                     that.attack2 = true;
                     break;
                 case "KeyL":
-                    if (!that.camera.battle && !that.camera.bossBattle) {
+                    if (!that.camera.battle && !that.camera.bossBattle && !that.pause) {
                         that.menu = !that.menu;
                     }
                     break;
                 case "Semicolon":
-                    if (!that.camera.battle && !that.camera.bossBattle) {
+                    if (!that.camera.battle && !that.camera.bossBattle && !that.pause) {
                         that.map = !that.map;
                     }
                     break;
                 case "KeyC":
-                    if (PARAMS.DEBUG) {
+                    if (PARAMS.DEBUG && !that.pause) {
                         // that.mapIndex++;
                         // if (that.mapIndex >= that.gameMaps.length) {
                         //     that.mapIndex = 0;
@@ -212,13 +213,15 @@ class GameEngine {
     };
 
     update() {
+        if (this.m && (this.gameWon || (this.camera.bossBattle && !this.gameWon))) {
+            location.reload();
+        }
         
         var entitiesCount = this.entities.length;
 
         for (var i = 0; i < entitiesCount; i++) {
             var entity = this.entities[i];
-
-            if (!entity.removeFromWorld) {
+            if (!entity.removeFromWorld && (!this.pause || entity instanceof CrystalChoice)) {
                 if (!this.menu || entity instanceof MainMenu || entity instanceof Instructions || 
                     entity instanceof Shop || entity instanceof Credits) {
                     entity.update();

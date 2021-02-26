@@ -240,7 +240,7 @@ class Shop {
         Object.assign(this, {game});
         this.padding = 5;
         this.displayError = false;
-        this.displayCrystalError = false;
+        //this.displayCrystalError = false;
         this.displaySuccess = 0; // 0=none, 1=attack, 2=defense, 3=health, 4=destroy crystal
         this.timeElapsedError = 0;
         this.timeElapsedSuccess = 0;
@@ -273,12 +273,12 @@ class Shop {
         this.upgradeHealthBB = new BoundingBox(this.upgradeHealthX, this.upgradeHealthY - this.upgradeHealthHeight/2, this.upgradeHealthWidth, this.upgradeHealthHeight);
         this.hoverHealth = false;
 
-        this.destroyCrystalWidth = 40;
-        this.destroyCrystalHeight = 20;
-        this.destroyCrystalX = 35 * this.padding;
-        this.destroyCrystalY = 35 * this.padding;
-        this.destroyCrystalBB = new BoundingBox(this.destroyCrystalX, this.destroyCrystalY - this.destroyCrystalHeight/2, this.destroyCrystalWidth, this.destroyCrystalHeight);
-        this.hoverDestroyCrystal = false;
+        // this.destroyCrystalWidth = 40;
+        // this.destroyCrystalHeight = 20;
+        // this.destroyCrystalX = 35 * this.padding;
+        // this.destroyCrystalY = 35 * this.padding;
+        // this.destroyCrystalBB = new BoundingBox(this.destroyCrystalX, this.destroyCrystalY - this.destroyCrystalHeight/2, this.destroyCrystalWidth, this.destroyCrystalHeight);
+        // this.hoverDestroyCrystal = false;
 
     }
 
@@ -329,34 +329,34 @@ class Shop {
                     this.timeElapsedError = 0;
                 }
                 this.game.click = null;
-            } else if (this.hoverDestroyCrystal && this.game.click) {
-                this.displayError = false;
-                if (this.game.camera.crystals > 0) {
-                    this.game.camera.crystals--;
-                    // reduce hero stats
-                    this.game.camera.hero.stats[1] -= this.game.camera.crystalAttackPower;
-                    this.game.camera.hero.stats[2] -= this.game.camera.crystalDefensePower;
-                    // reduce boss stats
-                    this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower;
-                    this.game.camera.bossStats[0] -= this.game.camera.crystalDefensePower;
+            // } else if (this.hoverDestroyCrystal && this.game.click) {
+            //     this.displayError = false;
+            //     if (this.game.camera.crystals > 0) {
+            //         this.game.camera.crystals--;
+            //         // reduce hero stats
+            //         this.game.camera.hero.stats[1] -= this.game.camera.crystalAttackPower;
+            //         this.game.camera.hero.stats[2] -= this.game.camera.crystalDefensePower;
+            //         // reduce boss stats
+            //         this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower;
+            //         this.game.camera.bossStats[0] -= this.game.camera.crystalDefensePower;
 
-                    this.displaySuccess = 4;
-                    this.displayCrystalError = false;
-                } else {
-                    this.displayCrystalError = true;
-                    this.timeElapsedError = 0;
-                }
-                this.game.click = null;
-            } else if (!this.hoverBack && !this.hoverUpgradeAttack && !this.hoverUpgradeDefense && !this.hoverUpgradeHealth && !this.hoverDestroyCrystal) {
+            //         this.displaySuccess = 4;
+            //         this.displayCrystalError = false;
+            //     } else {
+            //         this.displayCrystalError = true;
+            //         this.timeElapsedError = 0;
+            //     }
+            //     this.game.click = null;
+            } else if (!this.hoverBack && !this.hoverUpgradeAttack && !this.hoverUpgradeDefense && !this.hoverUpgradeHealth /* && !this.hoverDestroyCrystal */) {
                 this.game.click = null;
             }
     
-            if (this.displayError || this.displayCrystalError) {
+            if (this.displayError /*|| this.displayCrystalError */) {
                 this.displaySuccess = 0;
                 this.timeElapsedError += this.game.clockTick;
                 if (this.timeElapsedError > 3) {
                     this.displayError = false;
-                    this.displayCrystalError = false;
+                    //this.displayCrystalError = false;
                     this.timeElapsedError = 0;
                 }
             } else {
@@ -373,7 +373,7 @@ class Shop {
             }
         } else {
             this.displayError = false;
-            this.displayCrystalError = false;
+            //this.displayCrystalError = false;
             this.displaySuccess = false;
         }
     }
@@ -410,7 +410,8 @@ class Shop {
             // upgrade attack button
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Attack (+" + this.game.camera.attackUpgrade + ")", this.upgradeAttackX - 150, this.upgradeAttackY);
-
+            
+            ctx.fillStyle = "Yellow";
             if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeAttackBB.left && this.game.mouse.x <= 3 * this.upgradeAttackBB.right && 
                 this.game.mouse.y >= 3.1 * this.upgradeAttackBB.top && this.game.mouse.y <= 3 * this.upgradeAttackBB.bottom) {
                 ctx.fillStyle = "Purple";
@@ -424,6 +425,7 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Defense (+" + this.game.camera.defenseUpgrade + ")", this.upgradeDefenseX - 150, this.upgradeDefenseY);
 
+            ctx.fillStyle = "Yellow";
             if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeDefenseBB.left && this.game.mouse.x <= 3 * this.upgradeDefenseBB.right && 
                 this.game.mouse.y >= 3.1 * this.upgradeDefenseBB.top && this.game.mouse.y <= 3 * this.upgradeDefenseBB.bottom) {
                 ctx.fillStyle = "Purple";
@@ -437,6 +439,7 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Max Health (+" + this.game.camera.healthUpgrade + ")", this.upgradeHealthX - 150, this.upgradeHealthY);
 
+            ctx.fillStyle = "Yellow";
             if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeHealthBB.left && this.game.mouse.x <= 3 * this.upgradeHealthBB.right && 
                 this.game.mouse.y >= 3.1 * this.upgradeHealthBB.top && this.game.mouse.y <= 3 * this.upgradeHealthBB.bottom) {
                 ctx.fillStyle = "Purple";
@@ -447,17 +450,17 @@ class Shop {
             ctx.fillText("" + this.game.camera.healthUpgradeCost + " coins", this.upgradeHealthX, this.upgradeHealthY);
 
             // destroy crystal button
-            ctx.fillStyle = "Red";
-            ctx.fillText("Destroy Crystal", this.destroyCrystalX - 150, this.destroyCrystalY);
+            // ctx.fillStyle = "Red";
+            // ctx.fillText("Destroy Crystal", this.destroyCrystalX - 150, this.destroyCrystalY);
 
-            if (this.game.mouse && this.game.mouse.x >= 3.1 * this.destroyCrystalBB.left && this.game.mouse.x <= 3 * this.destroyCrystalBB.right && 
-                this.game.mouse.y >= 3.1 * this.destroyCrystalBB.top && this.game.mouse.y <= 3 * this.destroyCrystalBB.bottom) {
-                ctx.fillStyle = "Purple";
-                this.hoverDestroyCrystal = true;
-            } else {
-                this.hoverDestroyCrystal = false;
-            }
-            ctx.fillText("Destroy", this.destroyCrystalX, this.destroyCrystalY);
+            // if (this.game.mouse && this.game.mouse.x >= 3.1 * this.destroyCrystalBB.left && this.game.mouse.x <= 3 * this.destroyCrystalBB.right && 
+            //     this.game.mouse.y >= 3.1 * this.destroyCrystalBB.top && this.game.mouse.y <= 3 * this.destroyCrystalBB.bottom) {
+            //     ctx.fillStyle = "Purple";
+            //     this.hoverDestroyCrystal = true;
+            // } else {
+            //     this.hoverDestroyCrystal = false;
+            // }
+            // ctx.fillText("Destroy", this.destroyCrystalX, this.destroyCrystalY);
 
             ctx.font = "8px Georgia";
             // coin stats
@@ -479,10 +482,11 @@ class Shop {
             if (this.displayError) {
                 ctx.fillStyle = "Red";
                 ctx.fillText("Not enough coins to purchase!", 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
-            } else if (this.displayCrystalError) { // "not enough crystals"
-                ctx.fillStyle = "Red";
-                ctx.fillText("No crystals to destroy!", 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
-            }
+            } 
+            // else if (this.displayCrystalError) { // "not enough crystals"
+            //     ctx.fillStyle = "Red";
+            //     ctx.fillText("No crystals to destroy!", 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
+            // }
 
             // successfully purchased
             if (this.displaySuccess != 0) {
@@ -511,7 +515,7 @@ class Shop {
                 ctx.strokeRect(this.upgradeAttackBB.x, this.upgradeAttackBB.y, this.upgradeAttackBB.width, this.upgradeAttackBB.height);
                 ctx.strokeRect(this.upgradeDefenseBB.x, this.upgradeDefenseBB.y, this.upgradeDefenseBB.width, this.upgradeDefenseBB.height);
                 ctx.strokeRect(this.upgradeHealthBB.x, this.upgradeHealthBB.y, this.upgradeHealthBB.width, this.upgradeHealthBB.height);
-                ctx.strokeRect(this.destroyCrystalBB.x, this.destroyCrystalBB.y, this.destroyCrystalBB.width, this.destroyCrystalBB.height);
+                //ctx.strokeRect(this.destroyCrystalBB.x, this.destroyCrystalBB.y, this.destroyCrystalBB.width, this.destroyCrystalBB.height);
                 ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
             }
         }
@@ -583,6 +587,7 @@ class Instructions {
             ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 16 * this.padding);
             ctx.fillText("- Break open boxes by pressing B and running into them", this.backX, this.backY + 18 * this.padding);
             ctx.fillText("- Touch portals to advance to next level", this.backX, this.backY + 20 * this.padding);
+            ctx.fillStyle = "Red";
             ctx.fillText("B A T T L E S :", this.backX, this.backY + 22 * this.padding);
             ctx.fillText("     - Battles are random, press 'M' to run away", this.backX, this.backY + 24 * this.padding);
             ctx.fillText("     - your attacking character's name is highlighted", this.backX, this.backY + 26 * this.padding);
@@ -671,6 +676,121 @@ class Credits {
                 ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
             }
         }
+    }
+}
+
+class CrystalChoice {
+    constructor(game) {
+        Object.assign(this, {game});
+        this.padding = 5;
+		this.keepCrystalWidth = 50;
+        this.keepCrystalHeight = 20;
+        this.keepCrystalX = 10 * this.padding;
+        this.keepCrystalY = 40 * this.padding;
+        this.keepCrystalBB = new BoundingBox(this.keepCrystalX, this.keepCrystalY - this.keepCrystalHeight/2, this.keepCrystalWidth, this.keepCrystalHeight);
+        this.hoverKeepCrystal = false;
+
+        this.destroyCrystalWidth = 50;
+        this.destroyCrystalHeight = 20;
+        this.destroyCrystalX = 35 * this.padding;
+        this.destroyCrystalY = 40 * this.padding;
+        this.destroyCrystalBB = new BoundingBox(this.destroyCrystalX, this.destroyCrystalY - this.destroyCrystalHeight/2, this.destroyCrystalWidth, this.destroyCrystalHeight);
+        this.hoverDestroyCrystal = false;
+    }
+
+    update() {
+        //if (this.game.pause) {
+            if (this.hoverKeepCrystal && this.game.click) {
+                // increase player stats
+                this.game.camera.hero.stats[1] += this.game.camera.crystalAttackPower;
+                this.game.camera.hero.stats[2] += this.game.camera.crystalDefensePower;
+                this.game.camera.cleric.stats[1] += this.game.camera.crystalAttackPower;
+                this.game.camera.cleric.stats[2] += this.game.camera.crystalDefensePower;
+                this.game.camera.archer.stats[1] += this.game.camera.crystalAttackPower;
+                this.game.camera.archer.stats[2] += this.game.camera.crystalDefensePower;
+                this.game.camera.mage.stats[1] += this.game.camera.crystalAttackPower;
+                this.game.camera.mage.stats[2] += this.game.camera.crystalDefensePower;
+                this.game.camera.crystals++;
+                //console.log("hero attack: " + this.game.camera.hero.stats[1]);
+                //console.log("hero defense: " + this.game.camera.hero.stats[2]);
+
+                this.removeFromWorld = true;
+                this.game.pause = false;
+            } else if (this.hoverDestroyCrystal && this.game.click) {
+                // reduce boss stats
+                this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower * 4;
+                this.game.camera.bossStats[2] -= this.game.camera.crystalDefensePower * 4;
+
+                if (this.game.camera.bossStats[1] <= 0 ) {
+                    this.game.camera.bossStats[1] = 0;
+                }
+                if (this.game.camera.bossStats[2] <= 0 ) {
+                    this.game.camera.bossStats[2] = 0;
+                }
+                //console.log("boss attack: " + this.game.camera.bossStats[1]);
+                //console.log("boss health: " + this.game.camera.bossStats[0]);
+
+                this.removeFromWorld = true;
+                this.game.pause = false;
+            } else if (!this.hoverKeepCrystal && !this.hoverDestroyCrystal) {
+                this.game.click = null;
+            }
+        //}
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
+    draw(ctx) {
+        //if (this.game.menu) {
+            ctx.font = "10px Georgia";
+
+            // menu title
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.padding * 3, this.padding * 31, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT/4);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.padding * 3, this.padding * 31, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT/4);
+
+            ctx.fillStyle = "Brown";
+            ctx.fillText("Keep or destroy crystal?", 77, this.padding * 34);
+            
+            ctx.font = "8px Georgia";
+            ctx.fillText("(+" + this.game.camera.crystalAttackPower + " att, +" 
+            + this.game.camera.crystalDefensePower + " def) for all,      (-" 
+            + 4 * this.game.camera.crystalAttackPower + " boss att, -" + 4 * this.game.camera.crystalDefensePower + " boss def)"
+            , this.padding * 5, this.padding * 37);
+
+            ctx.font = "10px Georgia";
+			
+			// keep crystal button
+            ctx.fillStyle = "Green";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.keepCrystalBB.left && this.game.mouse.x <= 3 * this.keepCrystalBB.right && 
+                this.game.mouse.y >= 3 * this.keepCrystalBB.top && this.game.mouse.y <= 3 * this.keepCrystalBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverKeepCrystal = true;
+            } else {
+                this.hoverKeepCrystal = false;
+            }
+            ctx.fillText("Keep", this.keepCrystalX, this.keepCrystalY);
+
+            // destroy crystal button
+            ctx.fillStyle = "Red";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.destroyCrystalBB.left && this.game.mouse.x <= 3 * this.destroyCrystalBB.right && 
+                this.game.mouse.y >= 3 * this.destroyCrystalBB.top && this.game.mouse.y <= 3 * this.destroyCrystalBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverDestroyCrystal = true;
+            } else {
+                this.hoverDestroyCrystal = false;
+            }
+            ctx.fillText("Destroy", this.destroyCrystalX, this.destroyCrystalY);
+
+            // bounding boxes
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.keepCrystalBB.x, this.keepCrystalBB.y, this.keepCrystalBB.width, this.keepCrystalBB.height);
+                ctx.strokeRect(this.destroyCrystalBB.x, this.destroyCrystalBB.y, this.destroyCrystalBB.width, this.destroyCrystalBB.height);
+            }
+        //}
     }
 }
 

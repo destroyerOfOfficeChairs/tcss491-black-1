@@ -18,8 +18,8 @@ class SceneManager {
         this.coins = 0;
         this.crystals = 0;
         this.keys = 0;
-        this.crystalAttackPower = 50;
-        this.crystalDefensePower = 50;
+        this.crystalAttackPower = 25;
+        this.crystalDefensePower = 25;
         this.attackUpgradeCost = 5;
         this.defenseUpgradeCost = 8;
         this.healthUpgradeCost = 10;
@@ -62,9 +62,10 @@ class SceneManager {
     }
     
     update() {
-        if (this.game.m && this.game.gameWon) {
-            location.reload();
-        }
+        // if (this.game.m && (this.game.gameWon || (this.bossBattle && !this.game.gameWon))) {
+        //     location.reload();
+        // }
+        
         // if (this.hero.stats[0] <= 0) { // hero dies (it should be changed such that when you lose, you restart)
         //     //location.reload();
 
