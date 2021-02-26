@@ -122,11 +122,12 @@ class BattleManager {
 	attackEnemy(attacker, defender) {
 		this.party[attacker][0].basicAttack = true;
 		this.party[defender][3] = false;
-		var damage = this.party[attacker][0].stats[1] - this.enemies[defender][0].stats[2];
+		var damage = this.party[attacker][0].stats[1];
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
 			damage += Math.floor(damage/2);
 			console.log("Critical hit!");
 		}
+		damage -= this.enemies[defender][0].stats[2];
 		if (damage < 0) {// damage should not add health if damage is calculated to be negative
 			damage = 0;
 		}
@@ -143,11 +144,12 @@ class BattleManager {
 	// enemy version
 	attackPlayer(attacker, defender) {
 		this.enemies[attacker][0].basicAttack = true;
-		var damage = this.enemies[attacker][0].stats[1] - this.party[defender][0].stats[2];
+		var damage = this.enemies[attacker][0].stats[1];
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
 			damage += Math.floor(damage/2);
 			console.log("Critical hit!");
 		}
+		damage -= this.party[defender][0].stats[2];
 		if (damage < 0) { // damage should not add health if damage is calculated to be negative
 			damage = 0;
 		}

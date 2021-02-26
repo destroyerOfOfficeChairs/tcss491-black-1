@@ -18,11 +18,11 @@ class SceneManager {
         this.coins = 0;
         this.crystals = 0;
         this.keys = 0;
-        this.crystalAttackPower = 25;
-        this.crystalDefensePower = 25;
-        this.attackUpgradeCost = 5;
-        this.defenseUpgradeCost = 8;
-        this.healthUpgradeCost = 10;
+        this.crystalAttackPower = 10;
+        this.crystalDefensePower = 2;
+        this.attackUpgradeCost = 15;
+        this.defenseUpgradeCost = 10;
+        this.healthUpgradeCost = 20;
         this.attackUpgrade = 2;
         this.defenseUpgrade = 1;
         this.healthUpgrade = 10;
@@ -50,7 +50,7 @@ class SceneManager {
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
 
-        this.bossStats = [1000, 360, 300, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
+        this.bossStats = [1000, 80, 20, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
 
         buildMapData();
         

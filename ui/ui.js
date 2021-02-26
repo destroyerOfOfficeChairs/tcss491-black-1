@@ -718,8 +718,8 @@ class CrystalChoice {
                 this.game.pause = false;
             } else if (this.hoverDestroyCrystal && this.game.click) {
                 // reduce boss stats
-                this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower * 4;
-                this.game.camera.bossStats[2] -= this.game.camera.crystalDefensePower * 4;
+                this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower;
+                this.game.camera.bossStats[2] -= this.game.camera.crystalDefensePower;
 
                 if (this.game.camera.bossStats[1] <= 0 ) {
                     this.game.camera.bossStats[1] = 0;
@@ -757,7 +757,7 @@ class CrystalChoice {
             ctx.font = "8px Georgia";
             ctx.fillText("(+" + this.game.camera.crystalAttackPower + " att, +" 
             + this.game.camera.crystalDefensePower + " def) for all,      (-" 
-            + 4 * this.game.camera.crystalAttackPower + " boss att, -" + 4 * this.game.camera.crystalDefensePower + " boss def)"
+            + this.game.camera.crystalAttackPower + " boss att, -" + this.game.camera.crystalDefensePower + " boss def)"
             , this.padding * 5, this.padding * 37);
 
             ctx.font = "10px Georgia";
