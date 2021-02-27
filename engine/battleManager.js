@@ -21,6 +21,12 @@ class BattleManager {
 				this.enemies[i][0].x = 5;
 				this.enemies[i][0].y = 55 + (i * 43);
 				this.game.addEntity(this.enemies[i][0]);
+
+				if (this.enemies[i][0] instanceof Skeleton) {
+					this.game.addEntity(new DeathStare(this.game, this.enemies[i][0].x, this.enemies[i][0].y, this.enemies[i][0]));
+				} else if (this.enemies[i][0] instanceof Bat) {
+					this.game.addEntity(new Scratch(this.game, this.enemies[i][0].x, this.enemies[i][0].y, this.enemies[i][0]));
+				}
 			}
 			for(i=0; i<this.party.length; i++){
 				this.party[i][0].x = 210;
@@ -120,7 +126,6 @@ class BattleManager {
 	
 	// subtracts the difference between the attacker's attack and the defender's defense from the defender's health
 	attackEnemy(attacker, defender) {
-		this.party[attacker][0].basicAttack = true;
 		this.party[defender][3] = false;
 		var damage = this.party[attacker][0].stats[1];
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit

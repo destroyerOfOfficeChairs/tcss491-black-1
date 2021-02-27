@@ -886,6 +886,7 @@ class BattleUI {
 							this.attack++;
 						}
 					}
+                    this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].basicAttack = true;
 					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
 				
 				//advance turn order or reset
@@ -896,14 +897,19 @@ class BattleUI {
 				}
 			} else if (this.hoverSpec && this.game.click && this.acceptInput) {
 				console.log("Special!");
-				
-				//advance turn order or reset
+
+                this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].specialAttack = true;
+
+                //console.log(this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][2]);
+                //console.log(this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].specialAttack);
+			
+            	//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-			} else if (this.hoverItem && this.game.click && this.acceptInput) {
+            } else if (this.hoverItem && this.game.click && this.acceptInput) {
 				console.log("Item!");
 				
 				//advance turn order or reset
@@ -934,6 +940,7 @@ class BattleUI {
             if (this.battleManager.timeEnemyAttackElapsed > 1) {
                 this.battleManager.timeEnemyAttackElapsed = 0;
 
+                //this.battleManager.enemies[this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].specialAttack = true;
                 this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
 			
 			    //advance turn order or reset
@@ -1004,7 +1011,7 @@ class BattleUI {
 			}
 			if(this.battleManager.enemies[i][1] > 0){
 				ctx.fillText(this.enemies[i][2], this.x + 5, this.y + 15 + (15 * i));
-                ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 60, this.y + 15 + (15 * i));
+                ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 55, this.y + 15 + (15 * i));
 			}
 		}
 		

@@ -230,13 +230,13 @@ class FireBall {
 
     update() {
         if (this.facing == 0) {
-            this.x += 1;
+            this.x += 2;
             if (this.x - this.startingX > 100) {
                 this.removeFromWorld = true;
             }
             this.BB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y + (5/16 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         } else if (this.facing == 1) {
-            this.x -= 1;
+            this.x -= 2;
             if (this.x - this.startingX < -100) {
                 this.removeFromWorld = true;
             }
@@ -384,6 +384,8 @@ class DeathStare {
     }
 
     update() {
+        this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
 
     }
 
@@ -391,7 +393,7 @@ class DeathStare {
     }
 
     draw(ctx) {
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.entity.specialAttack) {
             if (this.entity.facing == 0) {//facing right
                 this.animations.drawFrame(this.game.clockTick, ctx, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);                
             } else if (this.entity.facing == 1) {//facing left
@@ -421,6 +423,8 @@ class Scratch {
     }
 
     update() {
+        this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
 
     }
 

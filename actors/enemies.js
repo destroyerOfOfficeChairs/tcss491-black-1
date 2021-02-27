@@ -173,7 +173,7 @@ class Dragon {
         // }
 		
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed == 0) {
                 this.game.addEntity(new ShadowBall(this.game, this.x, this.y, this.facing, this));
                 this.hasShadowBall = true;
@@ -181,7 +181,7 @@ class Dragon {
             this.timeElapsed += TICK;
             if (this.timeElapsed >= 2) {
                 this.timeElapsed = 0;
-                //this.game.attack2 = false;
+                this.specialAttack = false;
             }
         } else {
             this.timeElapsed = 0;
@@ -244,6 +244,17 @@ class Goblin {
 
         //this.animation = new Animator(this.spritesheet, 80, 205, 30, 50, 8, 0.15, 34, false, true);
         //this.loadAnimations(spritesheet);
+        // this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        // this.leftBB = new BoundingBox(this.x - 1/8 * this.width * PARAMS.SCALE * this.scale, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        // this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 7/8, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        // this.topBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 1/2, this.y - this.height * 1/8 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+        // this.bottomBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 1/4, this.y + this.height * 7/8 * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
+    
+        this.updateBB();
+    }
+
+    updateBB() {
+        this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - 1/8 * this.width * PARAMS.SCALE * this.scale, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
         this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale * 7/8, this.y + this.height * PARAMS.SCALE * this.scale * 3/8, this.width * PARAMS.SCALE * this.scale * 1/4, this.height * PARAMS.SCALE * this.scale * 1/4);
@@ -331,6 +342,8 @@ class Goblin {
             }
         }
 
+        this.updateBB();
+
         // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
         // if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
         // if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
@@ -350,7 +363,7 @@ class Goblin {
             }
         }
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed >= 0 && this.canShoot) {
                 this.game.addEntity(new Laser(this.game, this.x, this.y, this.facing, this));
                 this.canShoot = false;
@@ -359,6 +372,7 @@ class Goblin {
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
                 this.canShoot = true;
+                this.specialAttack = false;
             }
             //console.log(this.timeElapsed)
         } else {
@@ -454,6 +468,17 @@ class Bat {
         //this.animation = new Animator(this.spritesheet, 80, 205, 30, 50, 8, 0.15, 34, false, true);
 
         //this.loadAnimations(spritesheet);
+        // this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        // this.leftBB = new BoundingBox(this.x, this.y, 1, this.height * PARAMS.SCALE * this.scale);
+        // this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale, this.y, 1, this.height * PARAMS.SCALE * this.scale);
+        // this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, 1);
+        // this.bottomBB = new BoundingBox(this.x, this.y + this.height * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, 1);
+    
+        this.updateBB();
+    }
+
+    updateBB() {
+        this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x, this.y, 1, this.height * PARAMS.SCALE * this.scale);
         this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale, this.y, 1, this.height * PARAMS.SCALE * this.scale);
@@ -510,6 +535,8 @@ class Bat {
             }
         }
 
+        this.updateBB();
+
         // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
         // if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
         // if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
@@ -550,7 +577,7 @@ class Bat {
             }
         }
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed >= 0 && this.canShoot) {
                 this.game.addEntity(new SonicWave(this.game, this.x, this.y, this.facing, this));
                 this.canShoot = false;
@@ -559,6 +586,7 @@ class Bat {
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
                 this.canShoot = true;
+                this.specialAttack = false;
             }
             //console.log(this.timeElapsed)
         } else {
@@ -613,6 +641,7 @@ class Skeleton {
         this.basicAttack = false;
         this.specialAttack = false;
         this.timeElapsedBasic = 0;
+        this.timeElapsedSpecial = 0;
 
 		this.stats = [100, 25, 5, 1]; // stats = [hp, att, def, spd]
 		
@@ -621,6 +650,17 @@ class Skeleton {
         //this.animation = new Animator(this.spritesheet, 80, 205, 30, 50, 8, 0.15, 34, false, true);
 
         //this.loadAnimations(spritesheet);
+        // this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        // this.leftBB = new BoundingBox(this.x, this.y, 1, this.height * PARAMS.SCALE * this.scale);
+        // this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale, this.y, 1, this.height * PARAMS.SCALE * this.scale);
+        // this.topBB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, 1);
+        // this.bottomBB = new BoundingBox(this.x, this.y + this.height * PARAMS.SCALE * this.scale, this.width * PARAMS.SCALE * this.scale, 1);
+    
+        this.updateBB();
+    }
+
+    updateBB() {
+        this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x, this.y, 1, this.height * PARAMS.SCALE * this.scale);
         this.rightBB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale, this.y, 1, this.height * PARAMS.SCALE * this.scale);
@@ -694,6 +734,8 @@ class Skeleton {
             }
         }
 
+        this.updateBB();
+
         // if (this.velocity.x >= MAX_WALK) this.velocity.x = MAX_WALK;
         // if (this.velocity.x <= -MAX_WALK) this.velocity.x = -MAX_WALK;
         // if (this.velocity.y >= MAX_WALK) this.velocity.y = MAX_WALK;
@@ -753,6 +795,17 @@ class Skeleton {
             this.timeElapsed = 0;
             this.canShoot = true;
             //console.log(this.timeElapsed);
+        }
+
+        if (this.specialAttack || this.game.attack2) { // attacks during its turn
+            //this.state = 2;
+            if (this.specialAttack) {
+                this.timeElapsedSpecial += this.game.clockTick;
+                if (this.timeElapsedSpecial > 1) {
+                    this.specialAttack = false;
+                    this.timeElapsedSpecial= 0;
+                }
+            }
         }
 		
     }

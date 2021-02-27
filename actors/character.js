@@ -47,7 +47,7 @@ class Hero {
     updateBB() {
         this.lastBB = this.BB;
         this.BB = new BoundingBox(this.x, this.y, this.width * this.scale, this.height * this.scale);
-    };
+    }
 	
 	loadAnimations() {
         for (var i = 0; i < 3; i++) { // 3 states (idle, walking, attacking)
@@ -163,6 +163,20 @@ class Hero {
                 }
 			}
 		}
+
+        if (this.game.attack2 || this.specialAttack) {
+            if (this.timeElapsed == 0) {
+                this.game.addEntity(new SuperSlash(this.game, this.x, this.y, this.facing, this));
+            }
+            this.timeElapsed += TICK;
+            if (this.timeElapsed >= 1) {
+                this.timeElapsed = 0;
+                this.specialAttack = false;
+            }
+        } else {
+            this.timeElapsed = 0;
+        }
+
         // update position
         if (this.velocity.x < 0) {
             this.x += Math.floor(this.velocity.x * 50 * TICK * PARAMS.SCALE);
@@ -194,18 +208,6 @@ class Hero {
         //     this.velocity.y = 0;
         //     this.y = PARAMS.CANVASHEIGHT - (this.height * PARAMS.SCALE);
         // }
-
-        if (this.game.attack2 || this.specialAttack) {
-            if (this.timeElapsed == 0) {
-                this.game.addEntity(new SuperSlash(this.game, this.x, this.y, this.facing, this));
-            }
-            this.timeElapsed += TICK;
-            if (this.timeElapsed >= 1) {
-                this.timeElapsed = 0;
-            }
-        } else {
-            this.timeElapsed = 0;
-        }
 
         //collisions
         var that = this;
@@ -530,7 +532,6 @@ class Cleric {
         this.timeElapsedBasic = 0;
         this.basicAttack = false;
         this.specialAttack = false;
-        
 		
 		this.animations = [];
 		this.loadAnimations();
@@ -646,13 +647,14 @@ class Cleric {
 			}
 		}
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed == 0) {
                 this.game.addEntity(new SpiritBall(this.game, this.x, this.y, this.facing, this));
             }
             this.timeElapsed += TICK;
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
+                this.specialAttack = false;
             }
         } else {
             this.timeElapsed = 0;
@@ -808,12 +810,12 @@ class Archer {
 
         if (this.game.attack1 || this.basicAttack) {
             this.projectile = 0;
-        } else if (this.game.attack2) {
+        } else if (this.game.attack2 || this.specialAttack) {
             this.projectile = 1;
         }
 
 		this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-		if (this.game.attack1 || this.game.attack2 || this.stillAttacking || this.basicAttack) { // attacks when B or V is pressed
+		if (this.game.attack1 || this.game.attack2 || this.stillAttacking || this.basicAttack || this.specialAttack) { // attacks when B or V is pressed
 			this.state = 1;
             if (this.timeElapsed >= 0.8 && this.timeElapsed <= 0.85 && this.canShoot) {
                 if (this.projectile == 0) {
@@ -828,6 +830,7 @@ class Archer {
                 this.timeElapsed = 0;
                 this.canShoot = true;
                 this.basicAttack = false;
+                this.specialAttack = false;
                 //this.game.attack1 = false;
                 //this.game.attack2 = false;
             }
@@ -955,14 +958,14 @@ class Mage {
 			}
 		}
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed == 0) {
                 this.game.addEntity(new FireBall(this.game, this.x, this.y, this.facing, this));
             }
             this.timeElapsed += TICK;
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
-                //this.game.attack2 = false;
+                this.specialAttack = false;
             }
         } else {
             this.timeElapsed = 0;
