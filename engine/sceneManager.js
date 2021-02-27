@@ -358,24 +358,24 @@ class SceneManager {
         this.game.menu = false;
 		
         // add decorations, etc. here
-        var k, l;
-        for (k = 0; k < 15; k++) {
-            for (l = 0; l < 15; l++) {
-				switch (this.game.mapIndex){
-					case 2:
-						this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
-						this.game.addEntity(new Grass1(this.game, (k * 32) + 10, (l * 32) + 8));
-						break;
-					case 3:
-						this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
-						break;
-					case 4:
-						this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
-						break;
+		if(this.game.mapIndex == 4){
+			this.game.addEntity(new Battle2(this.game,0,0))
+		} else {
+			var k, l;
+			for (k = 0; k < 15; k++) {
+				for (l = 0; l < 15; l++) {
+					switch (this.game.mapIndex){
+						case 2:
+							this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
+							this.game.addEntity(new Grass1(this.game, (k * 32) + 10, (l * 32) + 8));
+							break;
+						case 3:
+							this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
+							break;
+					}
 				}
-            }
-        }
-		
+			}
+		}
 		// add player characters
         this.hero.battle = true;
         this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
@@ -433,12 +433,13 @@ class SceneManager {
         this.game.menu = false;
 		
         // add decorations, etc. here
-        var k, l;
+        /*var k, l;
         for (k = 0; k < 15; k++) {
             for (l = 0; l < 15; l++) {
                 this.game.addEntity(new Grass1(this.game, k * 32, l * 32));
             }
-        }
+        }*/
+		this.game.addEntity(new Castle(this.game,0,0));
 		
 		// add player characters
         this.hero.battle = true;

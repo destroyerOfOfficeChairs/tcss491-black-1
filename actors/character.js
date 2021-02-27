@@ -202,6 +202,7 @@ class Hero {
             this.timeElapsed += TICK;
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
+				this.specialAttack = false;
             }
         } else {
             this.timeElapsed = 0;
@@ -646,13 +647,14 @@ class Cleric {
 			}
 		}
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed == 0) {
                 this.game.addEntity(new SpiritBall(this.game, this.x, this.y, this.facing, this));
             }
             this.timeElapsed += TICK;
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
+				this.specialAttack = false;
             }
         } else {
             this.timeElapsed = 0;
@@ -813,12 +815,12 @@ class Archer {
         }
 
 		this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-		if (this.game.attack1 || this.game.attack2 || this.stillAttacking || this.basicAttack) { // attacks when B or V is pressed
+		if (this.game.attack1 || this.game.attack2 || this.stillAttacking || this.basicAttack || this.specialAttack) { // attacks when B or V is pressed
 			this.state = 1;
             if (this.timeElapsed >= 0.8 && this.timeElapsed <= 0.85 && this.canShoot) {
-                if (this.projectile == 0) {
+                if (this.basicAttack) {
                     this.game.addEntity(new Arrow(this.game, this.x, this.y, this.facing, this));
-                } else if (this.projectile == 1) {
+                } else if (this.specialAttack) {
                     this.game.addEntity(new Missile(this.game, this.x, this.y, this.facing, this));
                 }
                 this.canShoot = false;
@@ -828,6 +830,7 @@ class Archer {
                 this.timeElapsed = 0;
                 this.canShoot = true;
                 this.basicAttack = false;
+				this.specialAttack = false;
                 //this.game.attack1 = false;
                 //this.game.attack2 = false;
             }
@@ -955,14 +958,14 @@ class Mage {
 			}
 		}
 
-        if (this.game.attack2) {
+        if (this.game.attack2 || this.specialAttack) {
             if (this.timeElapsed == 0) {
                 this.game.addEntity(new FireBall(this.game, this.x, this.y, this.facing, this));
             }
             this.timeElapsed += TICK;
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
-                //this.game.attack2 = false;
+                this.specialAttack = false;
             }
         } else {
             this.timeElapsed = 0;

@@ -272,3 +272,65 @@ class Wall {
         }
     };
 }
+
+class Castle {
+	constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Battle_Background_4.png");
+        this.scale = 1;
+        this.width = 256;
+        this.height = 224;
+
+        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+    };
+
+    update() {
+
+    };
+
+    drawMinimap(ctx, mmX, mmY) {
+        // ctx.fillStyle = "Green";
+        // ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
+    };
+}
+
+class Battle2 {
+	constructor(game, x, y) {
+        Object.assign(this, { game, x, y });
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Battle_Background_1.png");
+        this.scale = 1;
+        this.width = 256;
+        this.height = 224;
+
+        this.BB = new BoundingBox(this.x, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+    };
+
+    update() {
+
+    };
+
+    drawMinimap(ctx, mmX, mmY) {
+        // ctx.fillStyle = "Green";
+        // ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
+    
+    }
+
+    draw(ctx) {
+        ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
+    };
+}
