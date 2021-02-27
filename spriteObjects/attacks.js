@@ -691,7 +691,7 @@ class Spell {
     }
 
     draw(ctx) {
-        if (this.game.attack1 || this.entity.basicAttack) {
+        if (this.game.attack2 || this.entity.specialAttack) {
             if (this.entity.facing == 0) {
                 ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale) - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
             } else if (this.entity.facing == 1) {

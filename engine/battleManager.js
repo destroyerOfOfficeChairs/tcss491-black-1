@@ -136,15 +136,15 @@ class BattleManager {
 		if (damage < 0) {// damage should not add health if damage is calculated to be negative
 			damage = 0;
 		}
-		if (this.enemies[defender][1] - damage > 0) {
+		if (this.enemies[defender][1] - damage > 0) { // subtract health
 			this.enemies[defender][1] -= damage;
-		}
-		else { // enemy is killed
+		} else { // enemy is killed
 			this.enemies[defender][1] = 0;
 		}
-		this.game.addEntity(new Score(this.game, this.enemies[defender][0].x + this.enemies[defender][0].width * PARAMS.SCALE * this.enemies[defender][0].scale / 2, this.enemies[defender][0].y, -1 * damage));
-		console.log(this.party[attacker][2] + " attacks " + this.enemies[defender][2] + " for " + damage + " damage!");
-		console.log(this.enemies[defender][2] + "'s health = " + this.enemies[defender][1]);
+		this.game.addEntity(new Score(this.game, this.enemies[defender][0].x + this.enemies[defender][0].width * 
+			PARAMS.SCALE * this.enemies[defender][0].scale / 2, this.enemies[defender][0].y, -1 * damage));
+		//console.log(this.party[attacker][2] + " attacks " + this.enemies[defender][2] + " for " + damage + " damage!");
+		//console.log(this.enemies[defender][2] + "'s health = " + this.enemies[defender][1]);
 	};
 	// enemy version
 	attackPlayer(attacker, defender) {
@@ -173,13 +173,85 @@ class BattleManager {
 		// if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {
 		// 	this.game.hero.stats[0] = this.party[defender][1];
 		// }
-		this.game.addEntity(new Score(this.game, this.party[defender][0].x + this.party[defender][0].width * PARAMS.SCALE * this.party[defender][0].scale / 2, this.party[defender][0].y, -1 * damage));
-		console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");
-		console.log(this.party[defender][2] + "'s health = " + this.party[defender][1]);
+		this.game.addEntity(new Score(this.game, this.party[defender][0].x + this.party[defender][0].width * 
+			PARAMS.SCALE * this.party[defender][0].scale / 2, this.party[defender][0].y, -1 * damage));
+		//console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");
+		//console.log(this.party[defender][2] + "'s health = " + this.party[defender][1]);
 	}
 	
 	defend(player){
 		this.party[player][3] = true;
+	}
+	
+	special(player,target){
+		this.party[player][0].specialAttack = true;
+		switch(this.party[player][2]){
+			case "H e r o" : // +50% strength attack ignoring defense with 40% hit chance
+				console.log("Hero Special Attack");
+				var chance = Math.floor(Math.random()*10);
+				var damage = 0;
+				if(chance <= 3){ // attack hits
+					damage = this.party[player][0].stats[1] + Math.floor(this.party[player][0].stats[1] / 2)
+					if(Math.ceil(Math.random()*10) == 5){ // critical hit
+						damage += Math.floor(damage/2);
+						console.log("Critical hit!");
+					}
+				}
+				if (this.enemies[target][1] - damage > 0) { // subtract health
+					this.enemies[target][1] -= damage;
+				} else { // enemy is killed
+					this.enemies[target][1] = 0;
+				}
+				this.game.addEntity(new Score(this.game, this.enemies[target][0].x + this.enemies[target][0].width * 
+					PARAMS.SCALE * this.enemies[target][0].scale / 2, this.enemies[target][0].y, -1 * damage));
+				break;
+			case "C l e r i c" : // heal party
+				console.log("Cleric Special Attack");
+				var i;
+				for(i = 0; i < this.party.length; i++){
+					if(this.party[i][0].stats[0] < this.party[i][1]+25){ // heal to max if it would be exceeded
+						this.party[i][1] = this.party[i][0].stats[0];
+					} else { // otherwise add 25 hp
+						this.party[i][1] += 25;
+					}
+					this.game.addEntity(new Score(this.game, this.party[i][0].x + this.party[i][0].width * 
+						PARAMS.SCALE * this.party[i][0].scale / 2, this.party[i][0].y, 25));
+				}
+				break;
+			case "A r c h e r" : // attack all enemies for 1/2 damage
+				console.log("Archer Special Attack");
+				var i;
+				var damage = Math.ceil(this.party[player][0].stats[1]/2);
+				for(i = 0; i < this.enemies.length; i++){
+					if (this.enemies[i][1] - damage > 0) { // subtract health
+						this.enemies[i][1] -= damage;
+					} else { // enemy is killed
+						this.enemies[i][1] = 0;
+					}
+					this.game.addEntity(new Score(this.game, this.enemies[i][0].x + this.enemies[i][0].width * 
+						PARAMS.SCALE * this.enemies[i][0].scale / 2, this.enemies[i][0].y, -1 * damage));
+				}
+				break;
+			case "M a g e" : // +50% strength attack ignoring defense with 40% hit chance
+				console.log("Mage Special Attack");
+				var chance = Math.floor(Math.random()*10);
+				var damage = 0;
+				if(chance <= 3){ // attack hits
+					damage = this.party[player][0].stats[1] + Math.floor(this.party[player][0].stats[1] / 2)
+					if(Math.ceil(Math.random()*10) == 5){ // critical hit
+						damage += Math.floor(damage/2);
+						console.log("Critical hit!");
+					}
+				}
+				if (this.enemies[target][1] - damage > 0) { // subtract health
+					this.enemies[target][1] -= damage;
+				} else { // enemy is killed
+					this.enemies[target][1] = 0;
+				}
+				this.game.addEntity(new Score(this.game, this.enemies[target][0].x + this.enemies[target][0].width * 
+					PARAMS.SCALE * this.enemies[target][0].scale / 2, this.enemies[target][0].y, -1 * damage));
+				break;
+		}
 	}
 	
 	draw(ctx) {

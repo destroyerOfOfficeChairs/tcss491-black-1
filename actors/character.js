@@ -529,7 +529,7 @@ class Cleric {
 		this.stats = [60, 10, 2, 4]; // stats = [hp, att, def, spd]
         this.timeElapsed = 0;
 
-        this.timeElapsedBasic = 0;
+        this.timeElapsedSpecial = 0;
         this.basicAttack = false;
         this.specialAttack = false;
 		
@@ -635,26 +635,26 @@ class Cleric {
 			this.stillAttacking = this.state == 2 && !this.animations[2][this.facing].cycled;
 
 			this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
-			if (this.basicAttack || this.game.attack1 || this.stillAttacking) { // attacks during its turn
-				this.state = 2;
-                if (this.basicAttack) {
-                    this.timeElapsedBasic += this.game.clockTick;
-                    if (this.timeElapsedBasic > 1) {
-                        this.basicAttack = false;
-                        this.timeElapsedBasic = 0;
+			if (this.specialAttack || this.game.attack2) { // attacks during its turn
+				//this.state = 2;
+                if (this.specialAttack) {
+                    this.timeElapsedSpecial += this.game.clockTick;
+                    if (this.timeElapsedSpecial > 1) {
+                        this.specialAttack = false;
+                        this.timeElapsedSpecial = 0;
                     }
                 }
 			}
 		}
 
-        if (this.game.attack2 || this.specialAttack) {
+        if (this.game.attack1 || this.stillAttacking || this.basicAttack) {
             if (this.timeElapsed == 0) {
                 this.game.addEntity(new SpiritBall(this.game, this.x, this.y, this.facing, this));
             }
             this.timeElapsed += TICK;
             if (this.timeElapsed >= 1) {
                 this.timeElapsed = 0;
-                this.specialAttack = false;
+                this.basicAttack = false;
             }
         } else {
             this.timeElapsed = 0;

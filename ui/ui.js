@@ -585,11 +585,11 @@ class Instructions {
             ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 12 * this.padding);
             ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 14 * this.padding);
             ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 16 * this.padding);
-            ctx.fillText("- Break open boxes by pressing B and running into them", this.backX, this.backY + 18 * this.padding);
+            ctx.fillText("- Break open boxes by running into them and pressing B", this.backX, this.backY + 18 * this.padding);
             ctx.fillText("- Touch portals to advance to next level", this.backX, this.backY + 20 * this.padding);
             ctx.fillStyle = "Red";
             ctx.fillText("B A T T L E S :", this.backX, this.backY + 22 * this.padding);
-            ctx.fillText("     - Battles are random, press 'M' to run away", this.backX, this.backY + 24 * this.padding);
+            ctx.fillText("     - Battles are random, press M to run away", this.backX, this.backY + 24 * this.padding);
             ctx.fillText("     - your attacking character's name is highlighted", this.backX, this.backY + 26 * this.padding);
             ctx.fillText("     - click an enemy's name to target it", this.backX, this.backY + 28 * this.padding);
             ctx.fillText("     - click attack to perform an attack", this.backX, this.backY + 30 * this.padding);
@@ -879,7 +879,6 @@ class BattleUI {
 			if (this.hoverAtt && this.game.click && this.acceptInput) { // if attack button is clicked
 				console.log("Attack!");
 					if(this.battleManager.enemies[this.attack][1] == 0){
-                        //this.attack = 0;
 						if(this.attack > this.battleManager.enemies.length-1){
 							this.attack = 0;
 						} else {
@@ -904,6 +903,16 @@ class BattleUI {
                 //console.log(this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].specialAttack);
 			
             	//advance turn order or reset
+				if(this.battleManager.enemies[this.attack][1] == 0){
+					if(this.attack > this.battleManager.enemies.length-1){
+						this.attack = 0;
+					} else {
+						this.attack++;
+					}
+				}
+				this.battleManager.special(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
+				
+				//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
@@ -939,9 +948,13 @@ class BattleUI {
 
             if (this.battleManager.timeEnemyAttackElapsed > 1) {
                 this.battleManager.timeEnemyAttackElapsed = 0;
-
-                //this.battleManager.enemies[this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].specialAttack = true;
-                this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),Math.floor(Math.random() * 4));
+				// make sure targeted player is living
+				var target = Math.floor(Math.random() * 4);
+				while(this.battleManager.turnOrder[target][1] == 0){
+					target = Math.floor(Math.random() * 4);
+				}
+				// attack player
+                this.battleManager.attackPlayer(this.battleManager.enemies.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),target);
 			
 			    //advance turn order or reset
 			    if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
