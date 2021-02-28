@@ -51,6 +51,30 @@ class Crystal {
     }
 }
 
+class Potion {
+    constructor(game, x, y) {
+        Object.assign(this, {game, x, y});
+        this.spritesheet = ASSET_MANAGER.getAsset("./sprites/potion.png");
+        this.scale = 1;
+        this.width = 16;
+        this.height = 16;
+        this.BB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+    }
+    update() {
+
+    }
+    drawMiniMap(ctx, mmX, mmY) {
+
+    }
+    draw(ctx) {
+        ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        if (PARAMS.DEBUG) {
+            ctx.strokeStyle = 'Red';
+            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        }
+    }
+}
+
 
 
 class Coin {
