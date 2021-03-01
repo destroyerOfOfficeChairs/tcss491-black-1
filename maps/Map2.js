@@ -1,4 +1,4 @@
-var Map2 = {
+var Map2 = {  // Map 2 not defined bug
     Grass1: [],
 
     StonePath: [],
