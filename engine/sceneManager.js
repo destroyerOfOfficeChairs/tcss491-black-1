@@ -18,6 +18,7 @@ class SceneManager {
         this.coins = 0;
         this.crystals = 0;
         this.keys = 0;
+        this.potions = 0;
         this.crystalAttackPower = 10;
         this.crystalDefensePower = 2;
         this.attackUpgradeCost = 15;

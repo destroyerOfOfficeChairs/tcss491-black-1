@@ -39,18 +39,18 @@ var Map2 = {
 
     Box: [
         //near northwest lake
-        {x:700, y:400}, {x:700, y:460}, {x:680, y:340, item:"coin"}, 
+        {x:700, y:400, item:"potion",}, {x:700, y:460, item:"potion",}, {x:680, y:340, item:"coin"}, 
         {x:1000, y:1620, item:"coin"},
     //upper room
     {x:1650, y:140}, {x:1900, y:210}, {x:1650, y:210}, {x:1900, y:140, item:"crystal"}, 
     // left halls
     {x:140, y:1707, item:"coin"}, {x:140, y:1785, item:"crystal"}, {x:140, y:1862, item:"key"}, 
     // 5 x 5 left center
-    {x:780, y:1200, item:"coin"}, {x:830, y:1200, item:"coin"}, {x:880, y:1200}, {x:930, y:1200}, {x:980, y:1200, item:"coin"},
-    {x:780, y:1250}, {x:830, y:1250, item:"coin"}, {x:880, y:1250, item:"coin"}, {x:930, y:1250, item:"coin"}, {x:980, y:1250},
-    {x:780, y:1300}, {x:830, y:1300, item:"coin"}, {x:880, y:1300, item:"key"}, {x:930, y:1300, item:"coin"}, {x:980, y:1300},
-    {x:780, y:1350, item:"coin"}, {x:830, y:1350}, {x:880, y:1350}, {x:930, y:1350, item:"coin"}, {x:980, y:1350, item:"coin"},
-    {x:780, y:1400, item:"coin"}, {x:830, y:1400}, {x:880, y:1400}, {x:930, y:1400, item:"coin"}, {x:980, y:1400}, 
+    {x:780, y:1200, item:"coin"}, {x:830, y:1200, item:"coin"}, {x:880, y:1200, item:"potion"}, {x:930, y:1200, item:"potion"}, {x:980, y:1200, item:"coin"},
+    {x:780, y:1250, item:"potion"}, {x:830, y:1250, item:"coin"}, {x:880, y:1250, item:"coin"}, {x:930, y:1250, item:"coin"}, {x:980, y:1250, item:"potion"},
+    {x:780, y:1300, item:"potion"}, {x:830, y:1300, item:"coin"}, {x:880, y:1300, item:"key"}, {x:930, y:1300, item:"coin"}, {x:980, y:1300, item:"potion"},
+    {x:780, y:1350, item:"coin"}, {x:830, y:1350, item:"potion"}, {x:880, y:1350, item:"potion"}, {x:930, y:1350, item:"coin"}, {x:980, y:1350, item:"coin"},
+    {x:780, y:1400, item:"coin"}, {x:830, y:1400, item:"potion"}, {x:880, y:1400, item:"potion"}, {x:930, y:1400, item:"coin"}, {x:980, y:1400, item:"potion"}, 
 
     // spiral lower and upper
     {x:2000, y:1990, item:"key"}, {x: 1950, y:1875, item:"crystal"},
@@ -63,7 +63,7 @@ var Map2 = {
     {x:152, y:1958, item:"coin"},
     
     //random
-    {x:2118, y:1206, item:"coin"}, {x:1705, y:1035}, {x:1532, y:909}, {x:1909, y:927}, {x:1853, y:761}, {x:155, y:1055},
+    {x:2118, y:1206, item:"coin"}, {x:1705, y:1035, item:"potion"}, {x:1532, y:909, item:"potion"}, {x:1909, y:927, item:"potion"}, {x:1853, y:761}, {x:155, y:1055},
     {x:2195, y:955, item:"key"}, {x:157, y:1605, item:"coin"}, {x:270, y:1173, item:"crystal"}, {x:662, y:155}, 
     {x:960, y:177, item:"coin"}],
     

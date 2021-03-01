@@ -222,6 +222,11 @@ class Hero {
                     that.game.addEntity(new CrystalChoice(that.game));
                 }
 
+                if (entity instanceof Potion) {
+                    entity.removeFromWorld = true;
+                    that.game.potion += 1;
+                }
+
                 if (entity instanceof Coin) {
                     entity.removeFromWorld = true;
                     that.game.camera.coins++;
