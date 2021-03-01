@@ -290,6 +290,8 @@ class Hero {
                                     that.game.addEntity(new Crystal(that.game, entity.x + 5, entity.y + 5));
                                 } else if (entity.item == "key") {
                                     that.game.addEntity(new Key(that.game, entity.x + 5, entity.y + 5));
+                                } else if (entity.item == "potion") {
+                                    that.game.addentity(new Potion(that.game, entity.x + 5, entity.y + 5));
                                 }
                             }
                         }
