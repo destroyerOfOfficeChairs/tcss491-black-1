@@ -224,7 +224,7 @@ class Hero {
 
                 if (entity instanceof Potion) {
                     entity.removeFromWorld = true;
-                    that.game.potion += 1;
+                    that.game.camera.potions += 1;
                 }
 
                 if (entity instanceof Coin) {
@@ -291,7 +291,7 @@ class Hero {
                                 } else if (entity.item == "key") {
                                     that.game.addEntity(new Key(that.game, entity.x + 5, entity.y + 5));
                                 } else if (entity.item == "potion") {
-                                    that.game.addentity(new Potion(that.game, entity.x + 5, entity.y + 5));
+                                    that.game.addEntity(new Potion(that.game, entity.x + 5, entity.y + 5));
                                 }
                             }
                         }
