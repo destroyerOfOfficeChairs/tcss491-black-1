@@ -184,9 +184,9 @@ class HeadsUpDisplay {
 
             if (!this.game.camera.hero.battle) {
                 ctx.fillStyle = "Tan";
-                ctx.fillRect(this.padding, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+                ctx.fillRect(this.padding, 10, this.textboxWidth, 1.75 * this.textboxHeight);
                 ctx.strokeStyle = "Brown";
-                ctx.strokeRect(this.padding, 10, this.textboxWidth, 1.5 * this.textboxHeight);
+                ctx.strokeRect(this.padding, 10, this.textboxWidth, 1.75 * this.textboxHeight);
 
                 ctx.fillStyle = "Yellow";
                 ctx.fillText("C O I N S : " + this.game.camera.coins, 10, 20);
@@ -194,6 +194,8 @@ class HeadsUpDisplay {
                 ctx.fillText("C R Y S T A L S : " + this.game.camera.crystals , 10, 30);
                 ctx.fillStyle = "Brown";
                 ctx.fillText("K E Y S : " + this.game.camera.keys , 10, 40);
+                ctx.fillStyle = "Red";
+                ctx.fillText("P O T I O N : " + this.game.camera.potions, 10, 50);
 
 				ctx.fillStyle = "Tan";
 				ctx.fillRect(PARAMS.CANVASWIDTH - this.padding - this.textboxWidth, 10, this.textboxWidth, 1.5 * this.textboxHeight);
@@ -922,8 +924,10 @@ class BattleUI {
 				console.log("Item!");
 				
 				//advance turn order or reset
-				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1 && this.game.camera.potions >= 1){
 					this.battleManager.activeChar++;
+                    this.game.camera.potions -= 1;
+                    console.log("this is where you would add some points to the players hp");
 				} else {
 					this.battleManager.activeChar = 0;
 				}
