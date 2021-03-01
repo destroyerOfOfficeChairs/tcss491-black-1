@@ -413,7 +413,7 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Attack (+" + this.game.camera.attackUpgrade + ")", this.upgradeAttackX - 150, this.upgradeAttackY);
             
-            ctx.fillStyle = "Yellow";
+            ctx.fillStyle = "Blue";
             if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeAttackBB.left && this.game.mouse.x <= 3 * this.upgradeAttackBB.right && 
                 this.game.mouse.y >= 3.1 * this.upgradeAttackBB.top && this.game.mouse.y <= 3 * this.upgradeAttackBB.bottom) {
                 ctx.fillStyle = "Purple";
@@ -427,7 +427,7 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Defense (+" + this.game.camera.defenseUpgrade + ")", this.upgradeDefenseX - 150, this.upgradeDefenseY);
 
-            ctx.fillStyle = "Yellow";
+            ctx.fillStyle = "Green";
             if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeDefenseBB.left && this.game.mouse.x <= 3 * this.upgradeDefenseBB.right && 
                 this.game.mouse.y >= 3.1 * this.upgradeDefenseBB.top && this.game.mouse.y <= 3 * this.upgradeDefenseBB.bottom) {
                 ctx.fillStyle = "Purple";
@@ -441,7 +441,7 @@ class Shop {
             ctx.fillStyle = "Black";
             ctx.fillText("Upgrade Max Health (+" + this.game.camera.healthUpgrade + ")", this.upgradeHealthX - 150, this.upgradeHealthY);
 
-            ctx.fillStyle = "Yellow";
+            ctx.fillStyle = "Red";
             if (this.game.mouse && this.game.mouse.x >= 3.1 * this.upgradeHealthBB.left && this.game.mouse.x <= 3 * this.upgradeHealthBB.right && 
                 this.game.mouse.y >= 3.1 * this.upgradeHealthBB.top && this.game.mouse.y <= 3 * this.upgradeHealthBB.bottom) {
                 ctx.fillStyle = "Purple";
@@ -580,22 +580,23 @@ class Instructions {
 
             ctx.font = "8px Georgia";
             ctx.fillStyle = "Black";
-            ctx.fillText("- WASD or Arrow keys to move", this.backX, this.backY + 4 * this.padding);
-            ctx.fillText("- L to toggle menu", this.backX, this.backY + 6 * this.padding);
-            ctx.fillText("- Semicolon key to toggle map", this.backX, this.backY + 8 * this.padding);
-            ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 10 * this.padding);
-            ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 12 * this.padding);
-            ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 14 * this.padding);
-            ctx.fillText("       destroy them to weaken the final boss (-50 att, -50 def)", this.backX, this.backY + 16 * this.padding);
-            ctx.fillText("- Break open boxes by running into them and pressing B", this.backX, this.backY + 18 * this.padding);
-            ctx.fillText("- Touch portals to advance to next level", this.backX, this.backY + 20 * this.padding);
+            ctx.fillText("- WASD or Arrow keys to move", this.backX, this.backY + 3 * this.padding);
+            ctx.fillText("- L to toggle menu, semicolon key to toggle map", this.backX, this.backY + 5 * this.padding);
+            ctx.fillText("- Collect keys to open doors", this.backX, this.backY + 7 * this.padding);
+            ctx.fillText("- Collect coins to upgrade attack, defense, and health", this.backX, this.backY + 9 * this.padding);
+            ctx.fillText("- Collect crystals: keep them to increase your own power,", this.backX, this.backY + 11 * this.padding);
+            ctx.fillText("       destroy them to weaken the final boss", this.backX, this.backY + 13 * this.padding);
+            ctx.fillText("- Break open boxes by running into them and pressing B", this.backX, this.backY + 15 * this.padding);
+            ctx.fillText("- Touch portals to advance to next level", this.backX, this.backY + 17 * this.padding);
             ctx.fillStyle = "Red";
-            ctx.fillText("B A T T L E S :", this.backX, this.backY + 22 * this.padding);
-            ctx.fillText("     - Battles are random, press M to run away", this.backX, this.backY + 24 * this.padding);
-            ctx.fillText("     - your attacking character's name is highlighted", this.backX, this.backY + 26 * this.padding);
-            ctx.fillText("     - click an enemy's name to target it", this.backX, this.backY + 28 * this.padding);
-            ctx.fillText("     - click attack to perform an attack", this.backX, this.backY + 30 * this.padding);
-            ctx.fillText("     - click defense to reduce damage received", this.backX, this.backY + 32 * this.padding);
+            ctx.fillText("B A T T L E S :", this.backX, this.backY + 19 * this.padding);
+            ctx.fillText("     - Battles are random, press M to run away", this.backX, this.backY + 21 * this.padding);
+            ctx.fillText("     - your attacking character's name is highlighted", this.backX, this.backY + 23 * this.padding);
+            ctx.fillText("     - click an enemy's name to target it", this.backX, this.backY + 25 * this.padding);
+            ctx.fillText("     - click attack to perform an attack", this.backX, this.backY + 27 * this.padding);
+            ctx.fillText("     - click defense to reduce damage received", this.backX, this.backY + 29 * this.padding);
+            ctx.fillText("     - click special to use character's special ability", this.backX, this.backY + 31 * this.padding);
+            ctx.fillText("     - click item to use an item", this.backX, this.backY + 33 * this.padding);
 
             //ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
             //ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
