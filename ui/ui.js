@@ -924,8 +924,10 @@ class BattleUI {
 				console.log("Item!");
 				
 				//advance turn order or reset
-				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
+				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1 && this.game.camera.potions >= 1){
 					this.battleManager.activeChar++;
+                    this.game.camera.potions -= 1;
+                    console.log("this is where you would add some points to the players hp");
 				} else {
 					this.battleManager.activeChar = 0;
 				}
