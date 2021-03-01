@@ -39,7 +39,7 @@ var Map2 = {
 
     Box: [
         //near northwest lake
-        {x:700, y:400, item:"potion",}, {x:700, y:460, item:"potion",}, {x:680, y:340, item:"coin"}, 
+        {x:700, y:400, item:"potion"}, {x:700, y:460, item:"potion"}, {x:680, y:340, item:"coin"}, 
         {x:1000, y:1620, item:"coin"},
     //upper room
     {x:1650, y:140}, {x:1900, y:210}, {x:1650, y:210}, {x:1900, y:140, item:"crystal"}, 
