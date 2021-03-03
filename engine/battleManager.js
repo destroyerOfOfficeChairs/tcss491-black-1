@@ -11,6 +11,7 @@ class BattleManager {
 		this.acceptInput = false;
 		this.activeChar = 0;
 		this.timeEnemyAttackElapsed = 0;
+		this.bonus = 0;
 		
 		console.log("battle loaded");
 		console.log(this.turnOrder);
@@ -39,7 +40,8 @@ class BattleManager {
 		
 	};
 	
-	//checking for end state and activating win or lose state
+	//checking for end state and activating win or lose state.
+	//returns -1 if an enemy is defeated, 0 if player party is defeated, and 1 if all enemies are defeated
 	isDefeated() {
 		var e = this.enemies.length;
 		var p = this.party.length;
@@ -125,9 +127,11 @@ class BattleManager {
 	};
 	
 	// subtracts the difference between the attacker's attack and the defender's defense from the defender's health
+	// and also tells whether or not an enemy is killed
 	attackEnemy(attacker, defender) {
 		this.party[defender][3] = false;
 		var damage = this.party[attacker][0].stats[1];
+		var death = false;
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
 			damage += Math.floor(damage/2);
 			console.log("Critical hit!");
@@ -140,11 +144,24 @@ class BattleManager {
 			this.enemies[defender][1] -= damage;
 		} else { // enemy is killed
 			this.enemies[defender][1] = 0;
+			death = true;
+			switch(this.enemies[defender][2]){
+				case "G o b l i n":
+					this.bonus += 2;
+					break;
+				case "B a t":
+					this.bonus += 5;
+					break;
+				case "S k e l e t o n":
+					this.bonus += 10;
+					break;
+			}
 		}
 		this.game.addEntity(new Score(this.game, this.enemies[defender][0].x + this.enemies[defender][0].width * 
 			PARAMS.SCALE * this.enemies[defender][0].scale / 2, this.enemies[defender][0].y, -1 * damage));
 		//console.log(this.party[attacker][2] + " attacks " + this.enemies[defender][2] + " for " + damage + " damage!");
 		//console.log(this.enemies[defender][2] + "'s health = " + this.enemies[defender][1]);
+		return death;
 	};
 	// enemy version
 	attackPlayer(attacker, defender) {
@@ -184,6 +201,7 @@ class BattleManager {
 	}
 	
 	special(player,target){
+		var death = false;
 		this.party[player][0].specialAttack = true;
 		switch(this.party[player][2]){
 			case "H e r o" : // +50% strength attack ignoring defense with 40% hit chance
@@ -201,6 +219,18 @@ class BattleManager {
 					this.enemies[target][1] -= damage;
 				} else { // enemy is killed
 					this.enemies[target][1] = 0;
+					death = true;
+					switch(this.enemies[target][2]){
+						case "G o b l i n":
+							this.bonus += 2;
+							break;
+						case "B a t":
+							this.bonus += 5;
+							break;
+						case "S k e l e t o n":
+							this.bonus += 10;
+							break;
+					}
 				}
 				this.game.addEntity(new Score(this.game, this.enemies[target][0].x + this.enemies[target][0].width * 
 					PARAMS.SCALE * this.enemies[target][0].scale / 2, this.enemies[target][0].y, -1 * damage));
@@ -225,11 +255,25 @@ class BattleManager {
 				for(i = 0; i < this.enemies.length; i++){
 					if (this.enemies[i][1] - damage > 0) { // subtract health
 						this.enemies[i][1] -= damage;
+						this.game.addEntity(new Score(this.game, this.enemies[i][0].x + this.enemies[i][0].width * 
+							PARAMS.SCALE * this.enemies[i][0].scale / 2, this.enemies[i][0].y, -1 * damage));
 					} else { // enemy is killed
-						this.enemies[i][1] = 0;
+						if(this.enemies[i][1] > 0){
+							this.enemies[i][1] = 0;
+							death = true;
+							switch(this.enemies[target][2]){
+								case "G o b l i n":
+									this.bonus += 2;
+									break;
+								case "B a t":
+									this.bonus += 5;
+									break;
+								case "S k e l e t o n":
+									this.bonus += 10;
+									break;
+							}
+						}
 					}
-					this.game.addEntity(new Score(this.game, this.enemies[i][0].x + this.enemies[i][0].width * 
-						PARAMS.SCALE * this.enemies[i][0].scale / 2, this.enemies[i][0].y, -1 * damage));
 				}
 				break;
 			case "M a g e" : // +50% strength attack ignoring defense with 40% hit chance
@@ -247,11 +291,34 @@ class BattleManager {
 					this.enemies[target][1] -= damage;
 				} else { // enemy is killed
 					this.enemies[target][1] = 0;
+					death = true;
+					switch(this.enemies[target][2]){
+						case "G o b l i n":
+							this.bonus += 2;
+							break;
+						case "B a t":
+							this.bonus += 5;
+							break;
+						case "S k e l e t o n":
+							this.bonus += 10;
+							break;
+					}
 				}
 				this.game.addEntity(new Score(this.game, this.enemies[target][0].x + this.enemies[target][0].width * 
 					PARAMS.SCALE * this.enemies[target][0].scale / 2, this.enemies[target][0].y, -1 * damage));
 				break;
 		}
+		return death;
+	}
+	
+	potion(player){
+		if(this.party[player][0].stats[0] < this.party[player][1]+50){ // heal to max if it would be exceeded
+			this.party[player][1] = this.party[player][0].stats[0];
+		} else { // otherwise add 50 hp
+			this.party[player][1] += 50;
+		}
+		this.game.addEntity(new Score(this.game, this.party[player][0].x + this.party[player][0].width * 
+			PARAMS.SCALE * this.party[player][0].scale / 2, this.party[player][0].y, 50));
 	}
 	
 	draw(ctx) {

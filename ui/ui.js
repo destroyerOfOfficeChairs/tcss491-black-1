@@ -844,9 +844,10 @@ class BattleUI {
         this.ourTurn = true;
 		
 		this.battleManager = bm;
-		this.attack = 0;
+		this.attack = -1;
 		this.acceptInput = true;
 		this.end = -1;
+		this.reward = 10 + this.battleManager.bonus;
 	}
 	
 	// Allows user to interact with battle menu when it's a character's turn, 
@@ -858,7 +859,7 @@ class BattleUI {
 		if(this.battleManager.isDefeated() == 1 && this.acceptInput){// victory
 			this.end = 1;
 			this.acceptInput = false;
-			this.game.camera.coins += 10;
+			this.game.camera.coins += this.reward;
 		} else if(this.battleManager.isDefeated() == 0 && this.acceptInput) {// defeat
 			this.end = 0;
 			this.acceptInput = false;
@@ -870,69 +871,56 @@ class BattleUI {
 			} else {
 				this.battleManager.activeChar = 0;
 			}
-		} else if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0 && this.battleManager.timeEnemyAttackElapsed == 0){ // if player character
+		} // initiate player turn 
+		else if(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]) >= 0 && this.battleManager.timeEnemyAttackElapsed == 0){ // if player character
 			this.battleManager.isDefeated();
             this.ourTurn = true;
 			var i;
-			for(i=0; i<this.enemyBB.length; i++){ // allows user to pick target, has to be done before attack
+			for(i=0; i<this.enemyBB.length; i++){ // allows user to pick target, required before attack
 				if(this.enemyBB[i][1] && this.game.click){
 					this.attack = i;
 				}
 			}
-			if (this.hoverAtt && this.game.click && this.acceptInput) { // if attack button is clicked
+			if (this.hoverAtt && this.game.click && this.acceptInput && this.attack>-1) { // if attack button is clicked
 				console.log("Attack!");
-					if(this.battleManager.enemies[this.attack][1] == 0){
-						if(this.attack > this.battleManager.enemies.length-1){
-							this.attack = 0;
-						} else {
-							this.attack++;
-						}
-					}
-                    this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].basicAttack = true;
-					this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
-				
+                this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].basicAttack = true;
+				//this if statement, along with executing the attack function, will check and see if an enemy is killed and reset the targeting system if so
+				if(this.battleManager.attackEnemy(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack)){
+					this.attack = -1;
+					this.reward = 10 + this.battleManager.bonus;
+				}
 				//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-			} else if (this.hoverSpec && this.game.click && this.acceptInput) {
+			} else if (this.hoverSpec && this.game.click && this.acceptInput && this.attack >-1) {// if special button is clicked
 				console.log("Special!");
 
                 this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].specialAttack = true;
-
-                //console.log(this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][2]);
-                //console.log(this.battleManager.party[this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar])][0].specialAttack);
-			
-            	//advance turn order or reset
-				if(this.battleManager.enemies[this.attack][1] == 0){
-					if(this.attack > this.battleManager.enemies.length-1){
-						this.attack = 0;
-					} else {
-						this.attack++;
-					}
+				//this if statement, along with executing the attack function, will check and see if an enemy is killed and reset the targeting system if so
+				if(this.battleManager.special(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack)){
+					this.attack = -1;
+					this.reward = 10 + this.battleManager.bonus;
 				}
-				this.battleManager.special(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]),this.attack);
-				
 				//advance turn order or reset
 				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-            } else if (this.hoverItem && this.game.click && this.acceptInput) {
+            } else if (this.hoverItem && this.game.click && this.acceptInput && this.game.camera.potions > 0) { // if item button is clicked
 				console.log("Item!");
-				
+				this.game.camera.potions -= 1;
+				this.battleManager.potion(this.battleManager.party.indexOf(this.battleManager.turnOrder[this.battleManager.activeChar]));
 				//advance turn order or reset
-				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1 && this.game.camera.potions >= 1){
+				if(this.battleManager.activeChar < this.battleManager.turnOrder.length - 1){
 					this.battleManager.activeChar++;
-                    this.game.camera.potions -= 1;
-                    console.log("this is where you would add some points to the players hp");
 				} else {
 					this.battleManager.activeChar = 0;
 				}
-			} else if (this.hoverDef && this.game.click && this.acceptInput) {
+			} else if (this.hoverDef && this.game.click && this.acceptInput) { // if defend button is clicked
                 //let shield = new Shield(this.game, this.party[this.battleManager.activeChar][0].x - 10, this.party[this.battleManager.activeChar][0].y);
                 let shield = new Shield(this.game, this.battleManager.turnOrder[this.battleManager.activeChar][0].x - 10, this.battleManager.turnOrder[this.battleManager.activeChar][0].y);
                 this.game.addEntity(shield);
@@ -1020,7 +1008,7 @@ class BattleUI {
 			this.game.mouse.y >= 3 * this.enemyBB[i][0].top && this.game.mouse.y <= 3 * this.enemyBB[i][0].bottom){
 				ctx.fillStyle = "Purple";
 				this.enemyBB[i][1] = true;
-			} else if (this.battleManager.turnOrder[this.battleManager.activeChar][2] == this.enemies[i][2]) {
+			} else if (this.battleManager.turnOrder[this.battleManager.activeChar][0] == this.enemies[i][0]) {
 				ctx.fillStyle = "Green";
 				this.enemyBB[i][1] = false;
 			}else {
@@ -1072,7 +1060,7 @@ class BattleUI {
 		}
 		ctx.fillText("S P E C I A L", this.attX, this.attY + 12);
 		
-		//items button
+		//potion button
 		ctx.fillStyle = "Black";
 		if (this.battleManager.timeEnemyAttackElapsed == 0 && this.game.mouse && this.game.mouse.x >= 3 * this.itemBB.left && this.game.mouse.x <= 3 * this.itemBB.right && 
 			this.game.mouse.y >= 3 * this.itemBB.top && this.game.mouse.y <= 3 * this.itemBB.bottom) {
@@ -1081,7 +1069,7 @@ class BattleUI {
 		}else {
 			this.hoverItem = false;
 		}
-		ctx.fillText("I T E M", this.attX, this.attY + 24);
+		ctx.fillText("P O T I O N", this.attX, this.attY + 24);
 		
 		//defend button
 		ctx.fillStyle = "Black";
@@ -1118,7 +1106,7 @@ class BattleUI {
 			ctx.strokeRect(50, 50, 150, 100);
 			ctx.fillStyle = "Black";
 			ctx.fillText("V I C T O R Y !", 100, 85);
-			ctx.fillText("Y O U  G A I N E D  10  C O I N S", 67, 105);
+			ctx.fillText("Y O U  G A I N E D  " + this.reward + "  C O I N S", 67, 105);
 			ctx.fillText('P R E S S  " M "  T O  R E T U R N', 65, 125);
 		}
         if(this.end == 1 && this.game.camera.bossBattle){

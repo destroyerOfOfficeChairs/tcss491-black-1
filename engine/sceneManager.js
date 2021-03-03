@@ -51,7 +51,7 @@ class SceneManager {
         // now on.
         // this.boss = new Dragon(this.game, 350, 200);
 
-        this.bossStats = [1000, 80, 20, 3]; // stats = [hp, att, def, spd] [500, 150, 150, 3];
+        this.bossStats = [1000, 80, 20, 3]; // stats = [hp, att, def, spd]
 
         buildMapData();
         
