@@ -87,7 +87,7 @@ class Hero {
 
 
         // attacking right
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 112, this.width, this.height, 4, 0.09, 0, false, true, false);
+        this.animations[2][0] = new Animator(this.spritesheet, 1, 112, this.width, this.height, 4, 0.09, 0, false, true, false);
         
         // attacking left
         this.animations[2][1] = new Animator(this.spritesheet, 0, 96, this.width, this.height, 4, 0.09, 0, false, true, false);
