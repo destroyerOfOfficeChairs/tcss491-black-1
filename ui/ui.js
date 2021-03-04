@@ -596,7 +596,7 @@ class Instructions {
             ctx.fillText("     - click attack to perform an attack", this.backX, this.backY + 27 * this.padding);
             ctx.fillText("     - click defense to reduce damage received", this.backX, this.backY + 29 * this.padding);
             ctx.fillText("     - click special to use character's special ability", this.backX, this.backY + 31 * this.padding);
-            ctx.fillText("     - click item to use an item", this.backX, this.backY + 33 * this.padding);
+            ctx.fillText("     - click potion for a health boost", this.backX, this.backY + 33 * this.padding);
 
             //ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
             //ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
@@ -996,6 +996,16 @@ class BattleUI {
             ctx.fillStyle = "Red";
             ctx.fillText("E N E M Y   T U R N", this.x + 90, 20);
         }
+
+        //prompt to choose enemy
+        if (this.attack == -1) {
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.x + 2, this.y - 10, this.textboxWidth / 2, this.textboxHeight / 6);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.x + 2, this.y - 10, this.textboxWidth / 2, this.textboxHeight / 6);
+            ctx.fillStyle = "Blue";
+            ctx.fillText("C H O O S E   A N   E N E M Y", this.x + 5, this.y);
+        }
 		
 		//enemies list
 		ctx.fillStyle = "Tan";
@@ -1011,10 +1021,14 @@ class BattleUI {
 			} else if (this.battleManager.turnOrder[this.battleManager.activeChar][0] == this.enemies[i][0]) {
 				ctx.fillStyle = "Green";
 				this.enemyBB[i][1] = false;
-			}else {
+			} else {
 				ctx.fillStyle = "Black";
 				this.enemyBB[i][1] = false;
 			}
+
+            if (this.attack == i && this.ourTurn) {
+                ctx.fillStyle = "Red";
+            }
 			if(this.battleManager.enemies[i][1] > 0){
 				ctx.fillText(this.enemies[i][2], this.x + 5, this.y + 15 + (15 * i));
                 ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 55, this.y + 15 + (15 * i));
