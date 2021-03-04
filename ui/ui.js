@@ -728,11 +728,22 @@ class Story {
 
             ctx.font = "8px Georgia";
             ctx.fillStyle = "Black";
-            ctx.fillText("Once upon a time there was a ", this.backX, this.backY + 3 * this.padding);
-            ctx.fillText("fill in", this.backX, this.backY + 5 * this.padding);
-            ctx.fillText("fill in", this.backX, this.backY + 7 * this.padding);
-            ctx.fillText("fill in", this.backX, this.backY + 9 * this.padding);
-            
+            ctx.fillText("Once upon a time, there was an evil Dragon Lord who", this.backX, this.backY + 3 * this.padding);
+            ctx.fillText("attacked the realm and reigned supreme for eons. ", this.backX, this.backY + 5 * this.padding);
+            ctx.fillText("His vile minions were his enforcers of his despicable", this.backX, this.backY + 7 * this.padding);
+            ctx.fillText("tyranny. A group of characters, determined to end the", this.backX, this.backY + 9 * this.padding);
+            ctx.fillText("Dragon's rule, banded together and set forth to oppose", this.backX, this.backY + 11 * this.padding);
+            ctx.fillText("him.", this.backX, this.backY + 13 * this.padding);
+
+            ctx.fillText("Help the characters by taking the role of the hero, as", this.backX, this.backY + 17 * this.padding);
+            ctx.fillText("we travel throughout the realm, battle enemies, and", this.backX, this.backY + 19 * this.padding);
+            ctx.fillText("collect items such as coins and potions to aid us in", this.backX, this.backY + 21 * this.padding);
+            ctx.fillText("our quest to take back our home. Beware the crystals.", this.backX, this.backY + 23 * this.padding);
+            ctx.fillText("Use them wisely, for it may be the difference between", this.backX, this.backY + 25 * this.padding);
+            ctx.fillText("victory and defeat.", this.backX, this.backY + 27 * this.padding);
+
+            ctx.fillText("Buckle up, as we step forth in this Crush of Salvation!", this.backX, this.backY + 31 * this.padding);
+
             // bounding boxes
             if (PARAMS.DEBUG) {
                 ctx.strokeStyle = 'Red';
