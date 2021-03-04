@@ -23,6 +23,10 @@ class GameEngine {
         this.shop = false;
         this.instructions = false;
         this.credits = false;
+        this.story = false;
+        this.characterInfo = false;
+        this.enemyInfo = false;
+
 		this.battleui = false;
         this.map =false;
         this.changeLevel = false;
@@ -103,10 +107,14 @@ class GameEngine {
                     that.down = true;
                     break;
                 case "KeyB":
-                    that.attack1 = true;
+                    if (!that.camera.battle && !that.camera.bossBattle) {
+                        that.attack1 = true;
+                    }
                     break;
                 case "KeyV":
-                    that.attack2 = true;
+                    if (!that.camera.battle && !that.camera.bossBattle) {
+                        that.attack2 = true;
+                    }
                     break;
                 case "KeyL":
                     if (!that.camera.battle && !that.camera.bossBattle && !that.pause) {
@@ -223,7 +231,8 @@ class GameEngine {
             var entity = this.entities[i];
             if (!entity.removeFromWorld && (!this.pause || entity instanceof CrystalChoice)) {
                 if (!this.menu || entity instanceof MainMenu || entity instanceof Instructions || 
-                    entity instanceof Shop || entity instanceof Credits) {
+                    entity instanceof Shop || entity instanceof Story || entity instanceof Credits
+                    || entity instanceof CharacterInfo || entity instanceof EnemyInfo) {
                     entity.update();
                 }
             }

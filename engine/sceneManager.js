@@ -343,8 +343,11 @@ class SceneManager {
             this.game.addEntity(new MainMenu(this.game));
             this.game.addEntity(new Shop(this.game));
             this.game.addEntity(new Instructions(this.game));
+            this.game.addEntity(new Story(this.game));
             this.game.addEntity(new Credits(this.game));
-    
+            this.game.addEntity(new CharacterInfo(this.game));
+            this.game.addEntity(new EnemyInfo(this.game));
+
             this.savedMapEntities[this.game.mapIndex] = this.game.entities;
         } else {                                            //reload entities to preserve state of the game
             this.game.entities = this.savedMapEntities[this.game.mapIndex];
@@ -402,12 +405,14 @@ class SceneManager {
         this.skeleton2 = new Skeleton(this.game, 0, 0);
         this.skeleton3 = new Skeleton(this.game, 0, 0);
         
-        this.game.addEntity(new HeadsUpDisplay(this.game));
-        this.game.addEntity(new MainMenu(this.game));
-        this.game.addEntity(new Shop(this.game));
-        this.game.addEntity(new Instructions(this.game));
-        this.game.addEntity(new Credits(this.game));
-		
+        // this.game.addEntity(new HeadsUpDisplay(this.game));
+        // this.game.addEntity(new MainMenu(this.game));
+        // this.game.addEntity(new Shop(this.game));
+        // this.game.addEntity(new Instructions(this.game));
+        // this.game.addEntity(new Story(this.game));
+        // this.game.addEntity(new Credits(this.game));
+        // this.game.addEntity(new CharacterInfo(this.game));
+
 		//types of random encounters
 		this.enemyGroups = [];
         this.enemyGroups.push([this.goblin, this.skeleton, this.bat]);
@@ -466,11 +471,13 @@ class SceneManager {
 		this.dragon = new Dragon(this.game, 5, 50);
         this.game.addEntity(new FireBreath(this.game, this.dragon.x, this.dragon.y, this.dragon));
         
-        this.game.addEntity(new HeadsUpDisplay(this.game));
-        this.game.addEntity(new MainMenu(this.game));
-        this.game.addEntity(new Shop(this.game));
-        this.game.addEntity(new Instructions(this.game));
-        this.game.addEntity(new Credits(this.game));
+        // this.game.addEntity(new HeadsUpDisplay(this.game));
+        // this.game.addEntity(new MainMenu(this.game));
+        // this.game.addEntity(new Shop(this.game));
+        // this.game.addEntity(new Instructions(this.game));
+        // this.game.addEntity(new Story(this.game));
+        // this.game.addEntity(new Credits(this.game));
+        // this.game.addEntity(new CharacterInfo(this.game));
 		
 		// load battle manager
 		this.battleManager = new BattleManager(this.game, [this.dragon],

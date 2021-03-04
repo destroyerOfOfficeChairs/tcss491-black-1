@@ -36,29 +36,49 @@ class MainMenu {
 
         this.instructionsWidth = 60;
         this.instructionsHeight = 20;
-        this.instructionsX = PARAMS.CANVASWIDTH / 2 - 40;
-        this.instructionsY = 15 * this.padding;
+        this.instructionsX = PARAMS.CANVASWIDTH / 2 - 30;
+        this.instructionsY = 13 * this.padding;
         this.instructionsBB = new BoundingBox(this.instructionsX, this.instructionsY - this.instructionsHeight/2, this.instructionsWidth, this.instructionsHeight);
         this.hoverInstructions = false;
 
         this.shopWidth = 30;
         this.shopHeight = 20;
-        this.shopX = PARAMS.CANVASWIDTH / 2 - 40;
-        this.shopY = 24 * this.padding;
+        this.shopX = PARAMS.CANVASWIDTH / 2 - 30;
+        this.shopY = 18 * this.padding;
         this.shopBB = new BoundingBox(this.shopX, this.shopY - this.shopHeight/2, this.shopWidth, this.shopHeight);
         this.hoverShop = false;
 
+        this.storyWidth = 40;
+        this.storyHeight = 20;
+        this.storyX = PARAMS.CANVASWIDTH / 2 - 30;
+        this.storyY = 23 * this.padding;
+        this.storyBB = new BoundingBox(this.storyX, this.storyY - this.storyHeight/2, this.storyWidth, this.storyHeight);
+        this.hoverStory = false;
+
         this.creditsWidth = 40;
         this.creditsHeight = 20;
-        this.creditsX = PARAMS.CANVASWIDTH / 2 - 40;
-        this.creditsY = 33 * this.padding;
+        this.creditsX = PARAMS.CANVASWIDTH / 2 - 30;
+        this.creditsY = 28 * this.padding;
         this.creditsBB = new BoundingBox(this.creditsX, this.creditsY - this.creditsHeight/2, this.creditsWidth, this.creditsHeight);
         this.hoverCredits = false;
 
+        this.characterInfoWidth = 40;
+        this.characterInfoHeight = 20;
+        this.characterInfoX = PARAMS.CANVASWIDTH / 2 - 30;
+        this.characterInfoY = 33 * this.padding;
+        this.characterInfoBB = new BoundingBox(this.characterInfoX, this.characterInfoY - this.characterInfoHeight/2, this.characterInfoWidth, this.characterInfoHeight);
+        this.hoverCharacterInfo = false;
+
+        this.enemyInfoWidth = 40;
+        this.enemyInfoHeight = 20;
+        this.enemyInfoX = PARAMS.CANVASWIDTH / 2 - 30;
+        this.enemyInfoY = 38 * this.padding;
+        this.enemyInfoBB = new BoundingBox(this.enemyInfoX, this.enemyInfoY - this.enemyInfoHeight/2, this.enemyInfoWidth, this.enemyInfoHeight);
+        this.hoverEnemyInfo = false;
     }
 
     update() {
-        if (this.game.menu && !this.game.instructions && !this.game.shop && !this.game.credits) {
+        if (this.game.menu && !this.game.instructions && !this.game.shop && !this.game.story && !this.game.credits && !this.game.characterInfo && !this.game.enemyInfo) {
 			if (this.hoverBack && this.game.click) {
                 this.game.menu = false;
                 this.game.click = null;
@@ -68,10 +88,19 @@ class MainMenu {
             } else if (this.hoverShop && this.game.click) {
                 this.game.shop = true;
                 this.game.click = null;
+            } else if (this.hoverStory && this.game.click) {
+                this.game.story = true;
+                this.game.click = null;
             } else if (this.hoverCredits && this.game.click) {
                 this.game.credits = true;
                 this.game.click = null;
-            } else if (!this.hoverInstructions && !this.hoverShop && !this.hoverCredits) {
+            } else if (this.hoverCharacterInfo && this.game.click) {
+                this.game.characterInfo = true;
+                this.game.click = null;
+            } else if (this.hoverEnemyInfo && this.game.click) {
+                this.game.enemyInfo = true;
+                this.game.click = null;
+            } else if (!this.hoverInstructions && !this.hoverShop && !this.hoverStory && !this.hoverCredits && !this.hoverCharacterInfo && !this.hoverEnemyInfo) {
                 this.game.click = null;
             }
         }
@@ -128,6 +157,17 @@ class MainMenu {
             }
             ctx.fillText("Shop", this.shopX, this.shopY);
 
+            // story button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.storyBB.left && this.game.mouse.x <= 3 * this.storyBB.right && 
+                this.game.mouse.y >= 3 * this.storyBB.top && this.game.mouse.y <= 3 * this.storyBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverStory = true;
+            } else {
+                this.hoverStory = false;
+            }
+            ctx.fillText("Story", this.storyX, this.storyY);
+
             // credits button
             ctx.fillStyle = "Black";
             if (this.game.mouse && this.game.mouse.x >= 3 * this.creditsBB.left && this.game.mouse.x <= 3 * this.creditsBB.right && 
@@ -139,13 +179,38 @@ class MainMenu {
             }
             ctx.fillText("Credits", this.creditsX, this.creditsY);
 
+            // character info button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.characterInfoBB.left && this.game.mouse.x <= 3 * this.characterInfoBB.right && 
+                this.game.mouse.y >= 3 * this.characterInfoBB.top && this.game.mouse.y <= 3 * this.characterInfoBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverCharacterInfo = true;
+            } else {
+                this.hoverCharacterInfo = false;
+            }
+            ctx.fillText("Characters", this.characterInfoX, this.characterInfoY);
+
+             // enemy info button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.enemyInfoBB.left && this.game.mouse.x <= 3 * this.enemyInfoBB.right && 
+                this.game.mouse.y >= 3 * this.enemyInfoBB.top && this.game.mouse.y <= 3 * this.enemyInfoBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverEnemyInfo = true;
+            } else {
+                this.hoverEnemyInfo = false;
+            }
+            ctx.fillText("Enemies", this.enemyInfoX, this.enemyInfoY);
+
             // bounding boxes
             if (PARAMS.DEBUG) {
                 ctx.strokeStyle = 'Red';
                 ctx.strokeRect(this.instructionsBB.x, this.instructionsBB.y, this.instructionsBB.width, this.instructionsBB.height);
                 ctx.strokeRect(this.shopBB.x, this.shopBB.y, this.shopBB.width, this.shopBB.height);
+                ctx.strokeRect(this.storyBB.x, this.storyBB.y, this.storyBB.width, this.storyBB.height);
                 ctx.strokeRect(this.creditsBB.x, this.creditsBB.y, this.creditsBB.width, this.creditsBB.height);
-				ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
+                ctx.strokeRect(this.characterInfoBB.x, this.characterInfoBB.y, this.characterInfoBB.width, this.characterInfoBB.height);
+                ctx.strokeRect(this.enemyInfoBB.x, this.enemyInfoBB.y, this.enemyInfoBB.width, this.enemyInfoBB.height);
+                ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
             }
         }
     }
@@ -597,10 +662,76 @@ class Instructions {
             ctx.fillText("     - click defense to reduce damage received", this.backX, this.backY + 29 * this.padding);
             ctx.fillText("     - click special to use character's special ability", this.backX, this.backY + 31 * this.padding);
             ctx.fillText("     - click potion for a health boost", this.backX, this.backY + 33 * this.padding);
+            
+            // bounding boxes
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
+            }
+        }
+    }
+}
 
-            //ctx.fillText("- B to attack", this.backX, this.backY + 10 * this.padding);
-            //ctx.fillText("- V to special attack", this.backX, this.backY + 12 * this.padding);
-            //ctx.fillText("- N for battle mode, M for explore mode", this.backX, this.backY + 26 * this.padding);
+class Story {
+    constructor(game) {
+        Object.assign(this, {game});
+        this.padding = 5;
+
+        this.backWidth = 50;
+        this.backHeight = 20;
+        this.backX = 5 * this.padding;
+        this.backY = 8 * this.padding;
+        this.backBB = new BoundingBox(this.backX, this.backY - this.backHeight/2, this.backWidth, this.backHeight);
+        this.hoverBack = false;
+
+    }
+
+    update() {
+        if (this.game.menu && this.game.story) {
+            if (this.hoverBack && this.game.click) {
+                this.game.story = false;
+                this.game.click = null;
+            } else if (!this.hoverBack) {
+                this.game.click = null;
+            }
+        }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
+    draw(ctx) {
+        if (this.game.menu && this.game.story) {
+            ctx.font = "12px Georgia";
+
+            // Story title
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+
+            ctx.fillStyle = "Black";
+            ctx.fillText("STORY", PARAMS.CANVASWIDTH / 2 - 20, 6 * this.padding);
+
+            ctx.font = "10px Georgia";
+
+            //back button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.backBB.left && this.game.mouse.x <= 3 * this.backBB.right && 
+                this.game.mouse.y >= 3 * this.backBB.top && this.game.mouse.y <= 3 * this.backBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverBack = true;
+            } else {
+                this.hoverBack = false;
+            }
+            ctx.fillText("Back", this.backX, this.backY);
+
+            ctx.font = "8px Georgia";
+            ctx.fillStyle = "Black";
+            ctx.fillText("Once upon a time there was a ", this.backX, this.backY + 3 * this.padding);
+            ctx.fillText("fill in", this.backX, this.backY + 5 * this.padding);
+            ctx.fillText("fill in", this.backX, this.backY + 7 * this.padding);
+            ctx.fillText("fill in", this.backX, this.backY + 9 * this.padding);
             
             // bounding boxes
             if (PARAMS.DEBUG) {
@@ -672,6 +803,250 @@ class Credits {
             ctx.fillText("     P a t r i c k   S c h m e i c h e l", this.backX, this.backY + 13 * this.padding);
             ctx.fillText("     V a n e s s a   H u n g", this.backX, this.backY + 17 * this.padding);
             ctx.fillText("     W i l l i a m   B r y a n", this.backX, this.backY + 21 * this.padding);
+
+            // bounding boxes
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
+            }
+        }
+    }
+}
+
+class CharacterInfo {
+    constructor(game) {
+        Object.assign(this, {game});
+        this.padding = 5;
+
+        this.backWidth = 50;
+        this.backHeight = 20;
+        this.backX = 5 * this.padding;
+        this.backY = 8 * this.padding;
+        this.backBB = new BoundingBox(this.backX, this.backY - this.backHeight/2, this.backWidth, this.backHeight);
+        this.hoverBack = false;
+
+        this.heroSprite = ASSET_MANAGER.getAsset("./sprites/knightFullSpriteSheet.png");
+        this.heroScale = 2;
+        this.heroWidth = 16;
+        this.heroHeight = 16;
+        this.heroAnimation = new Animator(this.heroSprite, 32, 0, this.heroWidth, this.heroHeight, 1, 10, 0, false, true, false);
+
+        this.clericSprite = ASSET_MANAGER.getAsset("./sprites/Hero.png");
+        this.clericScale = 1/2;
+		this.clericWidth = 32;
+        this.clericHeight = 50;
+        this.clericAnimation = new Animator(this.clericSprite, 130, 143, this.clericWidth, this.clericHeight, 1, 10, 96, false, true, false);
+
+        this.archerSprite = ASSET_MANAGER.getAsset("./sprites/archer.png");
+        this.archerScale = 5/8;
+        this.archerWidth = 55;
+        this.archerHeight = 55;
+        this.archerAnimation = new Animator(this.archerSprite, 12, 200, this.archerWidth, this.archerHeight, 1, 10, 9, false, true);
+
+        this.mageSprite = ASSET_MANAGER.getAsset("./sprites/mage.png");
+        this.mageScale = 1/4;
+        this.mageWidth = 102;
+        this.mageHeight = 120;
+        this.mageAnimation = new Animator(this.mageSprite, 24, 24, this.mageWidth, this.mageHeight, 2, 0.5, 102, false, true)
+
+    }
+
+    update() {
+        if (this.game.menu && this.game.characterInfo) {
+            if (this.hoverBack && this.game.click) {
+                this.game.characterInfo = false;
+                this.game.click = null;
+            } else if (!this.hoverBack) {
+                this.game.click = null;
+            }
+        }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
+    draw(ctx) {
+        if (this.game.menu && this.game.characterInfo) {
+            ctx.font = "12px Georgia";
+
+            // Character Info title
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+
+            ctx.fillStyle = "Black";
+            ctx.fillText("CHARACTERS", PARAMS.CANVASWIDTH / 2 - 40, 6 * this.padding);
+
+            ctx.font = "10px Georgia";
+
+            //back button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.backBB.left && this.game.mouse.x <= 3 * this.backBB.right && 
+                this.game.mouse.y >= 3 * this.backBB.top && this.game.mouse.y <= 3 * this.backBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverBack = true;
+            } else {
+                this.hoverBack = false;
+            }
+            ctx.fillText("Back", this.backX, this.backY);
+
+            ctx.font = "8px Georgia";
+            ctx.fillStyle = "Black";
+
+            this.heroAnimation.drawFrame(this.game.clockTick, ctx, 50, 50, PARAMS.SCALE * this.heroScale);
+            ctx.fillStyle = "Blue";
+            ctx.fillText("Hero", 55, 90);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: slash", 20, 100);
+            ctx.fillText("special attack: super slash", 20, 110);
+            ctx.fillText("His real face is a mystery", 20, 120);
+
+            this.clericAnimation.drawFrame(this.game.clockTick, ctx, 170, 55, PARAMS.SCALE * this.clericScale);
+            ctx.fillStyle = "Blue";
+            ctx.fillText("Cleric", 170, 90);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: spirit bomb", 135, 100);
+            ctx.fillText("special attack: holy spell", 135, 110);
+            ctx.fillText("A kind but cowardly ally", 135, 120);
+
+            this.archerAnimation.drawFrame(this.game.clockTick, ctx, 50, 125, PARAMS.SCALE * this.archerScale);
+            ctx.fillStyle = "Blue";
+            ctx.fillText("Archer", 50, 170);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: arrow", 20, 180);
+            ctx.fillText("special attack: rocket launcher", 20, 190);
+            ctx.fillText("A true warrior, lethal in battle", 20, 200);
+
+            this.mageAnimation.drawFrame(this.game.clockTick, ctx, 170, 125, PARAMS.SCALE * this.mageScale);
+            ctx.fillStyle = "Blue";
+            ctx.fillText("Mage", 170, 170);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: lightning strike", 135, 180);
+            ctx.fillText("special attack: fire ball", 135, 190);
+            ctx.fillText("A heavy drinker", 135, 200);
+
+            // bounding boxes
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
+            }
+        }
+    }
+}
+
+class EnemyInfo {
+    constructor(game) {
+        Object.assign(this, {game});
+        this.padding = 5;
+
+        this.backWidth = 50;
+        this.backHeight = 20;
+        this.backX = 5 * this.padding;
+        this.backY = 8 * this.padding;
+        this.backBB = new BoundingBox(this.backX, this.backY - this.backHeight/2, this.backWidth, this.backHeight);
+        this.hoverBack = false;
+
+        this.goblinSprite = ASSET_MANAGER.getAsset("./sprites/goblin.png");
+        this.goblinScale = 3/4;
+        this.goblinWidth = 57;
+        this.goblinHeight = 57;
+        this.goblinAnimation = new Animator(this.goblinSprite, -1, 193, this.goblinWidth, this.goblinHeight, 1, 10, 34, false, true, false);
+
+        this.batSprite = ASSET_MANAGER.getAsset("./sprites/bat.png");
+        this.batScale = 1;
+		this.batWidth = 33;
+        this.batHeight = 33;
+        this.batAnimation = new Animator(this.batSprite, 8, 82, this.batWidth, this.batHeight, 3, 0.1, 15, false, true);
+
+        this.skeletonSprite = ASSET_MANAGER.getAsset("./sprites/skeleton.png");
+        this.skeletonScale = 3/4;
+        this.skeletonWidth = 30;
+        this.skeletonHeight = 50;
+        this.skeletonAnimation = new Animator(this.skeletonSprite, 17, 205, this.skeletonWidth, this.skeletonHeight, 1, 10, 34, false, true);
+
+        this.dragonSprite = ASSET_MANAGER.getAsset("./sprites/dragon.png");
+        this.dragonScale = 1/2;
+        this.dragonWidth = 94;
+        this.dragonHeight = 94;
+        this.dragonAnimation = new Animator(this.dragonSprite, 0, 194, this.dragonWidth, this.dragonHeight, 1, 10, 1, false, true, false);
+
+    }
+
+    update() {
+        if (this.game.menu && this.game.enemyInfo) {
+            if (this.hoverBack && this.game.click) {
+                this.game.enemyInfo = false;
+                this.game.click = null;
+            } else if (!this.hoverBack) {
+                this.game.click = null;
+            }
+        }
+    }
+
+    drawMinimap(ctx, mmX, mmY) {
+    }
+
+    draw(ctx) {
+        if (this.game.menu && this.game.enemyInfo) {
+            ctx.font = "12px Georgia";
+
+            // Enemy Info title
+            ctx.fillStyle = "Tan";
+            ctx.fillRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+            ctx.strokeStyle = "Brown";
+            ctx.strokeRect(this.padding * 3, this.padding * 3, PARAMS.CANVASWIDTH - 6 * this.padding, PARAMS.CANVASHEIGHT - 6 * this.padding);
+
+            ctx.fillStyle = "Black";
+            ctx.fillText("ENEMIES", PARAMS.CANVASWIDTH / 2 - 30, 6 * this.padding);
+
+            ctx.font = "10px Georgia";
+
+            //back button
+            ctx.fillStyle = "Black";
+            if (this.game.mouse && this.game.mouse.x >= 3 * this.backBB.left && this.game.mouse.x <= 3 * this.backBB.right && 
+                this.game.mouse.y >= 3 * this.backBB.top && this.game.mouse.y <= 3 * this.backBB.bottom) {
+                ctx.fillStyle = "Purple";
+                this.hoverBack = true;
+            } else {
+                this.hoverBack = false;
+            }
+            ctx.fillText("Back", this.backX, this.backY);
+
+            ctx.font = "8px Georgia";
+            ctx.fillStyle = "Black";
+            
+            this.goblinAnimation.drawFrame(this.game.clockTick, ctx, 50, 40, PARAMS.SCALE * this.goblinScale);
+            ctx.fillStyle = "Red";
+            ctx.fillText("Goblin", 55, 90);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: stab", 20, 100);
+            ctx.fillText("special attack: laser beam", 20, 110);
+            ctx.fillText("A grimey little bugger", 20, 120);
+
+            this.batAnimation.drawFrame(this.game.clockTick, ctx, 170, 45, PARAMS.SCALE * this.batScale);
+            ctx.fillStyle = "Red";
+            ctx.fillText("Bat", 170, 80);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: scratch", 135, 90);
+            ctx.fillText("special attack: sonic wave", 135, 100);
+            ctx.fillText("A fast flying foe", 135, 110);
+
+            this.skeletonAnimation.drawFrame(this.game.clockTick, ctx, 50, 125, PARAMS.SCALE * this.skeletonScale);
+            ctx.fillStyle = "Red";
+            ctx.fillText("Skeleton", 50, 170);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: bone dart", 20, 180);
+            ctx.fillText("special attack: death stare", 20, 190);
+            ctx.fillText("A frightening, undead creature", 20, 200);
+
+            this.dragonAnimation.drawFrame(this.game.clockTick, ctx, 160, 115, PARAMS.SCALE * this.dragonScale);
+            ctx.fillStyle = "Red";
+            ctx.fillText("Dragon", 170, 170);
+            ctx.fillStyle = "Black";
+            ctx.fillText("basic attack: fire breath", 135, 180);
+            ctx.fillText("special attack: shadow ball", 135, 190);
+            ctx.fillText("The juggernaut big boss", 135, 200);
 
             // bounding boxes
             if (PARAMS.DEBUG) {
