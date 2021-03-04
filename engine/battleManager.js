@@ -16,11 +16,11 @@ class BattleManager {
 		console.log("battle loaded");
 		console.log(this.turnOrder);
 		var i;
-			var x = 10;
-			var y = 15;
+			//var x = 10;
+			//var y = 15;
 			for(i=0; i<this.enemies.length; i++){
-				this.enemies[i][0].x = 5;
-				this.enemies[i][0].y = 55 + (i * 43);
+				this.enemies[i][0].x = 10;
+				this.enemies[i][0].y = 35 + (i * 43);
 				this.game.addEntity(this.enemies[i][0]);
 
 				if (this.enemies[i][0] instanceof Skeleton) {
@@ -165,8 +165,14 @@ class BattleManager {
 	};
 	// enemy version
 	attackPlayer(attacker, defender) {
-		this.enemies[attacker][0].basicAttack = true;
 		var damage = this.enemies[attacker][0].stats[1];
+		if(Math.ceil(Math.random()*10) <= 3){ // special attack
+			this.enemies[attacker][0].specialAttack = true;
+			damage += 20;
+		} else { // basic attack
+			this.enemies[attacker][0].basicAttack = true;
+		}
+
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
 			damage += Math.floor(damage/2);
 			console.log("Critical hit!");
@@ -185,6 +191,7 @@ class BattleManager {
 		}
 		else { // character is killed
 			this.party[defender][1] = 0;
+			this.party[defender][0].hide = true;
 		}
 
 		// if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {
@@ -239,13 +246,17 @@ class BattleManager {
 				console.log("Cleric Special Attack");
 				var i;
 				for(i = 0; i < this.party.length; i++){
+					let previousHealth = this.party[i][1];
 					if(this.party[i][0].stats[0] < this.party[i][1]+25){ // heal to max if it would be exceeded
 						this.party[i][1] = this.party[i][0].stats[0];
-					} else { // otherwise add 25 hp
+					} else if (this.party[i][1] > 0) { // otherwise add 25 hp to alive characters
 						this.party[i][1] += 25;
 					}
-					this.game.addEntity(new Score(this.game, this.party[i][0].x + this.party[i][0].width * 
-						PARAMS.SCALE * this.party[i][0].scale / 2, this.party[i][0].y, 25));
+
+					if (this.party[i][1] > 0) {
+						this.game.addEntity(new Score(this.game, this.party[i][0].x + this.party[i][0].width * 
+							PARAMS.SCALE * this.party[i][0].scale / 2, this.party[i][0].y, this.party[i][1] - previousHealth));
+					}
 				}
 				break;
 			case "A r c h e r" : // attack all enemies for 1/2 damage
@@ -312,13 +323,14 @@ class BattleManager {
 	}
 	
 	potion(player){
+		let previousHealth = this.party[player][1];
 		if(this.party[player][0].stats[0] < this.party[player][1]+50){ // heal to max if it would be exceeded
 			this.party[player][1] = this.party[player][0].stats[0];
 		} else { // otherwise add 50 hp
 			this.party[player][1] += 50;
 		}
 		this.game.addEntity(new Score(this.game, this.party[player][0].x + this.party[player][0].width * 
-			PARAMS.SCALE * this.party[player][0].scale / 2, this.party[player][0].y, 50));
+			PARAMS.SCALE * this.party[player][0].scale / 2, this.party[player][0].y, this.party[player][1] - previousHealth));
 	}
 	
 	draw(ctx) {

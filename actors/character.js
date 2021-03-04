@@ -7,6 +7,7 @@ class Hero {
 		this.x = x;
 		this.y = y;
 		this.name = "H e r o";
+        this.hide = false;
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/knightFullSpriteSheet.png");
         
@@ -482,33 +483,35 @@ class Hero {
     }
 
     draw(ctx) {
-        let xPosition = this.x;
-        let yPosition = this.y;
-
-        //adjusting the positions of the drawings to make it fit because the png sucks
-        // if (this.state == 2) { // if attacking
-        //     if (this.facing == 1) { // if facing left
-        //         xPosition -= (7 * PARAMS.SCALE);
-        //     } else if (this.facing == 2) { // if facing down
-        //         yPosition -= (1 * PARAMS.SCALE);
-        //     } else if (this.facing == 3) { // if facing up
-        //         yPosition -= 8 * PARAMS.SCALE;
-        //     }
-        // }
-        
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE * this.scale);
-
-        //for testing boundaries
-        // ctx.fillStyle = "Black";
-        // ctx.strokeStyle = "Black";
-        // ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
-		/*
-		this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE)
-        */
-        
-        if (PARAMS.DEBUG) {
-            ctx.strokeStyle = 'Red';
-            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        if (!this.hide) {
+            let xPosition = this.x;
+            let yPosition = this.y;
+    
+            //adjusting the positions of the drawings to make it fit because the png sucks
+            // if (this.state == 2) { // if attacking
+            //     if (this.facing == 1) { // if facing left
+            //         xPosition -= (7 * PARAMS.SCALE);
+            //     } else if (this.facing == 2) { // if facing down
+            //         yPosition -= (1 * PARAMS.SCALE);
+            //     } else if (this.facing == 3) { // if facing up
+            //         yPosition -= 8 * PARAMS.SCALE;
+            //     }
+            // }
+            
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE * this.scale);
+    
+            //for testing boundaries
+            // ctx.fillStyle = "Black";
+            // ctx.strokeStyle = "Black";
+            // ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
+            /*
+            this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE)
+            */
+            
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+            }
         }
     };
 };
@@ -523,6 +526,7 @@ class Cleric {
 		this.x = x;
 		this.y = y;
 		this.name = "C l e r i c";
+        this.hide = false;
 		
 		this.spritesheet = ASSET_MANAGER.getAsset("./sprites/Hero.png");
         
@@ -672,33 +676,35 @@ class Cleric {
     }
 
     draw(ctx) {
-        let xPosition = this.x;
-        let yPosition = this.y;
-
-        //adjusting the positions of the drawings to make it fit because the png sucks
-        // if (this.state == 2) { // if attacking
-        //     if (this.facing == 1) { // if facing left
-        //         xPosition -= (7 * PARAMS.SCALE);
-        //     } else if (this.facing == 2) { // if facing down
-        //         yPosition -= (1 * PARAMS.SCALE);
-        //     } else if (this.facing == 3) { // if facing up
-        //         yPosition -= 8 * PARAMS.SCALE;
-        //     }
-        // }
-        
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE * this.scale);
-
-        if (PARAMS.DEBUG) {
-            ctx.strokeStyle = 'Red';
-            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        if (!this.hide) {
+            let xPosition = this.x;
+            let yPosition = this.y;
+    
+            //adjusting the positions of the drawings to make it fit because the png sucks
+            // if (this.state == 2) { // if attacking
+            //     if (this.facing == 1) { // if facing left
+            //         xPosition -= (7 * PARAMS.SCALE);
+            //     } else if (this.facing == 2) { // if facing down
+            //         yPosition -= (1 * PARAMS.SCALE);
+            //     } else if (this.facing == 3) { // if facing up
+            //         yPosition -= 8 * PARAMS.SCALE;
+            //     }
+            // }
+            
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition - this.game.camera.x, yPosition - this.game.camera.y, PARAMS.SCALE * this.scale);
+    
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+            }
+            //for testing boundaries
+            /*ctx.fillStyle = "Black";
+            ctx.strokeStyle = "Black";
+            ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
+            
+            this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE)
+            */
         }
-        //for testing boundaries
-        /*ctx.fillStyle = "Black";
-        ctx.strokeStyle = "Black";
-        ctx.strokeRect(this.x, this.y, this.width * PARAMS.SCALE, this.height * PARAMS.SCALE);
-		
-		this.animations[0][0].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE)
-		*/
     };
 };
 
@@ -708,6 +714,7 @@ class Archer {
 		
 		this.name = "A r c h e r";
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/archer.png");
+        this.hide = false;
         this.animations = [];
         this.facing = 0; // 0 = left, 1 = right, 2 = up, 3 = down
         this.state = 0;   // 0 = standing still, 1 = shooting
@@ -852,32 +859,34 @@ class Archer {
     }
 
     draw(ctx) {
-        let xPosition = this.x;
-        let yPosition = this.y;
-
-        //adjusting the positions of the drawings to make it fit because the png sucks
-        if (this.facing == 1) { // if facing left or up
-            xPosition -= (7 * PARAMS.SCALE * this.scale);
-        } 
-        else if (this.facing == 3 || this.facing == 2) { // if facing up
-             yPosition += (5 * PARAMS.SCALE * this.scale);
-        } 
-
-        this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition -  this.game.camera.x, yPosition- this.game.camera.y, PARAMS.SCALE * this.scale);
-        
-        if (PARAMS.DEBUG) {
-            ctx.strokeStyle = 'Red';
-            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
-            // ctx.strokeRect(this.leftBB.x - this.game.camera.x, this.leftBB.y - this.game.camera.y, this.leftBB.width, this.leftBB.height);
-            // ctx.strokeRect(this.rightBB.x - this.game.camera.x, this.rightBB.y - this.game.camera.y, this.rightBB.width, this.rightBB.height);
-            // ctx.strokeRect(this.topBB.x - this.game.camera.x, this.topBB.y - this.game.camera.y, this.topBB.width, this.topBB.height);
-            // ctx.strokeRect(this.bottomBB.x - this.game.camera.x, this.bottomBB.y - this.game.camera.y, this.bottomBB.width, this.bottomBB.height);
+        if (!this.hide) {
+            let xPosition = this.x;
+            let yPosition = this.y;
+    
+            //adjusting the positions of the drawings to make it fit because the png sucks
+            if (this.facing == 1) { // if facing left or up
+                xPosition -= (7 * PARAMS.SCALE * this.scale);
+            } 
+            else if (this.facing == 3 || this.facing == 2) { // if facing up
+                 yPosition += (5 * PARAMS.SCALE * this.scale);
+            } 
+    
+            this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, xPosition -  this.game.camera.x, yPosition- this.game.camera.y, PARAMS.SCALE * this.scale);
+            
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+                // ctx.strokeRect(this.leftBB.x - this.game.camera.x, this.leftBB.y - this.game.camera.y, this.leftBB.width, this.leftBB.height);
+                // ctx.strokeRect(this.rightBB.x - this.game.camera.x, this.rightBB.y - this.game.camera.y, this.rightBB.width, this.rightBB.height);
+                // ctx.strokeRect(this.topBB.x - this.game.camera.x, this.topBB.y - this.game.camera.y, this.topBB.width, this.topBB.height);
+                // ctx.strokeRect(this.bottomBB.x - this.game.camera.x, this.bottomBB.y - this.game.camera.y, this.bottomBB.width, this.bottomBB.height);
+            }
+    
+            //for testing boundaries
+            // ctx.fillStyle = "Black";
+            // ctx.strokeStyle = "Black";
+            // ctx.strokeRect(xPosition -  this.game.camera.x, yPosition - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         }
-
-        //for testing boundaries
-        // ctx.fillStyle = "Black";
-        // ctx.strokeStyle = "Black";
-        // ctx.strokeRect(xPosition -  this.game.camera.x, yPosition - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     };
     
 }
@@ -888,6 +897,7 @@ class Mage {
 
 		this.name = "M a g e";
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/mage.png");
+        this.hide = false;
         this.animations = [];
         this.facing = 0;        // 0 = right, 1 = left
         this.animations=[];
@@ -983,14 +993,16 @@ class Mage {
     }
 
     draw(ctx) {
-        if(this.facing == 0) {
-            this.animations[0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
-        } else if (this.facing == 1) {
-            this.animations[1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
-        }
-        if (PARAMS.DEBUG) {
-            ctx.strokeStyle = 'Red';
-            ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+        if (!this.hide) {
+            if(this.facing == 0) {
+                this.animations[0].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
+            } else if (this.facing == 1) {
+                this.animations[1].drawFrame(this.game.clockTick, ctx, this.x - this.game.camera.x, this.y - this.game.camera.y, PARAMS.SCALE * this.scale);
+            }
+            if (PARAMS.DEBUG) {
+                ctx.strokeStyle = 'Red';
+                ctx.strokeRect(this.BB.x - this.game.camera.x, this.BB.y - this.game.camera.y, this.BB.width, this.BB.height);
+            }
         }
     };
     

@@ -114,7 +114,7 @@ class SceneManager {
                 
                 // press N to switch to a battle scene
                 if((this.game.n && PARAMS.DEBUG)|| this.hero.dist >= this.encounter){
-					this.encounter = Math.floor(Math.random()*2000)+800; // 4000+ steps is far too high a range, you'll explore well over half the map before you find even your first battle
+					this.encounter = Math.floor(Math.random()*2000)+1000; // 4000+ steps is far too high a range, you'll explore well over half the map before you find even your first battle
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;
@@ -132,6 +132,10 @@ class SceneManager {
                 
                 // press M to go back to the current dungeon map
                 if(this.game.m){
+                    this.hero.hide = false;
+                    this.cleric.hide = false;
+                    this.archer.hide = false;
+                    this.mage.hide = false;
                     this.sleep(200);
                     this.battle = false;
                     this.bossBattle = false;
@@ -367,8 +371,9 @@ class SceneManager {
 				for (l = 0; l < 15; l++) {
 					switch (this.game.mapIndex){
 						case 2:
-							this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
-							this.game.addEntity(new Grass1(this.game, (k * 32) + 10, (l * 32) + 8));
+							//this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
+							//this.game.addEntity(new Grass1(this.game, (k * 32) + 10, (l * 32) + 8));
+                            this.game.addEntity(new Grass1(this.game, k * 32, l * 32));
 							break;
 						case 3:
 							this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
@@ -385,17 +390,17 @@ class SceneManager {
 		this.mage.battle = true;
 		
 		// add enemies
-		this.goblin = new Goblin(this.game, 5, 55);
-        this.goblin2 = new Goblin(this.game, 5, 55);
-        this.goblin3 = new Goblin(this.game, 5, 55);
+		this.goblin = new Goblin(this.game, 0, 0);
+        this.goblin2 = new Goblin(this.game, 0, 0);
+        this.goblin3 = new Goblin(this.game, 0, 0);
 
-		this.bat = new Bat(this.game, 5, 143);
-        this.bat2 = new Bat(this.game, 5, 143);
-        this.bat3 = new Bat(this.game, 5, 143);
+		this.bat = new Bat(this.game, 0, 0);
+        this.bat2 = new Bat(this.game, 0, 0);
+        this.bat3 = new Bat(this.game, 0, 0);
         
-		this.skeleton = new Skeleton(this.game, 5, 98);
-        this.skeleton2 = new Skeleton(this.game, 5, 98);
-        this.skeleton3 = new Skeleton(this.game, 5, 98);
+		this.skeleton = new Skeleton(this.game, 0, 0);
+        this.skeleton2 = new Skeleton(this.game, 0, 0);
+        this.skeleton3 = new Skeleton(this.game, 0, 0);
         
         this.game.addEntity(new HeadsUpDisplay(this.game));
         this.game.addEntity(new MainMenu(this.game));
@@ -415,17 +420,8 @@ class SceneManager {
 		this.enemyGroups.push([this.bat, this.bat2, this.bat3]);
 		this.enemyGroups.push([this.bat, this.bat2, this.goblin]);
 		this.enemyGroups.push([this.bat, this.bat2, this.skeleton]);
-		// this.enemyGroups.push([this.goblin, this.skeleton, this.bat]);
-		// this.enemyGroups.push([this.goblin, new Goblin(this.game, 5, 55), new Goblin(this.game, 5, 55)]);
-		// this.enemyGroups.push([this.goblin, new Goblin(this.game, 5, 55), this.bat]);
-		// this.enemyGroups.push([this.goblin, new Goblin(this.game, 5, 55), this.skeleton]);
-		// this.enemyGroups.push([this.skeleton, new Skeleton(this.game, 5, 98), new Skeleton(this.game, 5, 98)]);
-		// this.enemyGroups.push([this.skeleton, new Skeleton(this.game, 5, 98), this.goblin]);
-		// this.enemyGroups.push([this.skeleton, new Skeleton(this.game, 5, 98), this.bat]);
-		// this.enemyGroups.push([this.bat, new Bat(this.game, 5, 143), new Bat(this.game, 5, 143)]);
-		// this.enemyGroups.push([this.bat, new Bat(this.game, 5, 143), this.goblin]);
-		// this.enemyGroups.push([this.bat, new Bat(this.game, 5, 143), this.skeleton]);
-		//choose an encounter
+		
+        //choose an encounter
         let g = Math.floor(Math.random()*10);
         console.log(g);
 		this.chosenGroup = this.enemyGroups[g];
