@@ -192,6 +192,8 @@ class BattleManager {
 		else { // character is killed
 			this.party[defender][1] = 0;
 			this.party[defender][0].hide = true;
+			this.party[defender][0].basicAttack = false;
+			this.party[defender][0].specialAttack = false;
 		}
 
 		// if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {

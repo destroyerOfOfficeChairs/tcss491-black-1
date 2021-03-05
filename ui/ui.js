@@ -1383,6 +1383,14 @@ class BattleUI {
             ctx.fillText("E N E M Y   T U R N", this.x + 90, 20);
         }
 
+        //shows potion count
+        ctx.fillStyle = "Tan";
+        ctx.fillRect(PARAMS.CANVASWIDTH - 80, 10, 75, 20);
+        ctx.strokeStyle = "Brown";
+        ctx.strokeRect(PARAMS.CANVASWIDTH - 80, 10, 75, 20);
+        ctx.fillStyle = "Red";
+        ctx.fillText("P O T I O N S : " + this.game.camera.potions, PARAMS.CANVASWIDTH - 75, 20);
+
         //prompt to choose enemy
         if (this.attack == -1) {
             ctx.fillStyle = "Tan";
