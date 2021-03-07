@@ -152,6 +152,8 @@ class SceneManager {
     }
     
     loadMap(map, x, y) {
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./music/Lyric__Fantasy_Theme_1.mp3");
         this.game.currentState = this.game.gameStates[1];
         this.game.entities = [];
         this.x = 0;
@@ -359,6 +361,8 @@ class SceneManager {
     }
     
     loadBattle() {
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./music/Short_Combat_Loop_1.mp3");
         this.game.currentState = this.game.gameStates[2];
         this.x = 0;
         this.game.entities = [];
