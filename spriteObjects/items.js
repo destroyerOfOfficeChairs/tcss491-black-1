@@ -60,12 +60,13 @@ class Potion {
         this.height = 16;
         this.BB = new BoundingBox(this.x + this.width * PARAMS.SCALE * this.scale, this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     }
+
     update() {
-
     }
-    drawMiniMap(ctx, mmX, mmY) {
 
+    drawMinimap(ctx, mmX, mmY) {
     }
+
     draw(ctx) {
         ctx.drawImage(this.spritesheet, 0, 0, this.width, this.height, this.x - this.game.camera.x, this.y - this.game.camera.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         if (PARAMS.DEBUG) {

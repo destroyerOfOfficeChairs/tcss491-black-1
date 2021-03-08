@@ -77,6 +77,7 @@ class SceneManager {
         // }
 
         PARAMS.DEBUG = document.getElementById("debug").checked;
+        this.updateAudio();
         switch (this.game.currentState) {
             case this.game.gameStates[0]:
                 if (this.game.attack1) 
@@ -154,6 +155,8 @@ class SceneManager {
     loadMap(map, x, y) {
         ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./music/Lyric__Fantasy_Theme_1.mp3");
+        ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_1.mp3");
+
         this.game.currentState = this.game.gameStates[1];
         this.game.entities = [];
         this.x = 0;
@@ -363,6 +366,8 @@ class SceneManager {
     loadBattle() {
         ASSET_MANAGER.pauseBackgroundMusic();
         ASSET_MANAGER.playAsset("./music/Short_Combat_Loop_1.mp3");
+        ASSET_MANAGER.autoRepeat("./music/Short_Combat_Loop_1.mp3");
+
         this.game.currentState = this.game.gameStates[2];
         this.x = 0;
         this.game.entities = [];
@@ -449,6 +454,10 @@ class SceneManager {
     }
 
     loadBossBattle() {
+        ASSET_MANAGER.pauseBackgroundMusic();
+        ASSET_MANAGER.playAsset("./music/Short_Combat_Loop_1.mp3");
+        ASSET_MANAGER.autoRepeat("./music/Short_Combat_Loop_1.mp3");
+
         this.game.currentState = this.game.gameStates[2];
         this.x = 0;
         this.game.entities = [];
@@ -494,6 +503,14 @@ class SceneManager {
         this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
 
 
+    }
+
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        ASSET_MANAGER.muteAudio(mute);
+        ASSET_MANAGER.adjustVolume(volume);
     }
     
     sleep(milliseconds) {
