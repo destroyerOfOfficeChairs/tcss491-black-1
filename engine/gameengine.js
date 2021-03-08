@@ -119,6 +119,15 @@ class GameEngine {
                 case "KeyL":
                     if (!that.camera.battle && !that.camera.bossBattle && !that.pause) {
                         that.menu = !that.menu;
+
+                        if (!that.menu) {
+                            that.shop = false;
+                            that.instructions = false;
+                            that.credits = false;
+                            that.story = false;
+                            that.characterInfo = false;
+                            that.enemyInfo = false;
+                        }
                     }
                     break;
                 case "Semicolon":

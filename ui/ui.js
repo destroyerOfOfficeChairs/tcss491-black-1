@@ -62,14 +62,14 @@ class MainMenu {
         this.creditsBB = new BoundingBox(this.creditsX, this.creditsY - this.creditsHeight/2, this.creditsWidth, this.creditsHeight);
         this.hoverCredits = false;
 
-        this.characterInfoWidth = 40;
+        this.characterInfoWidth = 55;
         this.characterInfoHeight = 20;
         this.characterInfoX = PARAMS.CANVASWIDTH / 2 - 30;
         this.characterInfoY = 33 * this.padding;
         this.characterInfoBB = new BoundingBox(this.characterInfoX, this.characterInfoY - this.characterInfoHeight/2, this.characterInfoWidth, this.characterInfoHeight);
         this.hoverCharacterInfo = false;
 
-        this.enemyInfoWidth = 40;
+        this.enemyInfoWidth = 45;
         this.enemyInfoHeight = 20;
         this.enemyInfoX = PARAMS.CANVASWIDTH / 2 - 30;
         this.enemyInfoY = 38 * this.padding;

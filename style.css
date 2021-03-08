@@ -1,12 +1,27 @@
 canvas {
     /* width: 1024px;
     height: 896px; */
+
     width: 800px;
     height: 700px;
+    margin: 0 auto;
+    overflow: hidden;
+    display: block;
+
     background: white;
     border: 1px solid black;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
+  }
+
+  body {
+    background-color: rgb(219, 191, 148);
+  }
+
+  div {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
   }
