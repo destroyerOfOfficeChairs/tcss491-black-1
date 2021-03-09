@@ -59,8 +59,18 @@ ASSET_MANAGER.queueDownload("./music/Short_Casual_Loop_2.mp3");
 ASSET_MANAGER.queueDownload("./music/Lyric__Fantasy_Theme_2.mp3");
 //background track 2
 ASSET_MANAGER.queueDownload("./music/Lyric__Fantasy_Theme_1.mp3");
+
 //battle theme
 ASSET_MANAGER.queueDownload("./music/Short_Combat_Loop_1.mp3");
+//battle theme 2
+ASSET_MANAGER.queueDownload("./music/Luffy_vs_ratchet_1.mp3");
+//battle theme 3
+ASSET_MANAGER.queueDownload("./music/Octopath_Traveler_Battle_2.mp3");
+//battle theme 4
+ASSET_MANAGER.queueDownload("./music/Hangeki_no_noroshi.mp3");
+
+//boss battle theme 1
+ASSET_MANAGER.queueDownload("./music/Saigo_no_tatakai.mp3");
 
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();

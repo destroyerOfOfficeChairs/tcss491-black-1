@@ -16,12 +16,11 @@ canvas {
     image-rendering: crisp-edges;
   }
 
-  body {
+  /* body {
     background-color: rgb(219, 191, 148);
   }
 
   div {
     display: table;
-    margin-right: auto;
-    margin-left: auto;
-  }
+    margin: 0 auto;
+  } */

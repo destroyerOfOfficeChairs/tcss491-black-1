@@ -831,7 +831,7 @@ class Archer {
 		this.state = (this.velocity.x == 0 && this.velocity.y == 0) ? 0 : 1;
 		if (this.game.attack1 || this.game.attack2 || this.stillAttacking || this.basicAttack || this.specialAttack) { // attacks when B or V is pressed
 			this.state = 1;
-            if (this.timeElapsed >= 0.8 && this.timeElapsed <= 0.85 && this.canShoot) {
+            if (!this.hide && this.timeElapsed >= 0.8 && this.timeElapsed <= 0.85 && this.canShoot) {
                 if (this.projectile == 0) {
                     this.game.addEntity(new Arrow(this.game, this.x, this.y, this.facing, this));
                 } else if (this.projectile == 1) {

@@ -194,6 +194,7 @@ class BattleManager {
 			this.party[defender][0].hide = true;
 			this.party[defender][0].basicAttack = false;
 			this.party[defender][0].specialAttack = false;
+			this.party[defender][0].stillAttacking = false;
 		}
 
 		// if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {

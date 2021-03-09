@@ -154,8 +154,16 @@ class SceneManager {
     
     loadMap(map, x, y) {
         ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.playAsset("./music/Lyric__Fantasy_Theme_1.mp3");
-        ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_1.mp3");
+        if (this.game.mapIndex == 2) {
+            ASSET_MANAGER.playAsset("./music/Lyric__Fantasy_Theme_1.mp3");
+            ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_1.mp3");
+        } else if (this.game.mapIndex == 3) {
+            ASSET_MANAGER.playAsset("./music/Short_Casual_Loop_2.mp3");
+            ASSET_MANAGER.autoRepeat("./music/Short_Casual_Loop_2.mp3");
+        } else if (this.game.mapIndex == 4) {
+            ASSET_MANAGER.playAsset("./music/Lyric__Fantasy_Theme_2.mp3");
+            ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_2.mp3");
+        }
 
         this.game.currentState = this.game.gameStates[1];
         this.game.entities = [];
@@ -365,8 +373,32 @@ class SceneManager {
     
     loadBattle() {
         ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.playAsset("./music/Short_Combat_Loop_1.mp3");
-        ASSET_MANAGER.autoRepeat("./music/Short_Combat_Loop_1.mp3");
+        let musicChoice = Math.floor(Math.random()*2);
+        if (this.game.mapIndex == 2) { // level 1
+            if (musicChoice == 0) {
+                ASSET_MANAGER.playAsset("./music/Short_Combat_Loop_1.mp3");
+                ASSET_MANAGER.autoRepeat("./music/Short_Combat_Loop_1.mp3");
+            } else if (musicChoice == 1) {
+                ASSET_MANAGER.playAsset("./music/Luffy_vs_ratchet_1.mp3");
+                ASSET_MANAGER.autoRepeat("./music/Luffy_vs_ratchet_1.mp3");
+            } 
+        } else if (this.game.mapIndex == 3) { // level 2
+            if (musicChoice == 0) {
+                ASSET_MANAGER.playAsset("./music/Octopath_Traveler_Battle_2.mp3");
+                ASSET_MANAGER.autoRepeat("./music/Octopath_Traveler_Battle_2.mp3");
+            } else if (musicChoice == 1) {
+                ASSET_MANAGER.playAsset("./music/Hangeki_no_noroshi.mp3");
+                ASSET_MANAGER.autoRepeat("./music/Hangeki_no_noroshi.mp3");
+            } 
+        } else if (this.game.mapIndex == 4) { // level before boss
+            if (musicChoice == 0) {
+                ASSET_MANAGER.playAsset("./music/Octopath_Traveler_Battle_2.mp3");
+                ASSET_MANAGER.autoRepeat("./music/Octopath_Traveler_Battle_2.mp3");
+            } else if (musicChoice == 1) {
+                ASSET_MANAGER.playAsset("./music/Hangeki_no_noroshi.mp3");
+                ASSET_MANAGER.autoRepeat("./music/Hangeki_no_noroshi.mp3");
+            } 
+        }
 
         this.game.currentState = this.game.gameStates[2];
         this.x = 0;
@@ -455,8 +487,9 @@ class SceneManager {
 
     loadBossBattle() {
         ASSET_MANAGER.pauseBackgroundMusic();
-        ASSET_MANAGER.playAsset("./music/Short_Combat_Loop_1.mp3");
-        ASSET_MANAGER.autoRepeat("./music/Short_Combat_Loop_1.mp3");
+
+        ASSET_MANAGER.playAsset("./music/Saigo_no_tatakai.mp3");
+        ASSET_MANAGER.autoRepeat("./music/Saigo_no_tatakai.mp3");
 
         this.game.currentState = this.game.gameStates[2];
         this.x = 0;
