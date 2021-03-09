@@ -1425,7 +1425,11 @@ class BattleUI {
             }
 			if(this.battleManager.enemies[i][1] > 0){
 				ctx.fillText(this.enemies[i][2], this.x + 5, this.y + 15 + (15 * i));
-                ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 55, this.y + 15 + (15 * i));
+                if (this.game.camera.bossBattle) {
+                    ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 45, this.y + 15 + (15 * i));
+                } else {
+                    ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 55, this.y + 15 + (15 * i));
+                }
 			}
 		}
 		
