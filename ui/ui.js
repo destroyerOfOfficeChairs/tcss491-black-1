@@ -1527,6 +1527,7 @@ class BattleUI {
 			ctx.fillText("T H A N K S   F O R   P L A Y I N G !", 67, 105);
 			ctx.fillText('P R E S S  " M "  T O  R E T U R N', 65, 125);
             this.game.gameWon = true;
+            this.game.camera.gameOver = true;
 		}
 		// loss state
 		if(this.end == 0){
@@ -1537,6 +1538,9 @@ class BattleUI {
 			ctx.fillStyle = "Black";
 			ctx.fillText("D E F E A T !", 100, 90);
 			ctx.fillText('P R E S S  " M "  T O  R E T U R N', 65, 115);
+            if (this.game.camera.bossBattle) {
+                this.game.camera.gameOver = true;
+            }
 		}
 	}
 }

@@ -83,7 +83,9 @@ class GameEngine {
 					that.n = true;
 					break;
 				case "KeyM":
-					that.m = true;
+                    if (!that.camera.bossBattle || that.camera.gameOver) {
+                        that.m = true;
+                    }
 					break;
 			}
 		}, false);   
