@@ -20,7 +20,7 @@ class BattleManager {
 			//var y = 15;
 			for(i=0; i<this.enemies.length; i++){
 				this.enemies[i][0].x = 10;
-				this.enemies[i][0].y = 35 + (i * 43);
+				this.enemies[i][0].y = 35 + i * 32;
 				this.game.addEntity(this.enemies[i][0]);
 
 				if (this.enemies[i][0] instanceof Skeleton) {

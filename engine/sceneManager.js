@@ -435,17 +435,17 @@ class SceneManager {
 		this.mage.battle = true;
 		
 		// add enemies
-		this.goblin = new Goblin(this.game, 0, 0);
-        this.goblin2 = new Goblin(this.game, 0, 0);
-        this.goblin3 = new Goblin(this.game, 0, 0);
+		// this.goblin = new Goblin(this.game, 0, 0);
+        // this.goblin2 = new Goblin(this.game, 0, 0);
+        // this.goblin3 = new Goblin(this.game, 0, 0);
 
-		this.bat = new Bat(this.game, 0, 0);
-        this.bat2 = new Bat(this.game, 0, 0);
-        this.bat3 = new Bat(this.game, 0, 0);
+		// this.bat = new Bat(this.game, 0, 0);
+        // this.bat2 = new Bat(this.game, 0, 0);
+        // this.bat3 = new Bat(this.game, 0, 0);
         
-		this.skeleton = new Skeleton(this.game, 0, 0);
-        this.skeleton2 = new Skeleton(this.game, 0, 0);
-        this.skeleton3 = new Skeleton(this.game, 0, 0);
+		// this.skeleton = new Skeleton(this.game, 0, 0);
+        // this.skeleton2 = new Skeleton(this.game, 0, 0);
+        // this.skeleton3 = new Skeleton(this.game, 0, 0);
         
         // this.game.addEntity(new HeadsUpDisplay(this.game));
         // this.game.addEntity(new MainMenu(this.game));
@@ -456,22 +456,36 @@ class SceneManager {
         // this.game.addEntity(new CharacterInfo(this.game));
 
 		//types of random encounters
-		this.enemyGroups = [];
-        this.enemyGroups.push([this.goblin, this.skeleton, this.bat]);
-		this.enemyGroups.push([this.goblin, this.goblin2, this.goblin3]);
-		this.enemyGroups.push([this.goblin, this.goblin2, this.bat]);
-		this.enemyGroups.push([this.goblin, this.goblin2, this.skeleton]);
-		this.enemyGroups.push([this.skeleton, this.skeleton2, this.skeleton3]);
-		this.enemyGroups.push([this.skeleton, this.skeleton2, this.goblin]);
-		this.enemyGroups.push([this.skeleton, this.skeleton2, this.bat]);
-		this.enemyGroups.push([this.bat, this.bat2, this.bat3]);
-		this.enemyGroups.push([this.bat, this.bat2, this.goblin]);
-		this.enemyGroups.push([this.bat, this.bat2, this.skeleton]);
+		// this.enemyGroups = [];
+        // this.enemyGroups.push([this.goblin, this.skeleton, this.bat]);
+		// this.enemyGroups.push([this.goblin, this.goblin2, this.goblin3]);
+		// this.enemyGroups.push([this.goblin, this.goblin2, this.bat]);
+		// this.enemyGroups.push([this.goblin, this.goblin2, this.skeleton]);
+		// this.enemyGroups.push([this.skeleton, this.skeleton2, this.skeleton3]);
+		// this.enemyGroups.push([this.skeleton, this.skeleton2, this.goblin]);
+		// this.enemyGroups.push([this.skeleton, this.skeleton2, this.bat]);
+		// this.enemyGroups.push([this.bat, this.bat2, this.bat3]);
+		// this.enemyGroups.push([this.bat, this.bat2, this.goblin]);
+		// this.enemyGroups.push([this.bat, this.bat2, this.skeleton]);
+
+        this.chosenGroup = [];
+        let enemyNumbers = 3 + Math.floor(Math.random()*2);
+        var i;
+        for (i = 0; i < enemyNumbers; i++) {
+            let enemyType = Math.floor(Math.random()*3);
+            if (enemyType == 0) {
+                this.chosenGroup.push(new Goblin(this.game, 0, 0));
+            } else if (enemyType == 1) {
+                this.chosenGroup.push(new Bat(this.game, 0, 0));
+            } else if (enemyType == 2) {
+                this.chosenGroup.push(new Skeleton(this.game, 0, 0));
+            }
+        }
 		
         //choose an encounter
-        let g = Math.floor(Math.random()*10);
-        console.log(g);
-		this.chosenGroup = this.enemyGroups[g];
+        // let g = Math.floor(Math.random()*10);
+        // console.log(g);
+		// this.chosenGroup = this.enemyGroups[g];
 		
 		// load battle manager
 		this.battleManager = new BattleManager(this.game, this.chosenGroup,//[this.goblin,this.skeleton,this.bat],

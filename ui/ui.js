@@ -1223,7 +1223,7 @@ class BattleUI {
 		var x;
 		this.enemyBB = []; // array with entries containing: [enemy's name BB, if hovering over enemy name]
 		for(x=0; x<this.enemies.length; x++){
-			this.enemyBB.push([new BoundingBox(this.x+5,this.y+15+(15*x),this.attWidth,this.attHeight),false]);
+			this.enemyBB.push([new BoundingBox(this.x+5,this.y+12+(12*x),this.attWidth,this.attHeight),false]);
 		}
 
         this.shieldList = [];
@@ -1424,11 +1424,11 @@ class BattleUI {
                 ctx.fillStyle = "Red";
             }
 			if(this.battleManager.enemies[i][1] > 0){
-				ctx.fillText(this.enemies[i][2], this.x + 5, this.y + 15 + (15 * i));
+				ctx.fillText(this.enemies[i][2], this.x + 5, this.y + 12 + (12 * i));
                 if (this.game.camera.bossBattle) {
-                    ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 45, this.y + 15 + (15 * i));
+                    ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 45, this.y + 12 + (12 * i));
                 } else {
-                    ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 55, this.y + 15 + (15 * i));
+                    ctx.fillText(this.battleManager.enemies[i][1] + " / " + this.enemies[i][0].stats[0], this.x + 55, this.y + 12 + (12 * i));
                 }
 			}
 		}
