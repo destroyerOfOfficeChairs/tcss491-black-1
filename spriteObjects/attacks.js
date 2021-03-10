@@ -1,7 +1,6 @@
 class Score {
     constructor(game, x, y, score) {
         Object.assign(this, { game, x, y, score});
-
         this.velocity = -32;
         this.elapsed = 0;
     }
@@ -29,7 +28,6 @@ class FireBreath {
         this.animations = new Animator(this.spritesheet, 0, 0, this.width, this.height, 2, 0.2, 10, false, true);
         this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale), this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-
     }
 
     update() {
@@ -280,14 +278,8 @@ class Slash {
     }
 
     update() {
-        //this.x = this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale);
-        //this.y = this.y + (1/4 * this.entity.height * PARAMS.SCALE * this.entity.scale)
-
-        //if (this.facing == 0) {
-            this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-        //} else if (this.facing == 1) {
-            this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-        //}
+        this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
+        this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
     }
 
     drawMinimap(ctx, mmX, mmY) {
@@ -380,13 +372,11 @@ class DeathStare {
         this.animations = new Animator(this.spritesheet, 0, 66, this.width, this.height, 4, 0.1, 4, false, true); // change x from 0 to 130 for white sparkle
         this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-
     }
 
     update() {
         this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-
     }
 
     drawMinimap(ctx, mmX, mmY) {
@@ -419,13 +409,11 @@ class Scratch {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/scratch.png");
         this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-
     }
 
     update() {
         this.rightBB = new BoundingBox(this.entity.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.entity.x - (this.width * PARAMS.SCALE * this.scale), this.entity.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-
     }
 
     drawMinimap(ctx, mmX, mmY) {
@@ -679,7 +667,6 @@ class Spell {
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/spell.png");
         this.rightBB = new BoundingBox(this.x + (this.entity.width * PARAMS.SCALE * this.entity.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
         this.leftBB = new BoundingBox(this.x - (this.width * PARAMS.SCALE * this.scale), this.y, this.width * PARAMS.SCALE * this.scale, this.height * PARAMS.SCALE * this.scale);
-        
     }
 
     update() {
@@ -760,4 +747,3 @@ class SpiritBall {
 
     }
 }
-

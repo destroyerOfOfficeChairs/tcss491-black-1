@@ -139,12 +139,6 @@ class GameEngine {
                     break;
                 case "KeyC":
                     if (PARAMS.DEBUG && !that.pause) {
-                        // that.mapIndex++;
-                        // if (that.mapIndex >= that.gameMaps.length) {
-                        //     that.mapIndex = 0;
-                        // }
-                        // // console.log(that.mapIndex);
-                        // that.currentMap = that.gameMaps[that.mapIndex];
                         that.changeLevel = true;
                     }
                     break;

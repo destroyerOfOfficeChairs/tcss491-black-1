@@ -41,20 +41,20 @@ var Map3 = {
 
     Box: [
     //4th quadrant
-    {x:137, y:1321, item:"key"}, {x:243, y:1131, item:"coin"}, {x:610, y:1065, item:"coin"}, {x:615, y:1401, item:"coin"}, 
+    {x:137, y:1321, item:"key"}, {x:243, y:1131, item:"coin"}, {x:610, y:1065, item:"potion"}, {x:615, y:1401, item:"coin"}, 
     {x:655, y:1401, item:"coin"}, {x:583, y:856, item:"key"},
 
     //3rd quadrant
-    {x:1397, y:860, item:"coin"}, {x:860, y:860, item:"coin"}, {x:859, y:976}, {x:1397, y:976, item:"coin"}, {x:863, y:1394, item:"coin"},
+    {x:1397, y:860, item:"coin"}, {x:860, y:860, item:"coin"}, {x:859, y:976, item:"potion"}, {x:1397, y:976, item:"coin"}, {x:863, y:1394, item:"coin"},
     {x:1396, y:1394, item:"crystal"}, {x:863, y:1279}, {x:1400, y:1284, item:"coin"}, {x:849, y:1086, item:"coin"}, {x:1408, y:1084},
     
     //2nd quadrant
-    {x:850, y:608, item:"key"}, {x:1393, y:139}, {x:166, y:139}, {x:1399, y:442},
+    {x:850, y:608, item:"key"}, {x:1393, y:139}, {x:166, y:139, item:"potion"}, {x:1399, y:442},
 
     //1st quadrant
-    {x:130, y:130, item:"coin"}, {x:338, y:227}, {x:496, y:131, item:"key"}, {x:646, y:159, item:"coin"}, {x:571, y:265}, {x:421, y:307}, {x:213, y:357},
-    {x:508, y:450, item: "coin"}, {x:616, y:590}, {x:367, y:602}, {x:202, y:620}, {x:146, y:239, item:"coin"}, {x:530, y:540}, {x:238, y:538}, {x:274, y:480},
-    {x:521, y:623, item:"coin"}, {x:654, y:444}, {x:386, y:143}, {x:317, y:685}, {x:140, y:680}
+    {x:130, y:130, item:"coin"}, {x:338, y:227}, {x:496, y:131, item:"key"}, {x:646, y:159, item:"coin"}, {x:571, y:265}, {x:421, y:307, item:"potion"}, {x:213, y:357},
+    {x:508, y:450, item: "coin"}, {x:616, y:590}, {x:367, y:602, item:"potion"}, {x:202, y:620}, {x:146, y:239, item:"coin"}, {x:530, y:540}, {x:238, y:538}, {x:274, y:480},
+    {x:521, y:623, item:"coin"}, {x:654, y:444, item:"potion"}, {x:386, y:143}, {x:317, y:685}, {x:140, y:680}
 
     ],
     

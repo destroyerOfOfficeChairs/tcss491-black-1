@@ -10,10 +10,11 @@ class SceneManager {
         // uncomment this when starting on startMap
 		// this.heroX = 1024;
         // this.heroY = 1900;
+
         this.startingHeroX = 200;
         this.startingHeroY = 200;
-        this.heroX = this.startingHeroX; // 200 // 1230 // 1614
-        this.heroY = this.startingHeroY; // 200 // 1030 // 1686
+        this.heroX = this.startingHeroX;
+        this.heroY = this.startingHeroY;
 
         this.coins = 0;
         this.crystals = 0;
@@ -29,7 +30,7 @@ class SceneManager {
         this.healthUpgrade = 10;
         this.battle = false;
         this.bossBattle = false;
-		this.encounter = Math.floor(Math.random()*1000)+1000; // 4000+ steps is far too high a range, you'll explore well over half the map before you find even your first battle
+		this.encounter = Math.floor(Math.random()*1000)+1000;
         this.gameOver = false;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
@@ -37,7 +38,6 @@ class SceneManager {
 		this.archer = new Archer(this.game, this.heroX, this.heroY+60);
         this.mage = new Mage(this.game, this.heroX, this.heroY+90);
 
-        //this.minimap = new Minimap(this.game, 1.5 * PARAMS.BLOCKWIDTH, 3.5 * PARAMS.BLOCKWIDTH, 224 * PARAMS.SCALE);
         this.minimap = new Minimap(this.game, 151, 119, 100);
 
         //saves the entities for each level to preserve state
@@ -45,12 +45,6 @@ class SceneManager {
         for (var i = 0; i < this.game.gameMaps.length; i++) {
             this.savedMapEntities.push([]);
         }
-		
-        // commented this out because the dragon should be added as JSON
-        // otherwise he shows up in every map.  I'm pretty sure every entity
-        // will behave this way, so it's important to add them via JSON from
-        // now on.
-        // this.boss = new Dragon(this.game, 350, 200);
 
         this.bossStats = [1000, 80, 20, 3]; // stats = [hp, att, def, spd]
 
@@ -64,19 +58,6 @@ class SceneManager {
     }
     
     update() {
-        // if (this.game.m && (this.game.gameWon || (this.bossBattle && !this.game.gameWon))) {
-        //     location.reload();
-        // }
-        
-        // if (this.hero.stats[0] <= 0) { // hero dies (it should be changed such that when you lose, you restart)
-        //     //location.reload();
-
-        //     // this.hero.reset();
-        //     // this.reset();
-        //     // this.loadTitleScreen(this.game, 0, 0);
-        //     // this.game.currentState = this.game.gameStates[0];
-        // }
-
         PARAMS.DEBUG = document.getElementById("debug").checked;
         this.updateAudio();
         switch (this.game.currentState) {
@@ -87,13 +68,10 @@ class SceneManager {
             case this.game.gameStates[1]:
                 if (this.game.changeLevel) {
                     this.game.mapIndex++;
-                    if (this.game.mapIndex >= this.game.gameMaps.length) {
+                    if (this.game.mapIndex >= this.game.gameMaps.length) { // boss battle
                         this.game.mapIndex = 2;
-
-                        //boss battle
                         this.game.camera.bossBattle = true;
                     } else {
-                        //this.keys = 0;
                         this.hero.x = this.startingHeroX;
                         this.hero.y = this.startingHeroY;
                     }
@@ -116,12 +94,11 @@ class SceneManager {
                 
                 // press N to switch to a battle scene
                 if((this.game.n && PARAMS.DEBUG)|| this.hero.dist >= this.encounter){
-					this.encounter = Math.floor(Math.random()*2000)+1000; // 4000+ steps is far too high a range, you'll explore well over half the map before you find even your first battle
+					this.encounter = Math.floor(Math.random()*2000)+1000;
                     this.heroX = this.hero.x;
                     this.heroY = this.hero.y;
                     this.hero.velocity.x = 0;
                     this.hero.velocity.y = 0;
-                    //this.game.currentState = this.game.gameStates[2];
                     this.sleep(200);
                     this.battle = true;
                     this.loadBattle();
@@ -317,10 +294,6 @@ class SceneManager {
                     this.game.addEntity(new FireBreath(this.game, ent.x, ent.y, theDragon));
                 }
             }
-            // this.game.addEntity(this.boss);
-            // this.game.addEntity(new FireBreath(this.game, this.boss.x, this.boss.y));
-            //this.game.addEntity(new ShadowBall(this.game, this.boss.x, this.boss.y, this.boss.facing));
-    
             if (map.Archer) {
                 for (var i = 0; i < map.Archer.length; i++) {
                     let ent = map.Archer[i];
@@ -344,11 +317,6 @@ class SceneManager {
                 }
             }
     
-            //this.game.addEntity(this.cleric);
-            //this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
-    
-            //this.hero.x = x;
-            //this.hero.y = y;
             this.hero.battle = false;
             this.game.addEntity(this.hero);
             this.game.addEntity(new Slash(this.game, this.hero.x, this.hero.y, this.hero));
@@ -416,8 +384,6 @@ class SceneManager {
 				for (l = 0; l < 15; l++) {
 					switch (this.game.mapIndex){
 						case 2:
-							//this.game.addEntity(new StonePath(this.game, k * 32, l * 32));
-							//this.game.addEntity(new Grass1(this.game, (k * 32) + 10, (l * 32) + 8));
                             this.game.addEntity(new Grass1(this.game, k * 32, l * 32));
 							break;
 						case 3:
@@ -435,39 +401,6 @@ class SceneManager {
 		this.mage.battle = true;
 		
 		// add enemies
-		// this.goblin = new Goblin(this.game, 0, 0);
-        // this.goblin2 = new Goblin(this.game, 0, 0);
-        // this.goblin3 = new Goblin(this.game, 0, 0);
-
-		// this.bat = new Bat(this.game, 0, 0);
-        // this.bat2 = new Bat(this.game, 0, 0);
-        // this.bat3 = new Bat(this.game, 0, 0);
-        
-		// this.skeleton = new Skeleton(this.game, 0, 0);
-        // this.skeleton2 = new Skeleton(this.game, 0, 0);
-        // this.skeleton3 = new Skeleton(this.game, 0, 0);
-        
-        // this.game.addEntity(new HeadsUpDisplay(this.game));
-        // this.game.addEntity(new MainMenu(this.game));
-        // this.game.addEntity(new Shop(this.game));
-        // this.game.addEntity(new Instructions(this.game));
-        // this.game.addEntity(new Story(this.game));
-        // this.game.addEntity(new Credits(this.game));
-        // this.game.addEntity(new CharacterInfo(this.game));
-
-		//types of random encounters
-		// this.enemyGroups = [];
-        // this.enemyGroups.push([this.goblin, this.skeleton, this.bat]);
-		// this.enemyGroups.push([this.goblin, this.goblin2, this.goblin3]);
-		// this.enemyGroups.push([this.goblin, this.goblin2, this.bat]);
-		// this.enemyGroups.push([this.goblin, this.goblin2, this.skeleton]);
-		// this.enemyGroups.push([this.skeleton, this.skeleton2, this.skeleton3]);
-		// this.enemyGroups.push([this.skeleton, this.skeleton2, this.goblin]);
-		// this.enemyGroups.push([this.skeleton, this.skeleton2, this.bat]);
-		// this.enemyGroups.push([this.bat, this.bat2, this.bat3]);
-		// this.enemyGroups.push([this.bat, this.bat2, this.goblin]);
-		// this.enemyGroups.push([this.bat, this.bat2, this.skeleton]);
-
         this.chosenGroup = [];
         let enemyNumbers = 3 + Math.floor(Math.random()*2);
         var i;
@@ -482,27 +415,18 @@ class SceneManager {
             }
         }
 		
-        //choose an encounter
-        // let g = Math.floor(Math.random()*10);
-        // console.log(g);
-		// this.chosenGroup = this.enemyGroups[g];
-		
 		// load battle manager
-		this.battleManager = new BattleManager(this.game, this.chosenGroup,//[this.goblin,this.skeleton,this.bat],
+		this.battleManager = new BattleManager(this.game, this.chosenGroup,
 			[this.hero, this.cleric, this.archer, this.mage]);
-		this.ui = new BattleUI(this.game, this.battleManager, this.chosenGroup,//[this.goblin,this.skeleton,this.bat],
+		this.ui = new BattleUI(this.game, this.battleManager, this.chosenGroup,
 			[this.hero, this.cleric, this.archer, this.mage])
 		this.game.addEntity(this.ui);
-
         this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
         this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
-
-
     }
 
     loadBossBattle() {
         ASSET_MANAGER.pauseBackgroundMusic();
-
         ASSET_MANAGER.playAsset("./music/Saigo_no_tatakai.mp3");
         ASSET_MANAGER.autoRepeat("./music/Saigo_no_tatakai.mp3");
 
@@ -513,12 +437,6 @@ class SceneManager {
         this.game.menu = false;
 		
         // add decorations, etc. here
-        /*var k, l;
-        for (k = 0; k < 15; k++) {
-            for (l = 0; l < 15; l++) {
-                this.game.addEntity(new Grass1(this.game, k * 32, l * 32));
-            }
-        }*/
 		this.game.addEntity(new Castle(this.game,0,0));
 		
 		// add player characters
@@ -531,14 +449,6 @@ class SceneManager {
 		// add enemies
 		this.dragon = new Dragon(this.game, 5, 50);
         this.game.addEntity(new FireBreath(this.game, this.dragon.x, this.dragon.y, this.dragon));
-        
-        // this.game.addEntity(new HeadsUpDisplay(this.game));
-        // this.game.addEntity(new MainMenu(this.game));
-        // this.game.addEntity(new Shop(this.game));
-        // this.game.addEntity(new Instructions(this.game));
-        // this.game.addEntity(new Story(this.game));
-        // this.game.addEntity(new Credits(this.game));
-        // this.game.addEntity(new CharacterInfo(this.game));
 		
 		// load battle manager
 		this.battleManager = new BattleManager(this.game, [this.dragon],
@@ -549,8 +459,6 @@ class SceneManager {
 
         this.game.addEntity(new Spell(this.game, this.cleric.x, this.cleric.y, this.cleric));
         this.game.addEntity(new Lightning(this.game, this.mage.x, this.mage.y, this.mage));
-
-
     }
 
     updateAudio() {
@@ -579,8 +487,6 @@ class SceneManager {
 
         this.hero.x = this.startingHeroX;
         this.hero.y = this.startingHeroY;
-        // console.log(this.hero.x);
-        // console.log(this.hero.y);
 
         this.game.currentState = this.game.gameStates[0];
         this.game.mapIndex = 2;
@@ -591,7 +497,6 @@ class SceneManager {
             this.savedMapEntities.push([]);
         }
     }
-	
 }
 
 class Minimap {

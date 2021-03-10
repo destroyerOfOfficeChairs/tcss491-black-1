@@ -7,7 +7,6 @@ class TitleScreen {
     }
 
     update() {
-        // if (this.game.attack1) // I have no idea
         if (this.game.attack1) {
             this.removeFromWorld = true;
         }
@@ -307,7 +306,6 @@ class Shop {
         Object.assign(this, {game});
         this.padding = 5;
         this.displayError = false;
-        //this.displayCrystalError = false;
         this.displaySuccess = 0; // 0=none, 1=attack, 2=defense, 3=health, 4=destroy crystal
         this.timeElapsedError = 0;
         this.timeElapsedSuccess = 0;
@@ -339,14 +337,6 @@ class Shop {
         this.upgradeHealthY = 30 * this.padding;
         this.upgradeHealthBB = new BoundingBox(this.upgradeHealthX, this.upgradeHealthY - this.upgradeHealthHeight/2, this.upgradeHealthWidth, this.upgradeHealthHeight);
         this.hoverHealth = false;
-
-        // this.destroyCrystalWidth = 40;
-        // this.destroyCrystalHeight = 20;
-        // this.destroyCrystalX = 35 * this.padding;
-        // this.destroyCrystalY = 35 * this.padding;
-        // this.destroyCrystalBB = new BoundingBox(this.destroyCrystalX, this.destroyCrystalY - this.destroyCrystalHeight/2, this.destroyCrystalWidth, this.destroyCrystalHeight);
-        // this.hoverDestroyCrystal = false;
-
     }
 
     update() {
@@ -396,34 +386,15 @@ class Shop {
                     this.timeElapsedError = 0;
                 }
                 this.game.click = null;
-            // } else if (this.hoverDestroyCrystal && this.game.click) {
-            //     this.displayError = false;
-            //     if (this.game.camera.crystals > 0) {
-            //         this.game.camera.crystals--;
-            //         // reduce hero stats
-            //         this.game.camera.hero.stats[1] -= this.game.camera.crystalAttackPower;
-            //         this.game.camera.hero.stats[2] -= this.game.camera.crystalDefensePower;
-            //         // reduce boss stats
-            //         this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower;
-            //         this.game.camera.bossStats[0] -= this.game.camera.crystalDefensePower;
-
-            //         this.displaySuccess = 4;
-            //         this.displayCrystalError = false;
-            //     } else {
-            //         this.displayCrystalError = true;
-            //         this.timeElapsedError = 0;
-            //     }
-            //     this.game.click = null;
             } else if (!this.hoverBack && !this.hoverUpgradeAttack && !this.hoverUpgradeDefense && !this.hoverUpgradeHealth /* && !this.hoverDestroyCrystal */) {
                 this.game.click = null;
             }
     
-            if (this.displayError /*|| this.displayCrystalError */) {
+            if (this.displayError) {
                 this.displaySuccess = 0;
                 this.timeElapsedError += this.game.clockTick;
                 if (this.timeElapsedError > 3) {
                     this.displayError = false;
-                    //this.displayCrystalError = false;
                     this.timeElapsedError = 0;
                 }
             } else {
@@ -440,7 +411,6 @@ class Shop {
             }
         } else {
             this.displayError = false;
-            //this.displayCrystalError = false;
             this.displaySuccess = false;
         }
     }
@@ -515,20 +485,6 @@ class Shop {
                 this.hoverHealth = false;
             }
             ctx.fillText("" + this.game.camera.healthUpgradeCost + " coins", this.upgradeHealthX, this.upgradeHealthY);
-
-            // destroy crystal button
-            // ctx.fillStyle = "Red";
-            // ctx.fillText("Destroy Crystal", this.destroyCrystalX - 150, this.destroyCrystalY);
-
-            // if (this.game.mouse && this.game.mouse.x >= 3.1 * this.destroyCrystalBB.left && this.game.mouse.x <= 3 * this.destroyCrystalBB.right && 
-            //     this.game.mouse.y >= 3.1 * this.destroyCrystalBB.top && this.game.mouse.y <= 3 * this.destroyCrystalBB.bottom) {
-            //     ctx.fillStyle = "Purple";
-            //     this.hoverDestroyCrystal = true;
-            // } else {
-            //     this.hoverDestroyCrystal = false;
-            // }
-            // ctx.fillText("Destroy", this.destroyCrystalX, this.destroyCrystalY);
-
             ctx.font = "8px Georgia";
             // coin stats
             ctx.fillStyle = "Yellow";
@@ -550,10 +506,6 @@ class Shop {
                 ctx.fillStyle = "Red";
                 ctx.fillText("Not enough coins to purchase!", 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
             } 
-            // else if (this.displayCrystalError) { // "not enough crystals"
-            //     ctx.fillStyle = "Red";
-            //     ctx.fillText("No crystals to destroy!", 5 * this.padding, PARAMS.CANVASHEIGHT - 5 * this.padding);
-            // }
 
             // successfully purchased
             if (this.displaySuccess != 0) {
@@ -582,7 +534,6 @@ class Shop {
                 ctx.strokeRect(this.upgradeAttackBB.x, this.upgradeAttackBB.y, this.upgradeAttackBB.width, this.upgradeAttackBB.height);
                 ctx.strokeRect(this.upgradeDefenseBB.x, this.upgradeDefenseBB.y, this.upgradeDefenseBB.width, this.upgradeDefenseBB.height);
                 ctx.strokeRect(this.upgradeHealthBB.x, this.upgradeHealthBB.y, this.upgradeHealthBB.width, this.upgradeHealthBB.height);
-                //ctx.strokeRect(this.destroyCrystalBB.x, this.destroyCrystalBB.y, this.destroyCrystalBB.width, this.destroyCrystalBB.height);
                 ctx.strokeRect(this.backBB.x, this.backBB.y, this.backBB.width, this.backBB.height);
             }
         }
@@ -1088,7 +1039,6 @@ class CrystalChoice {
     }
 
     update() {
-        //if (this.game.pause) {
             if (this.hoverKeepCrystal && this.game.click) {
                 // increase player stats
                 this.game.camera.hero.stats[1] += this.game.camera.crystalAttackPower;
@@ -1100,8 +1050,6 @@ class CrystalChoice {
                 this.game.camera.mage.stats[1] += this.game.camera.crystalAttackPower;
                 this.game.camera.mage.stats[2] += this.game.camera.crystalDefensePower;
                 this.game.camera.crystals++;
-                //console.log("hero attack: " + this.game.camera.hero.stats[1]);
-                //console.log("hero defense: " + this.game.camera.hero.stats[2]);
 
                 this.removeFromWorld = true;
                 this.game.pause = false;
@@ -1116,22 +1064,18 @@ class CrystalChoice {
                 if (this.game.camera.bossStats[2] <= 0 ) {
                     this.game.camera.bossStats[2] = 0;
                 }
-                //console.log("boss attack: " + this.game.camera.bossStats[1]);
-                //console.log("boss health: " + this.game.camera.bossStats[0]);
 
                 this.removeFromWorld = true;
                 this.game.pause = false;
             } else if (!this.hoverKeepCrystal && !this.hoverDestroyCrystal) {
                 this.game.click = null;
             }
-        //}
     }
 
     drawMinimap(ctx, mmX, mmY) {
     }
 
     draw(ctx) {
-        //if (this.game.menu) {
             ctx.font = "10px Georgia";
 
             // menu title
@@ -1179,7 +1123,6 @@ class CrystalChoice {
                 ctx.strokeRect(this.keepCrystalBB.x, this.keepCrystalBB.y, this.keepCrystalBB.width, this.keepCrystalBB.height);
                 ctx.strokeRect(this.destroyCrystalBB.x, this.destroyCrystalBB.y, this.destroyCrystalBB.width, this.destroyCrystalBB.height);
             }
-        //}
     }
 }
 
@@ -1307,7 +1250,6 @@ class BattleUI {
 					this.battleManager.activeChar = 0;
 				}
 			} else if (this.hoverDef && this.game.click && this.acceptInput) { // if defend button is clicked
-                //let shield = new Shield(this.game, this.party[this.battleManager.activeChar][0].x - 10, this.party[this.battleManager.activeChar][0].y);
                 let shield = new Shield(this.game, this.battleManager.turnOrder[this.battleManager.activeChar][0].x - 10, this.battleManager.turnOrder[this.battleManager.activeChar][0].y);
                 this.game.addEntity(shield);
                 this.shieldList.push(shield);

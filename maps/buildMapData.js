@@ -274,9 +274,6 @@ function buildMap2() {
 
     // stone path
     index = 0;
-    //where hero starts
-    // Map2.StonePath[index] = {x:185, y:185};
-    // index++;
 
     // central lake
     startingStonePathX = 1225;
@@ -556,6 +553,4 @@ function buildMap4() {
             index++;
         }
     }
-
-
 }

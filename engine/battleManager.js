@@ -16,8 +16,6 @@ class BattleManager {
 		console.log("battle loaded");
 		console.log(this.turnOrder);
 		var i;
-			//var x = 10;
-			//var y = 15;
 			for(i=0; i<this.enemies.length; i++){
 				this.enemies[i][0].x = 10;
 				this.enemies[i][0].y = 35 + i * 32;
@@ -184,7 +182,6 @@ class BattleManager {
 		if(this.party[defender][3]){ // if party member is defending
 			console.log("defense is used and is effective");
 			damage = Math.floor(damage/2);
-			// this.party[defender][3] = false;
 		}
 		if (this.party[defender][1] - damage > 0) {
 			this.party[defender][1] -= damage;
@@ -197,9 +194,6 @@ class BattleManager {
 			this.party[defender][0].stillAttacking = false;
 		}
 
-		// if (this.party[defender][2] == "H e r o" && this.party[defender][1] == 0) {
-		// 	this.game.hero.stats[0] = this.party[defender][1];
-		// }
 		this.game.addEntity(new Score(this.game, this.party[defender][0].x + this.party[defender][0].width * 
 			PARAMS.SCALE * this.party[defender][0].scale / 2, this.party[defender][0].y, -1 * damage));
 		//console.log(this.enemies[attacker][2] + " attacks " + this.party[defender][2] + " for " + damage + " damage!");

@@ -74,12 +74,6 @@ ASSET_MANAGER.queueDownload("./music/Saigo_no_tatakai.mp3");
 
 ASSET_MANAGER.downloadAll(function () {
 	var gameEngine = new GameEngine();
-
-	//ASSET_MANAGER.autoRepeat("./music/Short_Casual_Loop_2.mp3");
-	//ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_2.mp3");
-	//ASSET_MANAGER.autoRepeat("./music/Lyric__Fantasy_Theme_1.mp3");
-	//ASSET_MANAGER.autoRepeat("./music/Short_Combat_Loop_1.mp3");
-
 	var canvas = document.getElementById('gameWorld');
 	var ctx = canvas.getContext('2d');
 	
@@ -88,8 +82,5 @@ ASSET_MANAGER.downloadAll(function () {
 
 	gameEngine.init(ctx);
 	new SceneManager(gameEngine);
-
-	//console.log(gameEngine.entities.length);
-
 	gameEngine.start();
 });

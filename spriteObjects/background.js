@@ -1,11 +1,6 @@
 class Grass1 {
     constructor(game, x, y) {
         Object.assign(this, { game, x, y });
-
-        // you can comment/uncomment to test other grass tiles
-        // this.spritesheet = ASSET_MANAGER.getAsset("./sprites/grass4.png");
-        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/grass2.png");
-        //this.spritesheet = ASSET_MANAGER.getAsset("./sprites/grass.png");
         this.spritesheet = ASSET_MANAGER.getAsset("./sprites/RPGW_Grassland_v1.3/MainLevBuild.png");
         this.scale = 1;
         this.width = 32;
@@ -255,7 +250,6 @@ class Wall {
 
     drawMinimap(ctx, mmX, mmY) {
         ctx.fillStyle = "Brown";
-        // ctx.fillRect(mmX + this.x / PARAMS.BITWIDTH + 5, mmY + this.y / PARAMS.BITWIDTH + 5, this.w / PARAMS.BITWIDTH, 6);
         ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
 
     }
@@ -289,9 +283,7 @@ class Castle {
     };
 
     drawMinimap(ctx, mmX, mmY) {
-        // ctx.fillStyle = "Green";
-        // ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
-    
+
     }
 
     draw(ctx) {
@@ -320,9 +312,7 @@ class Battle2 {
     };
 
     drawMinimap(ctx, mmX, mmY) {
-        // ctx.fillStyle = "Green";
-        // ctx.fillRect(mmX + this.x * this.game.levelToMapRatio, mmY + this.y * this.game.levelToMapRatio, this.width * PARAMS.SCALE * this.scale * this.game.levelToMapRatio, this.height * PARAMS.SCALE * this.scale * this.game.levelToMapRatio);
-    
+
     }
 
     draw(ctx) {
