@@ -131,7 +131,7 @@ class BattleManager {
 		var damage = this.party[attacker][0].stats[1];
 		var death = false;
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
-			damage += Math.floor(damage/2);
+			damage += Math.floor(damage * 3/10);
 			console.log("Critical hit!");
 		}
 		damage -= this.enemies[defender][0].stats[2];
@@ -148,10 +148,10 @@ class BattleManager {
 					this.bonus += 2;
 					break;
 				case "B a t":
-					this.bonus += 5;
+					this.bonus += 1;
 					break;
 				case "S k e l e t o n":
-					this.bonus += 10;
+					this.bonus += 3;
 					break;
 			}
 		}
@@ -166,13 +166,13 @@ class BattleManager {
 		var damage = this.enemies[attacker][0].stats[1];
 		if(Math.ceil(Math.random()*10) <= 3){ // special attack
 			this.enemies[attacker][0].specialAttack = true;
-			damage += 20;
+			damage += 15;
 		} else { // basic attack
 			this.enemies[attacker][0].basicAttack = true;
 		}
 
 		if(Math.ceil(Math.random()*10) == 5){ // critical hit
-			damage += Math.floor(damage/2);
+			damage += Math.floor(damage * 3/10);
 			console.log("Critical hit!");
 		}
 		damage -= this.party[defender][0].stats[2];
@@ -211,7 +211,7 @@ class BattleManager {
 			case "H e r o" : // +50% strength attack ignoring defense with 40% hit chance
 				console.log("Hero Special Attack");
 				var chance = Math.floor(Math.random()*10);
-				var damage = 0;
+				var damage = Math.floor(this.party[player][0].stats[1] / 2);
 				if(chance <= 3){ // attack hits
 					damage = this.party[player][0].stats[1] + Math.floor(this.party[player][0].stats[1] / 2)
 					if(Math.ceil(Math.random()*10) == 5){ // critical hit
@@ -229,10 +229,10 @@ class BattleManager {
 							this.bonus += 2;
 							break;
 						case "B a t":
-							this.bonus += 5;
+							this.bonus += 1;
 							break;
 						case "S k e l e t o n":
-							this.bonus += 10;
+							this.bonus += 3;
 							break;
 					}
 				}
@@ -241,13 +241,14 @@ class BattleManager {
 				break;
 			case "C l e r i c" : // heal party
 				console.log("Cleric Special Attack");
+				let heal = 20;
 				var i;
 				for(i = 0; i < this.party.length; i++){
 					let previousHealth = this.party[i][1];
-					if(this.party[i][0].stats[0] < this.party[i][1]+25){ // heal to max if it would be exceeded
+					if(this.party[i][0].stats[0] < this.party[i][1]+heal){ // heal to max if it would be exceeded
 						this.party[i][1] = this.party[i][0].stats[0];
-					} else if (this.party[i][1] > 0) { // otherwise add 25 hp to alive characters
-						this.party[i][1] += 25;
+					} else if (this.party[i][1] > 0) { // otherwise add hp to alive characters
+						this.party[i][1] += heal;
 					}
 
 					if (this.party[i][1] > 0) {
@@ -274,10 +275,10 @@ class BattleManager {
 									this.bonus += 2;
 									break;
 								case "B a t":
-									this.bonus += 5;
+									this.bonus += 1;
 									break;
 								case "S k e l e t o n":
-									this.bonus += 10;
+									this.bonus += 3;
 									break;
 							}
 						}
@@ -287,7 +288,7 @@ class BattleManager {
 			case "M a g e" : // +50% strength attack ignoring defense with 40% hit chance
 				console.log("Mage Special Attack");
 				var chance = Math.floor(Math.random()*10);
-				var damage = 0;
+				var damage = Math.floor(this.party[player][0].stats[1] / 2);
 				if(chance <= 3){ // attack hits
 					damage = this.party[player][0].stats[1] + Math.floor(this.party[player][0].stats[1] / 2)
 					if(Math.ceil(Math.random()*10) == 5){ // critical hit
@@ -305,10 +306,10 @@ class BattleManager {
 							this.bonus += 2;
 							break;
 						case "B a t":
-							this.bonus += 5;
+							this.bonus += 1;
 							break;
 						case "S k e l e t o n":
-							this.bonus += 10;
+							this.bonus += 3;
 							break;
 					}
 				}

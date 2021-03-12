@@ -20,17 +20,17 @@ class SceneManager {
         this.crystals = 0;
         this.keys = 0;
         this.potions = 0;
-        this.crystalAttackPower = 10;
-        this.crystalDefensePower = 2;
-        this.attackUpgradeCost = 15;
-        this.defenseUpgradeCost = 10;
-        this.healthUpgradeCost = 20;
+        this.crystalAttackPower = 3;
+        this.crystalDefensePower = 1;
+        this.attackUpgradeCost = 25;
+        this.defenseUpgradeCost = 20;
+        this.healthUpgradeCost = 30;
         this.attackUpgrade = 2;
         this.defenseUpgrade = 1;
         this.healthUpgrade = 10;
         this.battle = false;
         this.bossBattle = false;
-		this.encounter = Math.floor(Math.random()*1000)+1000;
+		this.encounter = Math.floor(Math.random()*2000)+1000;
         this.gameOver = false;
 
         this.hero = new Hero(this.game, this.heroX, this.heroY);
@@ -46,7 +46,7 @@ class SceneManager {
             this.savedMapEntities.push([]);
         }
 
-        this.bossStats = [1000, 80, 20, 3]; // stats = [hp, att, def, spd]
+        this.bossStats = [1200, 75, 20, 3]; // stats = [hp, att, def, spd]
 
         buildMapData();
         

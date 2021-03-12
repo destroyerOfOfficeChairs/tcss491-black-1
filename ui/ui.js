@@ -373,7 +373,7 @@ class Shop {
             } else if (this.hoverHealth && this.game.click) {
                 if (this.game.camera.coins >= this.game.camera.healthUpgradeCost) {
                     this.game.camera.coins -= this.game.camera.healthUpgradeCost;
-                    if (this.game.hero.stats[0] == this.game.hero.maxHealth) { // if we're already at max, health, upgrade
+                    if (this.game.hero.stats[0] == this.game.hero.maxHealth) { // if we're already at max health, upgrade
                         this.game.hero.stats[0] += this.game.camera.healthUpgrade;
                         this.displayError = false;
                         this.displayCrystalError = false;
@@ -611,7 +611,7 @@ class Instructions {
             ctx.fillText("     - click an enemy's name to target it", this.backX, this.backY + 25 * this.padding);
             ctx.fillText("     - click attack to perform an attack", this.backX, this.backY + 27 * this.padding);
             ctx.fillText("     - click defense to reduce damage received", this.backX, this.backY + 29 * this.padding);
-            ctx.fillText("     - click special to use character's special ability", this.backX, this.backY + 31 * this.padding);
+            ctx.fillText("     - click special for sp ability (either 1/2 or 3/2 damage)", this.backX, this.backY + 31 * this.padding);
             ctx.fillText("     - click potion for a health boost", this.backX, this.backY + 33 * this.padding);
             
             // bounding boxes
@@ -1036,6 +1036,7 @@ class CrystalChoice {
         this.destroyCrystalY = 40 * this.padding;
         this.destroyCrystalBB = new BoundingBox(this.destroyCrystalX, this.destroyCrystalY - this.destroyCrystalHeight/2, this.destroyCrystalWidth, this.destroyCrystalHeight);
         this.hoverDestroyCrystal = false;
+        this.game.click = null;
     }
 
     update() {
@@ -1053,6 +1054,7 @@ class CrystalChoice {
 
                 this.removeFromWorld = true;
                 this.game.pause = false;
+                this.game.click = null;
             } else if (this.hoverDestroyCrystal && this.game.click) {
                 // reduce boss stats
                 this.game.camera.bossStats[1] -= this.game.camera.crystalAttackPower;
@@ -1067,6 +1069,7 @@ class CrystalChoice {
 
                 this.removeFromWorld = true;
                 this.game.pause = false;
+                this.game.click = null;
             } else if (!this.hoverKeepCrystal && !this.hoverDestroyCrystal) {
                 this.game.click = null;
             }

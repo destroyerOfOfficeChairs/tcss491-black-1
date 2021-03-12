@@ -15,8 +15,8 @@ class Hero {
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
 
-        this.maxHealth = 100;
-		this.stats = [100, 15, 3, 7]; // [hp, att, def, spd]
+        this.maxHealth = 200;
+		this.stats = [200, 30, 6, 7]; // [hp, att, def, spd]
         this.canPass = false;
 
         this.dist = 0; // distance in pixels that the player has walked since the last battle
@@ -362,7 +362,7 @@ class Cleric {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [60, 10, 2, 4]; // stats = [hp, att, def, spd]
+		this.stats = [120, 20, 4, 4]; // stats = [hp, att, def, spd]
         
         this.timeElapsed = 0;
         this.timeElapsedSpecial = 0;
@@ -525,7 +525,7 @@ class Archer {
         this.height = 55;
 
         this.velocity = { x: 0, y: 0 };
-        this.stats = [95, 13, 6, 6]; // hp, att, def, spd
+        this.stats = [190, 26, 12, 6]; // hp, att, def, spd
         this.canShoot = false;
         this.projectile = 0; // 0 is arrow, 1 is missile
 
@@ -694,7 +694,7 @@ class Mage {
 
         this.velocity = { x: 0, y: 0 };
 		this.battle = false;
-        this.stats = [80, 18, 4, 5]; // hp, att, def, spd
+        this.stats = [160, 36, 8, 5]; // hp, att, def, spd
         this.stillAttacking = false;
 
         this.timeElapsed = 0;

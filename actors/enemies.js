@@ -177,7 +177,7 @@ class Goblin {
         this.state = 0; // 0 if idle, 1 if moving, 2 if attacking
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [70, 20, 3, 2]; // stats = [hp, att, def, spd]
+		this.stats = [140, 40, 6, 2]; // stats = [hp, att, def, spd]
         this.canShoot = true;
 		this.removeFromWorld = false;
 
@@ -355,7 +355,7 @@ class Bat {
 
         this.facing = 0; // 0 = right, 1 = left, 2 = down, 3 = up
         this.velocity = { x: 0, y: 0 };
-		this.stats = [50, 16, 10, 3]; // stats = [hp, att, def, spd]
+		this.stats = [100, 32, 20, 3]; // stats = [hp, att, def, spd]
         this.canShoot = false;
 		this.removeFromWorld = false;
 
@@ -496,7 +496,7 @@ class Skeleton {
         this.timeElapsedBasic = 0;
         this.timeElapsedSpecial = 0;
 
-		this.stats = [100, 25, 5, 1]; // stats = [hp, att, def, spd]
+		this.stats = [200, 50, 10, 1]; // stats = [hp, att, def, spd]
 		
         this.animations = [];
         this.loadAnimations();
