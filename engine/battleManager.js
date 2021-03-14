@@ -164,16 +164,19 @@ class BattleManager {
 	// enemy version
 	attackPlayer(attacker, defender) {
 		var damage = this.enemies[attacker][0].stats[1];
-		if(Math.ceil(Math.random()*10) <= 3){ // special attack
+		/*if(Math.ceil(Math.random()*10) <= 3){ // special attack
 			this.enemies[attacker][0].specialAttack = true;
 			damage += 15;
 		} else { // basic attack
 			this.enemies[attacker][0].basicAttack = true;
-		}
+		}*/
 
-		if(Math.ceil(Math.random()*10) == 5){ // critical hit
-			damage += Math.floor(damage * 3/10);
+		if(Math.ceil(Math.random()*10) <= 1){ // critical hit / special attack
+			damage += Math.floor(damage/2);
+			this.enemies[attacker][0].specialAttack = true;
 			console.log("Critical hit!");
+		} else { // basic attack
+			this.enemies[attacker][0].basicAttack = true;
 		}
 		damage -= this.party[defender][0].stats[2];
 		if (damage < 0) { // damage should not add health if damage is calculated to be negative
@@ -211,7 +214,7 @@ class BattleManager {
 			case "H e r o" : // +50% strength attack ignoring defense with 40% hit chance
 				console.log("Hero Special Attack");
 				var chance = Math.floor(Math.random()*10);
-				var damage = Math.floor(this.party[player][0].stats[1] / 2);
+				var damage = Math.floor(this.party[player][0].stats[1] / 2);// good compromise lol
 				if(chance <= 3){ // attack hits
 					damage = this.party[player][0].stats[1] + Math.floor(this.party[player][0].stats[1] / 2)
 					if(Math.ceil(Math.random()*10) == 5){ // critical hit
@@ -288,7 +291,7 @@ class BattleManager {
 			case "M a g e" : // +50% strength attack ignoring defense with 40% hit chance
 				console.log("Mage Special Attack");
 				var chance = Math.floor(Math.random()*10);
-				var damage = Math.floor(this.party[player][0].stats[1] / 2);
+				var damage = Math.floor(this.party[player][0].stats[1] / 2); // good compromise lol
 				if(chance <= 3){ // attack hits
 					damage = this.party[player][0].stats[1] + Math.floor(this.party[player][0].stats[1] / 2)
 					if(Math.ceil(Math.random()*10) == 5){ // critical hit
