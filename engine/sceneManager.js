@@ -46,7 +46,7 @@ class SceneManager {
             this.savedMapEntities.push([]);
         }
 
-        this.bossStats = [1200, 75, 20, 3]; // stats = [hp, att, def, spd]
+        this.bossStats = [1000, 90, 20, 3]; // stats = [hp, att, def, spd]
 
         buildMapData();
         
