@@ -348,6 +348,9 @@ class Shop {
                 if (this.game.camera.coins >= this.game.camera.attackUpgradeCost) {
                     this.game.camera.coins -= this.game.camera.attackUpgradeCost;
                     this.game.hero.stats[1] += this.game.camera.attackUpgrade;
+					this.game.camera.cleric.stats[1] += this.game.camera.attackUpgrade;
+					this.game.camera.archer.stats[1] += this.game.camera.attackUpgrade;
+					this.game.camera.mage.stats[1] += this.game.camera.attackUpgrade;
                     this.displayError = false;
                     this.displayCrystalError = false;
                     this.displaySuccess = 1;
@@ -361,6 +364,9 @@ class Shop {
                 if (this.game.camera.coins >= this.game.camera.defenseUpgradeCost) {
                     this.game.camera.coins -= this.game.camera.defenseUpgradeCost;
                     this.game.hero.stats[2] += this.game.camera.defenseUpgrade;
+					this.game.camera.cleric.stats[2] += this.game.camera.defenseUpgrade;
+					this.game.camera.archer.stats[2] += this.game.camera.defenseUpgrade;
+					this.game.camera.mage.stats[2] += this.game.camera.defenseUpgrade;
                     this.displayError = false;
                     this.displayCrystalError = false;
                     this.displaySuccess = 2;
@@ -375,6 +381,9 @@ class Shop {
                     this.game.camera.coins -= this.game.camera.healthUpgradeCost;
                     if (this.game.hero.stats[0] == this.game.hero.maxHealth) { // if we're already at max health, upgrade
                         this.game.hero.stats[0] += this.game.camera.healthUpgrade;
+						this.game.camera.cleric.stats[0] += this.game.camera.healthUpgrade;
+						this.game.camera.archer.stats[0] += this.game.camera.healthUpgrade;
+						this.game.camera.mage.stats[0] += this.game.camera.healthUpgrade;
                         this.displayError = false;
                         this.displayCrystalError = false;
                         this.displaySuccess = 3;
