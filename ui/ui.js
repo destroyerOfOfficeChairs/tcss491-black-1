@@ -620,7 +620,7 @@ class Instructions {
             ctx.fillText("     - click an enemy's name to target it", this.backX, this.backY + 25 * this.padding);
             ctx.fillText("     - click attack to perform an attack", this.backX, this.backY + 27 * this.padding);
             ctx.fillText("     - click defense to reduce damage received", this.backX, this.backY + 29 * this.padding);
-            ctx.fillText("     - click special for sp ability (either 1/2 or 3/2 damage)", this.backX, this.backY + 31 * this.padding);
+            ctx.fillText("     - click special for characters's special ability", this.backX, this.backY + 31 * this.padding);
             ctx.fillText("     - click potion for a health boost", this.backX, this.backY + 33 * this.padding);
             
             // bounding boxes

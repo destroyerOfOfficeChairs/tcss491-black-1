@@ -58,7 +58,7 @@ class SceneManager {
     }
     
     update() {
-        PARAMS.DEBUG = document.getElementById("debug").checked;
+        //PARAMS.DEBUG = document.getElementById("debug").checked;
         this.updateAudio();
         switch (this.game.currentState) {
             case this.game.gameStates[0]:
